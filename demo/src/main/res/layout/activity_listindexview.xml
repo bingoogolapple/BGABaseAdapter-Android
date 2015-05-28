@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/lv_listindexview_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@mipmap/list_divider"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/tv_listindexview_topc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eee"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:text="A"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_listindexview_tip"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_tip"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:visibility="invisible" />
+
+    <cn.bingoogolapple.androidcommon.adapter.demo.widget.IndexView
+        android:id="@+id/indexview"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:background="@android:color/white" />
+</FrameLayout>

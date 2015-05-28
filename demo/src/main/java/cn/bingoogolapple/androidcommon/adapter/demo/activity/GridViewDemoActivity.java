@@ -16,7 +16,7 @@ import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalAdapterViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.RefreshModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -25,7 +25,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.RefreshModel;
  */
 public class GridViewDemoActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
     private static final String TAG = GridViewDemoActivity.class.getSimpleName();
-    private List<RefreshModel> mDatas;
+    private List<NormalModel> mDatas;
     private GridView mDataGv;
     private NormalAdapterViewAdapter mAdapter;
 

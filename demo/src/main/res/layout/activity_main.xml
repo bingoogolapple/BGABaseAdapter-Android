@@ -28,4 +28,18 @@
         android:text="RecyclerView示例"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="changeToListIndexViewDemo"
+        android:text="ListView城市索引示例"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="changeToRecyclerIndexViewDemo"
+        android:text="RecyclerView城市索引示例"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </LinearLayout>

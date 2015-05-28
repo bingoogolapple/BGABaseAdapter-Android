@@ -1,0 +1,103 @@
+package cn.bingoogolapple.androidcommon.adapter.demo.widget;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
+
+public class IndexView extends View {
+    public static final String[] mDatas = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+            "W", "X", "Y", "Z"};
+    private int mSelected = -1;
+    private Paint mPaint = new Paint();
+    private OnChangedListener mOnChangedListener;
+    private TextView mTipTv;
+
+    public IndexView(Context context) {
+        this(context, null);
+    }
+
+    public IndexView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public IndexView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        int width = getWidth();
+        int singleHeight = getHeight() / mDatas.length;
+
+        for (int i = 0; i < mDatas.length; i++) {
+            mPaint.setColor(Color.rgb(45, 159, 253));
+            mPaint.setTypeface(Typeface.DEFAULT_BOLD);
+            mPaint.setAntiAlias(true);
+            mPaint.setTextSize(sp2px(15));
+            if (i == mSelected) {
+                mPaint.setColor(Color.parseColor("#3399ff"));
+                mPaint.setFakeBoldText(true);
+            }
+            float xPos = width / 2 - mPaint.measureText(mDatas[i]) / 2;
+            float yPos = singleHeight * i + singleHeight;
+            canvas.drawText(mDatas[i], xPos, yPos, mPaint);
+            mPaint.reset();
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int newSelected = (int) (event.getY() / getHeight() * mDatas.length);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                mSelected = -1;
+                invalidate();
+                if (mTipTv != null) {
+                    mTipTv.setVisibility(View.INVISIBLE);
+                }
+                break;
+
+            default:
+                if (mSelected != newSelected) {
+                    if (newSelected >= 0 && newSelected < mDatas.length) {
+                        if (mOnChangedListener != null) {
+                            mOnChangedListener.onChanged(mDatas[newSelected]);
+                        }
+                        if (mTipTv != null) {
+                            mTipTv.setText(mDatas[newSelected]);
+                            mTipTv.setVisibility(View.VISIBLE);
+                        }
+                        mSelected = newSelected;
+                        invalidate();
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+
+    public float sp2px(float spValue) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, getResources().getDisplayMetrics());
+    }
+
+    public void setOnChangedListener(OnChangedListener onChangedListener) {
+        mOnChangedListener = onChangedListener;
+    }
+
+    public void setTipTv(TextView tipTv) {
+        mTipTv = tipTv;
+    }
+
+    public interface OnChangedListener {
+        public void onChanged(String text);
+    }
+
+}

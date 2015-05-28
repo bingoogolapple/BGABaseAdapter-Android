@@ -33,4 +33,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, RecyclerViewDemoActivity.class));
     }
 
+    public void changeToListIndexViewDemo(View v) {
+        startActivity(new Intent(this, ListIndexViewDemoActivity.class));
+    }
+
+    public void changeToRecyclerIndexViewDemo(View v) {
+        startActivity(new Intent(this, RecyclerIndexDemoActivity.class));
+    }
+
 }
