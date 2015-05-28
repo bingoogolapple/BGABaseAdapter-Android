@@ -79,12 +79,12 @@ public class ListIndexViewDemoActivity extends AppCompatActivity implements BGAO
             public void onChanged(String text) {
                 int position = mAdapter.getPositionForSection(text.charAt(0));
                 if (position != -1) {
+                    // position的item滑动到ListView的第一个可见条目
                     mDataLv.setSelection(position);
                 }
             }
         });
     }
-
 
     @Override
     public void onItemChildClick(View v, int position) {
