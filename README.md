@@ -17,7 +17,7 @@ dependencies {
 
 ##### 使用非常简单，这里展示一下ListView和RecyclerView实现qq聊天界面的适配器
 
-> ListView实现实现qq聊天界面的适配器
+> ListView实现qq聊天界面的适配器
 
 ```Java
 public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
@@ -48,7 +48,7 @@ public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
 }
 ```
 
-> RecyclerView实现实现qq聊天界面的适配器
+> RecyclerView实现qq聊天界面的适配器
 
 ```Java
 public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
