@@ -53,7 +53,7 @@ public class RecyclerIndexDemoActivity extends AppCompatActivity implements BGAO
         mAdapter = new RecyclerIndexAdapter(this);
         mAdapter.setOnItemChildClickListener(this);
 
-        mDatas = DataEngine.loadIndexDatas();
+        mDatas = DataEngine.loadIndexModelDatas();
 
         mAdapter.setDatas(mDatas);
         mDataRv.setAdapter(mAdapter);

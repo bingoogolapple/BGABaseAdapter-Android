@@ -54,7 +54,7 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
 
-        mDatas = DataEngine.loadInitDatas();
+        mDatas = DataEngine.loadNormalModelDatas();
         mAdapter.setDatas(mDatas);
         mDataRv.setAdapter(mAdapter);
     }

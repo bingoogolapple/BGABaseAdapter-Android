@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.widget.CharacterParser;
@@ -16,7 +17,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.widget.PinyinComparator;
  */
 public class DataEngine {
 
-    public static List<NormalModel> loadInitDatas() {
+    public static List<NormalModel> loadNormalModelDatas() {
         List<NormalModel> datas = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             datas.add(new NormalModel("title" + i, "detail" + i));
@@ -24,14 +25,16 @@ public class DataEngine {
         return datas;
     }
 
-    public static List<IndexModel> loadIndexDatas() {
+    public static List<IndexModel> loadIndexModelDatas() {
         List<IndexModel> datas = new ArrayList<>();
         datas.add(new IndexModel("安阳"));
         datas.add(new IndexModel("鞍山"));
         datas.add(new IndexModel("保定"));
         datas.add(new IndexModel("包头"));
         datas.add(new IndexModel("北京"));
+        datas.add(new IndexModel("河北"));
         datas.add(new IndexModel("北海"));
+        datas.add(new IndexModel("伊春"));
         datas.add(new IndexModel("宝鸡"));
         datas.add(new IndexModel("本兮"));
         datas.add(new IndexModel("滨州"));
@@ -43,6 +46,7 @@ public class DataEngine {
         datas.add(new IndexModel("沧州"));
         datas.add(new IndexModel("重庆"));
         datas.add(new IndexModel("东莞"));
+        datas.add(new IndexModel("扬州"));
         datas.add(new IndexModel("大庆"));
         datas.add(new IndexModel("佛山"));
         datas.add(new IndexModel("广州"));
@@ -73,6 +77,18 @@ public class DataEngine {
             }
         }
         Collections.sort(datas, mPinyinComparator);
+        return datas;
+    }
+
+    public static List<ChatModel> loadChatModelDatas() {
+        List<ChatModel> datas = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            if (i % 3 == 0) {
+                datas.add(new ChatModel("消息" + i, ChatModel.UserType.To));
+            } else {
+                datas.add(new ChatModel("消息" + i, ChatModel.UserType.From));
+            }
+        }
         return datas;
     }
 

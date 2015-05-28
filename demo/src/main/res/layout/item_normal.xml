@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:background="#f00"
+        android:background="@drawable/selector_btn_red"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

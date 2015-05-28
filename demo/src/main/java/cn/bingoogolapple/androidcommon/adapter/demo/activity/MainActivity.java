@@ -41,4 +41,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, RecyclerIndexDemoActivity.class));
     }
 
+    public void changeToListChatDemo(View v) {
+        startActivity(new Intent(this, ListChatDemoActivity.class));
+    }
+
+    public void changeToRecyclerChatDemo(View v) {
+        startActivity(new Intent(this, RecyclerChatDemoActivity.class));
+    }
+
 }

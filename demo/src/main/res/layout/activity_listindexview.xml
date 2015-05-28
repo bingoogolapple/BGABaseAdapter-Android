@@ -19,7 +19,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
         android:text="A"
-        android:textColor="@android:color/black"
+        android:textColor="#3c3c3c"
         android:textSize="15sp"
         android:textStyle="bold" />
 

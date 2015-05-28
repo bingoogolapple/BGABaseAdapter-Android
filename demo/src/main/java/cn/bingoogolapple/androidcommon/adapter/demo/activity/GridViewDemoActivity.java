@@ -47,7 +47,7 @@ public class GridViewDemoActivity extends AppCompatActivity implements AdapterVi
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
 
-        mDatas = DataEngine.loadInitDatas();
+        mDatas = DataEngine.loadNormalModelDatas();
         mAdapter.setDatas(mDatas);
         mDataGv.setAdapter(mAdapter);
 

@@ -48,7 +48,7 @@ public class ListIndexViewDemoActivity extends AppCompatActivity implements BGAO
         mAdapter = new ListIndexAdapter(this);
         mAdapter.setOnItemChildClickListener(this);
 
-        mDatas = DataEngine.loadIndexDatas();
+        mDatas = DataEngine.loadIndexModelDatas();
 
         mAdapter.setDatas(mDatas);
         mDataLv.setAdapter(mAdapter);

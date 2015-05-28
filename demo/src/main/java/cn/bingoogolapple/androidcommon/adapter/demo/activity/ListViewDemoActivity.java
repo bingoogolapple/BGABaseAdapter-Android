@@ -44,7 +44,7 @@ public class ListViewDemoActivity extends AppCompatActivity implements AdapterVi
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
 
-        mDatas = DataEngine.loadInitDatas();
+        mDatas = DataEngine.loadNormalModelDatas();
         mAdapter.setDatas(mDatas);
         mDataLv.setAdapter(mAdapter);
     }

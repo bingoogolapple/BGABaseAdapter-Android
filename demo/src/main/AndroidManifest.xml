@@ -30,6 +30,12 @@
         <activity
             android:name=".activity.RecyclerIndexDemoActivity"
             android:label="RecyclerView城市索引示例" />
+        <activity
+            android:name=".activity.ListChatDemoActivity"
+            android:label="ListView聊天示例" />
+        <activity
+            android:name=".activity.RecyclerChatDemoActivity"
+            android:label="RecyclerView聊天示例" />
     </application>
 
 </manifest>

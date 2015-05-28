@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BGAAdapterDemo</string>
+    <string name="color_msg_to"><![CDATA[<font color=\"#B3EB7D\">我发的</font><font color=\"#8E92DB\">彩色消息</font><font color=\"#38D369\">%1$s</font>]]></string>
+    <string name="color_msg_from"><![CDATA[<font color=\"#FD51EB\">她发的</font><font color=\"#EF8EB2\">彩色消息</font><font color=\"#9674FC\">%1$s</font>]]></string>
 </resources>
