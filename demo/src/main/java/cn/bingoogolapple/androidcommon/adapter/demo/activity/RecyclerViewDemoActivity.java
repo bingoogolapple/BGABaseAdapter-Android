@@ -61,12 +61,12 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
 
     @Override
     public void onRVItemClick(View v, int position) {
-        Toast.makeText(this, "点击了条目 " + mAdapter.getItemMode(position).mTitle, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "点击了条目 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onRVItemLongClick(View v, int position) {
-        Toast.makeText(this, "长按了条目 " + mAdapter.getItemMode(position).mTitle, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "长按了条目 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
         return true;
     }
 
@@ -80,7 +80,7 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
     @Override
     public boolean onItemChildLongClick(View v, int position) {
         if (v.getId() == R.id.tv_item_normal_delete) {
-            Toast.makeText(this, "长按了删除 " + mAdapter.getItemMode(position).mTitle, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "长按了删除 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

@@ -24,7 +24,7 @@ public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, ChatModel model, int position) {
+    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, ChatModel model) {
         if (model.mUserType == ChatModel.UserType.From) {
             viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.GONE);
             viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);

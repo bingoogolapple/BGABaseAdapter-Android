@@ -42,7 +42,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public void onBindViewHolder(BGARecyclerViewHolder viewHolder, int position) {
-        fillData(viewHolder.getViewHolderHelper(), position, getItemMode(position));
+        fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
     }
 
     protected abstract void fillData(BGAViewHolderHelper viewHolderHelper, int position, M model);
@@ -63,7 +63,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         mOnItemChildLongClickListener = onItemChildLongClickListener;
     }
 
-    public M getItemMode(int position) {
+    public M getItem(int position) {
         return mDatas.get(position);
     }
 
