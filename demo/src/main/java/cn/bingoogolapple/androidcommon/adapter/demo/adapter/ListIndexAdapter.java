@@ -25,7 +25,7 @@ public class ListIndexAdapter extends BGAAdapterViewAdapter<IndexModel> {
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, IndexModel model, int position) {
+    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, IndexModel model) {
         int section = getSectionForPosition(position);
         if (position == getPositionForSection(section)) {
             viewHolderHelper.setVisibility(R.id.tv_item_indexview_catalog, View.VISIBLE);

@@ -25,7 +25,7 @@ public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel>
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, NormalModel model, int position) {
+    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, NormalModel model) {
         viewHolderHelper.setText(R.id.tv_item_normal_title, model.mTitle).setText(R.id.tv_item_normal_detail, model.mDetail);
     }
 }

@@ -58,7 +58,7 @@ public class RecyclerIndexDemoActivity extends AppCompatActivity implements BGAO
         mAdapter.setDatas(mDatas);
         mDataRv.setAdapter(mAdapter);
 
-        mTopcTv.setText(mAdapter.getItemMode(0).topc);
+        mTopcTv.setText(mAdapter.getItem(0).topc);
         mDataRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -66,7 +66,7 @@ public class RecyclerIndexDemoActivity extends AppCompatActivity implements BGAO
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mTopcTv.setText(mAdapter.getItemMode(mLayoutManager.findFirstVisibleItemPosition()).topc);
+                mTopcTv.setText(mAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition()).topc);
             }
         });
     }
@@ -93,7 +93,7 @@ public class RecyclerIndexDemoActivity extends AppCompatActivity implements BGAO
     @Override
     public void onItemChildClick(View v, int position) {
         if (v.getId() == R.id.tv_item_indexview_name) {
-            Toast.makeText(this, "选择了城市 " + mAdapter.getItemMode(position).name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "选择了城市 " + mAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
         }
     }
 

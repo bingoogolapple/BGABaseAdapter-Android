@@ -47,7 +47,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
         setItemChildListener(viewHolder.getViewHolderHelper());
 
-        fillData(viewHolder.getViewHolderHelper(), getItem(position), position);
+        fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
         return viewHolder.getConvertView();
     }
 
@@ -60,10 +60,10 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
 
     /**
      * @param viewHolderHelper
-     * @param model
      * @param position
+     * @param model
      */
-    protected abstract void fillData(BGAViewHolderHelper viewHolderHelper, M model, int position);
+    protected abstract void fillData(BGAViewHolderHelper viewHolderHelper, int position, M model);
 
     public void setOnItemChildClickListener(BGAOnItemChildClickListener onItemChildClickListener) {
         mOnItemChildClickListener = onItemChildClickListener;
