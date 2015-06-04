@@ -1,4 +1,4 @@
-:running:BGAAdapter-Android v1.0.0:running:
+:running:BGAAdapter-Android v1.0.2:running:
 ============
 在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
 
