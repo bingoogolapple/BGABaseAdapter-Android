@@ -38,27 +38,60 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         return viewHolder;
     }
 
-    protected abstract void setItemChildListener(BGAViewHolderHelper viewHolderHelper);
+    /**
+     * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以这里采用了空实现，需要设置事件监听器时重写该方法即可
+     *
+     * @param viewHolderHelper
+     */
+    protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
+    }
 
     @Override
     public void onBindViewHolder(BGARecyclerViewHolder viewHolder, int position) {
         fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
     }
 
+    /**
+     * 填充item数据
+     *
+     * @param viewHolderHelper
+     * @param position
+     * @param model
+     */
     protected abstract void fillData(BGAViewHolderHelper viewHolderHelper, int position, M model);
 
+    /**
+     * 设置item的点击事件监听器
+     *
+     * @param onRVItemClickListener
+     */
     public void setOnRVItemClickListener(BGAOnRVItemClickListener onRVItemClickListener) {
         mOnRVItemClickListener = onRVItemClickListener;
     }
 
+    /**
+     * 设置item的长按事件监听器
+     *
+     * @param onRVItemLongClickListener
+     */
     public void setOnRVItemLongClickListener(BGAOnRVItemLongClickListener onRVItemLongClickListener) {
         mOnRVItemLongClickListener = onRVItemLongClickListener;
     }
 
+    /**
+     * 设置item中的子控件点击事件监听器
+     *
+     * @param onItemChildClickListener
+     */
     public void setOnItemChildClickListener(BGAOnItemChildClickListener onItemChildClickListener) {
         mOnItemChildClickListener = onItemChildClickListener;
     }
 
+    /**
+     * 设置item中的子控件长按事件监听器
+     *
+     * @param onItemChildLongClickListener
+     */
     public void setOnItemChildLongClickListener(BGAOnItemChildLongClickListener onItemChildLongClickListener) {
         mOnItemChildLongClickListener = onItemChildLongClickListener;
     }

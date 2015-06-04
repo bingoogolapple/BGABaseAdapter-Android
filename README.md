@@ -26,6 +26,11 @@ public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
         super(context, R.layout.item_chat);
     }
 
+    /**
+     * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以在父类中采用了空实现，需要设置事件监听器时重写该方法即可
+     *
+     * @param viewHolderHelper
+     */
     @Override
     protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
     }
@@ -56,6 +61,11 @@ public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
         super(context, R.layout.item_chat);
     }
 
+    /**
+     * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以在父类中采用了空实现，需要设置事件监听器时重写该方法即可
+     *
+     * @param viewHolderHelper
+     */
     @Override
     public void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
     }
