@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'cn.bingoogolapple:bga-adapter:1.0.0@aar'
+    compile 'cn.bingoogolapple:bga-adapter:1.0.2@aar'
 }
 ```
 
