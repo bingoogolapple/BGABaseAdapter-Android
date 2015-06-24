@@ -1,5 +1,7 @@
 :running:BGAAdapter-Android v1.0.2:running:
 ============
+
+[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
 
 #### 效果图
