@@ -6,11 +6,16 @@ package cn.bingoogolapple.androidcommon.adapter.demo.mode;
  * 描述:
  */
 public class NormalModel {
-    public String mTitle;
-    public String mDetail;
+    public String title;
+    public String detail;
+    public String avatorPath;
 
-    public NormalModel(String title, String detail) {
-        mTitle = title;
-        mDetail = detail;
+    public NormalModel() {
+    }
+
+    public NormalModel(String title, String detail, String avatorPath) {
+        this.title = title;
+        this.detail = detail;
+        this.avatorPath = avatorPath;
     }
 }

@@ -27,7 +27,6 @@ import cn.bingoogolapple.androidcommon.adapter.demo.widget.Divider;
 public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
     private static final String TAG = RecyclerViewDemoActivity.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
-    private List<NormalModel> mDatas;
     private RecyclerView mDataRv;
 
     @Override
@@ -36,6 +35,7 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
         setContentView(R.layout.activity_recyclerview);
 
         initRecyclerView();
+        loadData();
     }
 
     private void initRecyclerView() {
@@ -54,19 +54,26 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
 
-        mDatas = DataEngine.loadNormalModelDatas();
-        mAdapter.setDatas(mDatas);
         mDataRv.setAdapter(mAdapter);
+    }
+
+    private void loadData() {
+        DataEngine.loadNormalModelDatas(this, new DataEngine.NormalModelResponseHandler() {
+            @Override
+            public void onSuccess(List<NormalModel> normalModels) {
+                mAdapter.setDatas(normalModels);
+            }
+        });
     }
 
     @Override
     public void onRVItemClick(View v, int position) {
-        Toast.makeText(this, "点击了条目 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "点击了条目 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onRVItemLongClick(View v, int position) {
-        Toast.makeText(this, "长按了条目 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "长按了条目 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
         return true;
     }
 
@@ -80,7 +87,7 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
     @Override
     public boolean onItemChildLongClick(View v, int position) {
         if (v.getId() == R.id.tv_item_normal_delete) {
-            Toast.makeText(this, "长按了删除 " + mAdapter.getItem(position).mTitle, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "长按了删除 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
