@@ -1,5 +1,16 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.engine;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.widget.Toast;
+
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,13 +27,31 @@ import cn.bingoogolapple.androidcommon.adapter.demo.widget.PinyinComparator;
  * 描述:
  */
 public class DataEngine {
+    private static AsyncHttpClient sAsyncHttpClient = new AsyncHttpClient();
 
-    public static List<NormalModel> loadNormalModelDatas() {
-        List<NormalModel> datas = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            datas.add(new NormalModel("title" + i, "detail" + i));
-        }
-        return datas;
+    public static void loadNormalModelDatas(final Context context, final NormalModelResponseHandler responseHandler) {
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("数据加载中...");
+        progressDialog.show();
+        sAsyncHttpClient.get("https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/api/normalModels.json", new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                progressDialog.dismiss();
+                Toast.makeText(context, "数据加载失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                progressDialog.dismiss();
+                List<NormalModel> normalModels = new GsonBuilder().create().fromJson(responseString, new TypeToken<ArrayList<NormalModel>>() {
+                }.getType());
+                responseHandler.onSuccess(normalModels);
+            }
+        });
+    }
+
+    public interface NormalModelResponseHandler {
+        void onSuccess(List<NormalModel> normalModels);
     }
 
     public static List<IndexModel> loadIndexModelDatas() {

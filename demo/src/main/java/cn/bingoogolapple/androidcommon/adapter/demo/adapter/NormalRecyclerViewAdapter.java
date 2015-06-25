@@ -1,6 +1,9 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
@@ -25,6 +28,8 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
 
     @Override
     public void fillData(BGAViewHolderHelper viewHolderHelper, int position, NormalModel model) {
-        viewHolderHelper.setText(R.id.tv_item_normal_title, model.mTitle).setText(R.id.tv_item_normal_detail, model.mDetail);
+        viewHolderHelper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
+        SimpleDraweeView avatorSdv = viewHolderHelper.getView(R.id.sdv_item_normal_avator);
+        avatorSdv.setImageURI(Uri.parse(model.avatorPath));
     }
 }
