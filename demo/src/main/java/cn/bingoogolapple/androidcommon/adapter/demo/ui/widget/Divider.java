@@ -1,4 +1,4 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.widget;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

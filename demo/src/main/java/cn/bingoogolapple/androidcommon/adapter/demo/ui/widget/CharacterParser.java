@@ -1,4 +1,4 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.widget;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.widget;
 
 public class CharacterParser {
 	private static int[] pyvalue = new int[] {-20319, -20317, -20304, -20295, -20292, -20283, -20265, -20257, -20242, -20230, -20051, -20036, -20032,

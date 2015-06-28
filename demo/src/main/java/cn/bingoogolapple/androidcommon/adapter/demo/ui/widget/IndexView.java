@@ -1,4 +1,4 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.widget;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -19,6 +19,8 @@ public class IndexView extends View {
     private Paint mPaint = new Paint();
     private OnChangedListener mOnChangedListener;
     private TextView mTipTv;
+    private int mNormalTextColor = Color.parseColor("#92A9FC");
+    private int mPressedTextColor = Color.parseColor("#4060FA");
 
     public IndexView(Context context) {
         this(context, null);
@@ -38,12 +40,12 @@ public class IndexView extends View {
         int singleHeight = getHeight() / mDatas.length;
 
         for (int i = 0; i < mDatas.length; i++) {
-            mPaint.setColor(Color.rgb(45, 159, 253));
+            mPaint.setColor(mNormalTextColor);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             mPaint.setAntiAlias(true);
             mPaint.setTextSize(sp2px(15));
             if (i == mSelected) {
-                mPaint.setColor(Color.parseColor("#3399ff"));
+                mPaint.setColor(mPressedTextColor);
                 mPaint.setFakeBoldText(true);
             }
             float xPos = width / 2 - mPaint.measureText(mDatas[i]) / 2;
@@ -58,6 +60,7 @@ public class IndexView extends View {
         int newSelected = (int) (event.getY() / getHeight() * mDatas.length);
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 mSelected = -1;
                 invalidate();
                 if (mTipTv != null) {

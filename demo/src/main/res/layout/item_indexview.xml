@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    style="@style/MatchWrap.Vertical">
 
     <TextView
         android:id="@+id/tv_item_indexview_catalog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/MatchWrap"
         android:background="#eee"
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
@@ -19,8 +16,7 @@
 
     <TextView
         android:id="@+id/tv_item_indexview_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/MatchWrap"
         android:background="@drawable/selector_item"
         android:paddingBottom="8dp"
         android:paddingLeft="10dp"

@@ -1,11 +1,9 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.activity;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.GridView;
 
 import java.util.List;
 
@@ -18,37 +16,38 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
- * 创建时间:15/5/22 10:06
+ * 创建时间:15/6/28 下午12:34
  * 描述:
  */
-public class ListViewDemoActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
-    private static final String TAG = ListViewDemoActivity.class.getSimpleName();
-    private ListView mDataLv;
+public class GridViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
+    private static final String TAG = GridViewDemoFragment.class.getSimpleName();
+    private GridView mDataGv;
     private NormalAdapterViewAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listview);
-
-        initListView();
-        loadData();
+    protected void initView(Bundle savedInstanceState) {
+        setContentView(R.layout.fragment_gridview);
+        mDataGv = getViewById(R.id.lv_gridview_data);
     }
 
-    private void initListView() {
-        mDataLv = (ListView) findViewById(R.id.lv_listview_data);
-        mDataLv.setOnItemClickListener(this);
-        mDataLv.setOnItemLongClickListener(this);
+    @Override
+    protected void setListener() {
+        mDataGv.setOnItemClickListener(this);
+        mDataGv.setOnItemLongClickListener(this);
 
-        mAdapter = new NormalAdapterViewAdapter(this);
+        mAdapter = new NormalAdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
-
-        mDataLv.setAdapter(mAdapter);
     }
 
-    private void loadData() {
-        DataEngine.loadNormalModelDatas(this, new DataEngine.NormalModelResponseHandler() {
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        mDataGv.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onUserVisible() {
+        DataEngine.loadNormalModelDatas(mActivity, new DataEngine.NormalModelResponseHandler() {
             @Override
             public void onSuccess(List<NormalModel> normalModels) {
                 mAdapter.setDatas(normalModels);
@@ -58,12 +57,12 @@ public class ListViewDemoActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "点击了条目 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "长按了" + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
         return true;
     }
 
@@ -77,10 +76,9 @@ public class ListViewDemoActivity extends AppCompatActivity implements AdapterVi
     @Override
     public boolean onItemChildLongClick(View v, int position) {
         if (v.getId() == R.id.tv_item_normal_delete) {
-            Toast.makeText(this, "长按了删除 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+            showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
             return true;
         }
         return false;
     }
-
 }
