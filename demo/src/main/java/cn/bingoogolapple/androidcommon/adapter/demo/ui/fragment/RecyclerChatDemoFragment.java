@@ -1,7 +1,6 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.activity;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,32 +16,36 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RecyclerChatDemoActivity extends AppCompatActivity {
-    private static final String TAG = RecyclerChatDemoActivity.class.getSimpleName();
+public class RecyclerChatDemoFragment extends BaseFragment {
+    private static final String TAG = RecyclerChatDemoFragment.class.getSimpleName();
     private RecyclerChatAdapter mAdapter;
     private List<ChatModel> mDatas;
     private RecyclerView mDataRv;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recyclerview);
-
-        initRecyclerView();
+    protected void initView(Bundle savedInstanceState) {
+        setContentView(R.layout.fragment_recyclerview);
+        mDataRv = getViewById(R.id.rv_recyclerview_data);
     }
 
-    private void initRecyclerView() {
-        mDataRv = (RecyclerView) findViewById(R.id.rv_recyclerview_data);
+    @Override
+    protected void setListener() {
+    }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
 
-        mAdapter = new RecyclerChatAdapter(this);
+        mAdapter = new RecyclerChatAdapter(mActivity);
 
         mDatas = DataEngine.loadChatModelDatas();
         mAdapter.setDatas(mDatas);
         mDataRv.setAdapter(mAdapter);
     }
 
+    @Override
+    protected void onUserVisible() {
+    }
 }

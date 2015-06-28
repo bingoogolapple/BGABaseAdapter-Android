@@ -1,11 +1,9 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.activity;
+package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,48 +15,49 @@ import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.widget.Divider;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
- * 创建时间:15/5/22 10:06
+ * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
-    private static final String TAG = RecyclerViewDemoActivity.class.getSimpleName();
+public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
+    private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recyclerview);
-
-        initRecyclerView();
-        loadData();
+    protected void initView(Bundle savedInstanceState) {
+        setContentView(R.layout.fragment_recyclerview);
+        mDataRv = getViewById(R.id.rv_recyclerview_data);
     }
 
-    private void initRecyclerView() {
-        mDataRv = (RecyclerView) findViewById(R.id.rv_recyclerview_data);
-        mDataRv.addItemDecoration(new Divider(this));
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-//        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mDataRv.setLayoutManager(layoutManager);
-
-        mAdapter = new NormalRecyclerViewAdapter(this);
+    @Override
+    protected void setListener() {
+        mAdapter = new NormalRecyclerViewAdapter(mActivity);
         mAdapter.setOnRVItemClickListener(this);
         mAdapter.setOnRVItemLongClickListener(this);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
+    }
+
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        mDataRv.addItemDecoration(new Divider(mActivity));
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+//        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mDataRv.setLayoutManager(layoutManager);
 
         mDataRv.setAdapter(mAdapter);
     }
 
-    private void loadData() {
-        DataEngine.loadNormalModelDatas(this, new DataEngine.NormalModelResponseHandler() {
+    @Override
+    protected void onUserVisible() {
+        DataEngine.loadNormalModelDatas(mActivity, new DataEngine.NormalModelResponseHandler() {
             @Override
             public void onSuccess(List<NormalModel> normalModels) {
                 mAdapter.setDatas(normalModels);
@@ -68,12 +67,12 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
 
     @Override
     public void onRVItemClick(View v, int position) {
-        Toast.makeText(this, "点击了条目 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
     }
 
     @Override
     public boolean onRVItemLongClick(View v, int position) {
-        Toast.makeText(this, "长按了条目 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
         return true;
     }
 
@@ -87,7 +86,7 @@ public class RecyclerViewDemoActivity extends AppCompatActivity implements BGAOn
     @Override
     public boolean onItemChildLongClick(View v, int position) {
         if (v.getId() == R.id.tv_item_normal_delete) {
-            Toast.makeText(this, "长按了删除 " + mAdapter.getItem(position).title, Toast.LENGTH_SHORT).show();
+            showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
             return true;
         }
         return false;

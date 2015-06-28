@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,27 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.ListViewDemoActivity"
-            android:label="ListView示例" />
-        <activity
-            android:name=".activity.GridViewDemoActivity"
-            android:label="GridView示例" />
-        <activity
-            android:name=".activity.RecyclerViewDemoActivity"
-            android:label="RecyclerView示例" />
-        <activity
-            android:name=".activity.ListIndexViewDemoActivity"
-            android:label="ListView城市索引示例" />
-        <activity
-            android:name=".activity.RecyclerIndexDemoActivity"
-            android:label="RecyclerView城市索引示例" />
-        <activity
-            android:name=".activity.ListChatDemoActivity"
-            android:label="ListView聊天示例" />
-        <activity
-            android:name=".activity.RecyclerChatDemoActivity"
-            android:label="RecyclerView聊天示例" />
     </application>
 
 </manifest>

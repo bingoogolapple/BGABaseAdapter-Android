@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recyclerindexview_data"
+    <ListView
+        android:id="@+id/lv_listindexview_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@mipmap/list_divider"
         android:scrollbars="none" />
 
     <TextView
-        android:id="@+id/tv_recyclerindexview_topc"
+        android:id="@+id/tv_listindexview_topc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eee"
@@ -23,7 +24,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_recyclerindexview_tip"
+        android:id="@+id/tv_listindexview_tip"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
@@ -34,7 +35,7 @@
         android:textSize="25sp"
         android:visibility="invisible" />
 
-    <cn.bingoogolapple.androidcommon.adapter.demo.widget.IndexView
+    <cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView
         android:id="@+id/indexview"
         android:layout_width="40dp"
         android:layout_height="match_parent"

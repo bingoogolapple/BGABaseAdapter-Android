@@ -18,8 +18,8 @@ import java.util.List;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.widget.CharacterParser;
-import cn.bingoogolapple.androidcommon.adapter.demo.widget.PinyinComparator;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.CharacterParser;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.PinyinComparator;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
