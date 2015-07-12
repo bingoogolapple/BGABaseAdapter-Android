@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,16 +24,17 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     public BGAAdapterViewAdapter(Context context, int itemLayoutId) {
         mContext = context;
         mItemLayoutId = itemLayoutId;
+        mDatas = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return mDatas == null ? 0 : mDatas.size();
+        return mDatas.size();
     }
 
     @Override
     public M getItem(int position) {
-        return mDatas == null ? null : mDatas.get(position);
+        return mDatas.get(position);
     }
 
     @Override
@@ -86,42 +89,139 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
         mOnItemChildLongClickListener = onItemChildLongClickListener;
     }
 
-    public void setDatas(List<M> datas) {
-        mDatas = datas;
-        notifyDataSetChanged();
+    /**
+     * 获取数据集合
+     *
+     * @return
+     */
+    public List<M> getDatas() {
+        return mDatas;
     }
 
-    public void addDatas(List<M> datas) {
-        if (mDatas == null) {
+    /**
+     * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
+     *
+     * @param datas
+     */
+    public void addNewDatas(List<M> datas) {
+        if (datas != null) {
+            mDatas.addAll(0, datas);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 在集合尾部添加更多数据集合（上拉从服务器获取更多的数据集合，例如新浪微博列表上拉加载更晚时间发布的微博数据）
+     *
+     * @param datas
+     */
+    public void addMoreDatas(List<M> datas) {
+        if (datas != null) {
+            mDatas.addAll(mDatas.size(), datas);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 设置全新的数据集合，如果传入null，则清空数据列表（第一次从服务器加载数据，或者下拉刷新当前界面数据表）
+     *
+     * @param datas
+     */
+    public void setDatas(List<M> datas) {
+        if (datas != null) {
             mDatas = datas;
         } else {
-            mDatas.addAll(datas);
+            mDatas.clear();
         }
         notifyDataSetChanged();
     }
 
+    /**
+     * 清空数据列表
+     */
+    public void clear() {
+        mDatas.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 删除指定索引数据条目
+     *
+     * @param position
+     */
     public void removeItem(int position) {
         mDatas.remove(position);
         notifyDataSetChanged();
     }
 
+    /**
+     * 删除指定数据条目
+     *
+     * @param model
+     */
     public void removeItem(M model) {
         mDatas.remove(model);
         notifyDataSetChanged();
     }
 
+    /**
+     * 在指定位置添加数据条目
+     *
+     * @param position
+     * @param model
+     */
     public void addItem(int position, M model) {
         mDatas.add(position, model);
         notifyDataSetChanged();
     }
 
+    /**
+     * 在集合头部添加数据条目
+     *
+     * @param model
+     */
+    public void addFirstItem(M model) {
+        addItem(0, model);
+    }
+
+    /**
+     * 在集合末尾添加数据条目
+     *
+     * @param model
+     */
+    public void addLastItem(M model) {
+        addItem(mDatas.size(), model);
+    }
+
+    /**
+     * 替换指定索引的数据条目
+     *
+     * @param location
+     * @param newModel
+     */
     public void setItem(int location, M newModel) {
         mDatas.set(location, newModel);
         notifyDataSetChanged();
     }
 
+    /**
+     * 替换指定数据条目
+     *
+     * @param oldModel
+     * @param newModel
+     */
     public void setItem(M oldModel, M newModel) {
         setItem(mDatas.indexOf(oldModel), newModel);
     }
 
+    /**
+     * 交换两个数据条目的位置
+     *
+     * @param fromPosition
+     * @param toPosition
+     */
+    public void moveItem(int fromPosition, int toPosition) {
+        Collections.swap(mDatas, fromPosition, toPosition);
+        notifyDataSetChanged();
+    }
 }

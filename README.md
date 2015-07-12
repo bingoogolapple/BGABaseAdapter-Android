@@ -1,7 +1,7 @@
 :running:BGAAdapter-Android v1.0.2:running:
 ============
 
-[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [ ![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-adapter/images/download.svg) ](https://bintray.com/bingoogolapple/maven/bga-adapter/_latestVersion)
 
 >关于我<br/>
 >微博：<a href="http://weibo.com/bingoogol" target="_blank">bingoogolapple</a>&nbsp;&nbsp;&nbsp;&nbsp;主页：<a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：<a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a>
@@ -17,7 +17,7 @@
 
 ```groovy
 dependencies {
-    compile 'cn.bingoogolapple:bga-adapter:1.0.2@aar'
+    compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
 }
 ```
 
