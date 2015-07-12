@@ -1,4 +1,4 @@
-:running:BGAAdapter-Android v1.0.2:running:
+:running:BGAAdapter-Android:running:
 ============
 
 [![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [ ![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-adapter/images/download.svg) ](https://bintray.com/bingoogolapple/maven/bga-adapter/_latestVersion)
