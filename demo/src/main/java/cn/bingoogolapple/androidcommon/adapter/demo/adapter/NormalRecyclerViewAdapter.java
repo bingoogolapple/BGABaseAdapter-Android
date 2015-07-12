@@ -2,6 +2,10 @@ package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -16,14 +20,29 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
  * 描述:
  */
 public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalModel> {
+    private ItemTouchHelper mItemTouchHelper;
+
     public NormalRecyclerViewAdapter(Context context) {
         super(context, R.layout.item_normal);
     }
 
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
+        mItemTouchHelper = itemTouchHelper;
+    }
+
     @Override
-    public void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
+    public void setItemChildListener(final BGAViewHolderHelper viewHolderHelper) {
         viewHolderHelper.setItemChildClickListener(R.id.tv_item_normal_delete);
         viewHolderHelper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
+        viewHolderHelper.getView(R.id.sdv_item_normal_avator).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mItemTouchHelper.startDrag(viewHolderHelper.getRecyclerViewHolder());
+                }
+                return false;
+            }
+        });
     }
 
     @Override

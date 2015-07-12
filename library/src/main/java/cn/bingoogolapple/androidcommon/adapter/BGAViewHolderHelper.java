@@ -40,6 +40,10 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
         mRecyclerViewHolder = recyclerViewHolder;
     }
 
+    public BGARecyclerViewHolder getRecyclerViewHolder() {
+        return mRecyclerViewHolder;
+    }
+
     public void setPosition(int position) {
         mPosition = position;
     }

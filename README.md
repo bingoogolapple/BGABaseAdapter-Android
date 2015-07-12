@@ -1,23 +1,25 @@
-:running:BGAAdapter-Android v1.0.2:running:
+:running:BGAAdapter-Android:running:
 ============
 
-[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [ ![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-adapter/images/download.svg) ](https://bintray.com/bingoogolapple/maven/bga-adapter/_latestVersion)
 
 >关于我<br/>
 >微博：<a href="http://weibo.com/bingoogol" target="_blank">bingoogolapple</a>&nbsp;&nbsp;&nbsp;&nbsp;主页：<a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：<a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a>
 
 在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
+其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
 
 #### 效果图
-![Image of 基本使用](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/1-normal.gif)
-![Image of 城市列表索引](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/2-index.gif)
-![Image of 聊天布局](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/3-chat.gif)
+![Image of 基本使用](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/1-normal.gif)
+![Image of 滑动删除+拖拽排序](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/adapter_drag.gif)
+![Image of 城市列表索引](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/2-index.gif)
+![Image of 聊天布局](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/3-chat.gif)
 
 >Gradle
 
 ```groovy
 dependencies {
-    compile 'cn.bingoogolapple:bga-adapter:1.0.2@aar'
+    compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
 }
 ```
 
