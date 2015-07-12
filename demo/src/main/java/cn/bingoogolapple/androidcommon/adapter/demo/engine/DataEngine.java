@@ -33,7 +33,7 @@ public class DataEngine {
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("数据加载中...");
         progressDialog.show();
-        sAsyncHttpClient.get("https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/api/normalModels.json", new TextHttpResponseHandler() {
+        sAsyncHttpClient.get("http://7xk9dj.com1.z0.glb.clouddn.com/adapter/api/normalModels.json", new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 progressDialog.dismiss();

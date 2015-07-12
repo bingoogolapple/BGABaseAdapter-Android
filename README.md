@@ -9,9 +9,9 @@
 在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
 
 #### 效果图
-![Image of 基本使用](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/1-normal.gif)
-![Image of 城市列表索引](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/2-index.gif)
-![Image of 聊天布局](https://raw.githubusercontent.com/bingoogolapple/BGAAdapter-Android/server/screenshots/3-chat.gif)
+![Image of 基本使用](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/1-normal.gif)
+![Image of 城市列表索引](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/2-index.gif)
+![Image of 聊天布局](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/3-chat.gif)
 
 >Gradle
 
