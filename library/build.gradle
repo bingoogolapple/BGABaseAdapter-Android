@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
 }
 
 apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/project/library/android-artifacts.gradle'

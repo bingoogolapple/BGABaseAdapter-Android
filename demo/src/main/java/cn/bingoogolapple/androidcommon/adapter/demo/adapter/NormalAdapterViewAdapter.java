@@ -1,7 +1,7 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
-import android.content.Context;
 import android.net.Uri;
+import android.widget.AbsListView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -17,8 +17,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
  */
 public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel> {
 
-    public NormalAdapterViewAdapter(Context context) {
-        super(context, R.layout.item_normal);
+    public NormalAdapterViewAdapter(AbsListView absListView) {
+        super(absListView, R.layout.item_normal);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class RecyclerChatDemoFragment extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
 
-        mAdapter = new RecyclerChatAdapter(mActivity);
+        mAdapter = new RecyclerChatAdapter(mDataRv);
 
         mDatas = DataEngine.loadChatModelDatas();
         mAdapter.setDatas(mDatas);
