@@ -1,3 +1,19 @@
+/**
+ * Copyright 2015 bingoogolapple
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
@@ -5,9 +21,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,13 +43,24 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
     protected Context mContext;
     protected int mPosition;
     protected BGARecyclerViewHolder mRecyclerViewHolder;
+    protected RecyclerView mRecyclerView;
+
+    protected AbsListView mAbsListView;
     /**
      * 留着以后作为扩充对象
      */
     protected Object mObj;
 
-    public BGAViewHolderHelper(View convertView) {
+    public BGAViewHolderHelper(AbsListView absListView, View convertView) {
         mViews = new SparseArray<>();
+        mAbsListView = absListView;
+        mConvertView = convertView;
+        mContext = convertView.getContext();
+    }
+
+    public BGAViewHolderHelper(RecyclerView recyclerView, View convertView) {
+        mViews = new SparseArray<>();
+        mRecyclerView = recyclerView;
         mConvertView = convertView;
         mContext = convertView.getContext();
     }
@@ -57,6 +86,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
 
     /**
      * 设置item子控件点击事件监听器
+     *
      * @param onItemChildClickListener
      */
     public void setOnItemChildClickListener(BGAOnItemChildClickListener onItemChildClickListener) {
@@ -65,6 +95,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
 
     /**
      * 为id为viewId的item子控件设置点击事件监听器
+     *
      * @param viewId
      */
     public void setItemChildClickListener(int viewId) {
@@ -73,6 +104,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
 
     /**
      * 设置item子控件长按事件监听器
+     *
      * @param onItemChildLongClickListener
      */
     public void setOnItemChildLongClickListener(BGAOnItemChildLongClickListener onItemChildLongClickListener) {
@@ -81,6 +113,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
 
     /**
      * 为id为viewId的item子控件设置长按事件监听器
+     *
      * @param viewId
      */
     public void setItemChildLongClickListener(int viewId) {
@@ -90,14 +123,22 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
     @Override
     public void onClick(View v) {
         if (mOnItemChildClickListener != null) {
-            mOnItemChildClickListener.onItemChildClick(v, getPosition());
+            if (mRecyclerView != null) {
+                mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
+            } else if (mAbsListView != null) {
+                mOnItemChildClickListener.onItemChildClick(mAbsListView, v, getPosition());
+            }
         }
     }
 
     @Override
     public boolean onLongClick(View v) {
         if (mOnItemChildLongClickListener != null) {
-            return mOnItemChildLongClickListener.onItemChildLongClick(v, getPosition());
+            if (mRecyclerView != null) {
+                return mOnItemChildLongClickListener.onItemChildLongClick(mRecyclerView, v, getPosition());
+            } else if (mAbsListView != null) {
+                return mOnItemChildLongClickListener.onItemChildLongClick(mAbsListView, v, getPosition());
+            }
         }
         return false;
     }

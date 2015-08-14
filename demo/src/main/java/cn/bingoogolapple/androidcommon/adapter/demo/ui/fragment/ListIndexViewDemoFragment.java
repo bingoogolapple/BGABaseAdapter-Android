@@ -2,6 +2,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
 
     @Override
     protected void setListener() {
-        mAdapter = new ListIndexAdapter(mActivity);
+        mAdapter = new ListIndexAdapter(mDataLv);
         mAdapter.setOnItemChildClickListener(this);
 
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
@@ -87,8 +88,8 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
     }
 
     @Override
-    public void onItemChildClick(View v, int position) {
-        if (v.getId() == R.id.tv_item_indexview_name) {
+    public void onItemChildClick(ViewGroup parent, View childView, int position) {
+        if (childView.getId() == R.id.tv_item_indexview_name) {
             showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
         }
     }

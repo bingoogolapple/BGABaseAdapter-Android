@@ -1,8 +1,8 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,8 +22,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalModel> {
     private ItemTouchHelper mItemTouchHelper;
 
-    public NormalRecyclerViewAdapter(Context context) {
-        super(context, R.layout.item_normal);
+    public NormalRecyclerViewAdapter(RecyclerView recyclerView) {
+        super(recyclerView, R.layout.item_normal);
     }
 
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {

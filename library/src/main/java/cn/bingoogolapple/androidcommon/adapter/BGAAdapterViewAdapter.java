@@ -1,8 +1,25 @@
+/**
+ * Copyright 2015 bingoogolapple
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -20,9 +37,11 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     protected List<M> mDatas;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
+    protected AbsListView mAbsListView;
 
-    public BGAAdapterViewAdapter(Context context, int itemLayoutId) {
-        mContext = context;
+    public BGAAdapterViewAdapter(AbsListView absListView, int itemLayoutId) {
+        mAbsListView = absListView;
+        mContext = mAbsListView.getContext();
         mItemLayoutId = itemLayoutId;
         mDatas = new ArrayList<>();
     }
@@ -44,7 +63,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final BGAAdapterViewHolder viewHolder = BGAAdapterViewHolder.dequeueReusableAdapterViewHolder(mContext, convertView, parent, mItemLayoutId);
+        final BGAAdapterViewHolder viewHolder = BGAAdapterViewHolder.dequeueReusableAdapterViewHolder(mAbsListView, convertView, parent, mItemLayoutId);
         viewHolder.getViewHolderHelper().setPosition(position);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);

@@ -2,6 +2,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -35,7 +36,7 @@ public class ListViewDemoFragment extends BaseFragment implements AdapterView.On
         mDataLv.setOnItemClickListener(this);
         mDataLv.setOnItemLongClickListener(this);
 
-        mAdapter = new NormalAdapterViewAdapter(mActivity);
+        mAdapter = new NormalAdapterViewAdapter(mDataLv);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
     }
@@ -67,15 +68,15 @@ public class ListViewDemoFragment extends BaseFragment implements AdapterView.On
     }
 
     @Override
-    public void onItemChildClick(View v, int position) {
-        if (v.getId() == R.id.tv_item_normal_delete) {
+    public void onItemChildClick(ViewGroup parent, View childView, int position) {
+        if (childView.getId() == R.id.tv_item_normal_delete) {
             mAdapter.removeItem(position);
         }
     }
 
     @Override
-    public boolean onItemChildLongClick(View v, int position) {
-        if (v.getId() == R.id.tv_item_normal_delete) {
+    public boolean onItemChildLongClick(ViewGroup parent, View childView, int position) {
+        if (childView.getId() == R.id.tv_item_normal_delete) {
             showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
             return true;
         }

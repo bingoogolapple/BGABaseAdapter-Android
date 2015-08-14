@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     protected void setListener() {
-        mAdapter = new NormalRecyclerViewAdapter(mActivity);
+        mAdapter = new NormalRecyclerViewAdapter(mDataRv);
         mAdapter.setOnRVItemClickListener(this);
         mAdapter.setOnRVItemLongClickListener(this);
         mAdapter.setOnItemChildClickListener(this);
@@ -74,30 +75,30 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     }
 
     @Override
-    public void onRVItemClick(View v, int position) {
-        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
-    }
-
-    @Override
-    public boolean onRVItemLongClick(View v, int position) {
-        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
-        return true;
-    }
-
-    @Override
-    public void onItemChildClick(View v, int position) {
-        if (v.getId() == R.id.tv_item_normal_delete) {
+    public void onItemChildClick(ViewGroup parent, View childView, int position) {
+        if (childView.getId() == R.id.tv_item_normal_delete) {
             mAdapter.removeItem(position);
         }
     }
 
     @Override
-    public boolean onItemChildLongClick(View v, int position) {
-        if (v.getId() == R.id.tv_item_normal_delete) {
+    public boolean onItemChildLongClick(ViewGroup parent, View childView, int position) {
+        if (childView.getId() == R.id.tv_item_normal_delete) {
             showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
+    }
+
+    @Override
+    public boolean onRVItemLongClick(ViewGroup parent, View itemView, int position) {
+        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
+        return true;
     }
 
     /**

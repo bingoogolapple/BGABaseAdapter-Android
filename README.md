@@ -19,6 +19,7 @@
 
 ```groovy
 dependencies {
+    compile 'com.android.support:recyclerview-v7:latestVersion'
     compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
 }
 ```
@@ -30,8 +31,8 @@ dependencies {
 ```Java
 public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
 
-    public ListChatAdapter(Context context) {
-        super(context, R.layout.item_chat);
+    public ListChatAdapter(AbsListView absListView) {
+        super(absListView, R.layout.item_chat);
     }
 
     /**
@@ -65,8 +66,8 @@ public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
 
 ```Java
 public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
-    public RecyclerChatAdapter(Context context) {
-        super(context, R.layout.item_chat);
+    public RecyclerChatAdapter(RecyclerView recyclerView) {
+        super(recyclerView, R.layout.item_chat);
     }
 
     /**

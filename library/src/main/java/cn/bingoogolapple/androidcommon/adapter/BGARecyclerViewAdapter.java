@@ -1,3 +1,19 @@
+/**
+ * Copyright 2015 bingoogolapple
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
@@ -21,8 +37,11 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     private BGAOnRVItemClickListener mOnRVItemClickListener;
     private BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
 
-    public BGARecyclerViewAdapter(Context context, int itemLayoutId) {
-        mContext = context;
+    protected RecyclerView mRecyclerView;
+
+    public BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId) {
+        mRecyclerView = recyclerView;
+        mContext = mRecyclerView.getContext();
         mItemLayoutId = itemLayoutId;
         mDatas = new ArrayList<>();
     }
@@ -34,7 +53,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public BGARecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
+        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
         setItemChildListener(viewHolder.getViewHolderHelper());

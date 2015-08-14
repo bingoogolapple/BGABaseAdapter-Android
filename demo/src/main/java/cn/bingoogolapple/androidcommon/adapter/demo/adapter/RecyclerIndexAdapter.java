@@ -1,6 +1,6 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
@@ -14,8 +14,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
  * 描述:
  */
 public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
-    public RecyclerIndexAdapter(Context context) {
-        super(context, R.layout.item_indexview);
+    public RecyclerIndexAdapter(RecyclerView recyclerView) {
+        super(recyclerView, R.layout.item_indexview);
     }
 
     @Override
