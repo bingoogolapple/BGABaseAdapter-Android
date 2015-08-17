@@ -43,7 +43,7 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
 
     @Override
     protected void setListener() {
-        mAdapter = new ListIndexAdapter(mDataLv);
+        mAdapter = new ListIndexAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
 
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {

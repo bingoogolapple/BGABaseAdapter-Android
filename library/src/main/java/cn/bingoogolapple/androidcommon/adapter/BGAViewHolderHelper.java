@@ -25,7 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.SparseArray;
 import android.view.View;
-import android.widget.AbsListView;
+import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,15 +45,15 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
     protected BGARecyclerViewHolder mRecyclerViewHolder;
     protected RecyclerView mRecyclerView;
 
-    protected AbsListView mAbsListView;
+    protected ViewGroup mAdapterView;
     /**
      * 留着以后作为扩充对象
      */
     protected Object mObj;
 
-    public BGAViewHolderHelper(AbsListView absListView, View convertView) {
+    public BGAViewHolderHelper(ViewGroup adapterView, View convertView) {
         mViews = new SparseArray<>();
-        mAbsListView = absListView;
+        mAdapterView = adapterView;
         mConvertView = convertView;
         mContext = convertView.getContext();
     }
@@ -125,8 +125,8 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
         if (mOnItemChildClickListener != null) {
             if (mRecyclerView != null) {
                 mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
-            } else if (mAbsListView != null) {
-                mOnItemChildClickListener.onItemChildClick(mAbsListView, v, getPosition());
+            } else if (mAdapterView != null) {
+                mOnItemChildClickListener.onItemChildClick(mAdapterView, v, getPosition());
             }
         }
     }
@@ -136,8 +136,8 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
         if (mOnItemChildLongClickListener != null) {
             if (mRecyclerView != null) {
                 return mOnItemChildLongClickListener.onItemChildLongClick(mRecyclerView, v, getPosition());
-            } else if (mAbsListView != null) {
-                return mOnItemChildLongClickListener.onItemChildLongClick(mAbsListView, v, getPosition());
+            } else if (mAdapterView != null) {
+                return mOnItemChildLongClickListener.onItemChildLongClick(mAdapterView, v, getPosition());
             }
         }
         return false;
