@@ -1,7 +1,7 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
+import android.content.Context;
 import android.view.View;
-import android.widget.AbsListView;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAAdapterViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
@@ -15,8 +15,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
  */
 public class ListIndexAdapter extends BGAAdapterViewAdapter<IndexModel> {
 
-    public ListIndexAdapter(AbsListView absListView) {
-        super(absListView, R.layout.item_indexview);
+    public ListIndexAdapter(Context context) {
+        super(context, R.layout.item_indexview);
     }
 
     @Override

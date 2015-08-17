@@ -35,7 +35,7 @@ public class ListChatDemoFragment extends BaseFragment {
     protected void processLogic(Bundle savedInstanceState) {
         mDataLv.setSelector(android.R.color.transparent);
         mDataLv.setDivider(null);
-        mAdapter = new ListChatAdapter(mDataLv);
+        mAdapter = new ListChatAdapter(mActivity);
         mDatas = DataEngine.loadChatModelDatas();
         mAdapter.setDatas(mDatas);
         mDataLv.setAdapter(mAdapter);

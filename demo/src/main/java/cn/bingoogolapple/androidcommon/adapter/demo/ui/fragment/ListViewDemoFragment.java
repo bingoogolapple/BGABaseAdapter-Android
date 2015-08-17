@@ -36,7 +36,7 @@ public class ListViewDemoFragment extends BaseFragment implements AdapterView.On
         mDataLv.setOnItemClickListener(this);
         mDataLv.setOnItemLongClickListener(this);
 
-        mAdapter = new NormalAdapterViewAdapter(mDataLv);
+        mAdapter = new NormalAdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
     }

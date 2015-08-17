@@ -36,7 +36,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
         mDataGv.setOnItemClickListener(this);
         mDataGv.setOnItemLongClickListener(this);
 
-        mAdapter = new NormalAdapterViewAdapter(mDataGv);
+        mAdapter = new NormalAdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
     }

@@ -19,7 +19,6 @@ package cn.bingoogolapple.androidcommon.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -30,24 +29,23 @@ public class BGAAdapterViewHolder {
     protected View mConvertView;
     protected BGAViewHolderHelper mViewHolderHelper;
 
-    private BGAAdapterViewHolder(AbsListView absListView, ViewGroup parent, int layoutId) {
-        mConvertView = LayoutInflater.from(absListView.getContext()).inflate(layoutId, parent, false);
+    private BGAAdapterViewHolder(ViewGroup parent, int layoutId) {
+        mConvertView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         mConvertView.setTag(this);
-        mViewHolderHelper = new BGAViewHolderHelper(absListView, mConvertView);
+        mViewHolderHelper = new BGAViewHolderHelper(parent, mConvertView);
     }
 
     /**
      * 拿到一个可重用的ViewHolder对象
      *
-     * @param absListView
      * @param convertView
      * @param parent
      * @param layoutId
      * @return
      */
-    public static BGAAdapterViewHolder dequeueReusableAdapterViewHolder(AbsListView absListView, View convertView, ViewGroup parent, int layoutId) {
+    public static BGAAdapterViewHolder dequeueReusableAdapterViewHolder(View convertView, ViewGroup parent, int layoutId) {
         if (convertView == null) {
-            return new BGAAdapterViewHolder(absListView, parent, layoutId);
+            return new BGAAdapterViewHolder(parent, layoutId);
         }
         return (BGAAdapterViewHolder) convertView.getTag();
     }
