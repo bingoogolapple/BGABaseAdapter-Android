@@ -31,8 +31,8 @@ dependencies {
 ```Java
 public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
 
-    public ListChatAdapter(AbsListView absListView) {
-        super(absListView, R.layout.item_chat);
+    public ListChatAdapter(Context context) {
+        super(context, R.layout.item_chat);
     }
 
     /**
