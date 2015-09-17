@@ -10,10 +10,13 @@ import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
+import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalAdapterViewAdapter;
-import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
+import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -48,10 +51,15 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
 
     @Override
     protected void onUserVisible() {
-        DataEngine.loadNormalModelDatas(mActivity, new DataEngine.NormalModelResponseHandler() {
+        App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
-            public void onSuccess(List<NormalModel> normalModels) {
-                mAdapter.setDatas(normalModels);
+            public void onResponse(Response<List<NormalModel>> response) {
+                mAdapter.setDatas(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                showSnackbar("数据加载失败");
             }
         });
     }

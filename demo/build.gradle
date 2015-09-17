@@ -13,14 +13,14 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
 
 //    compile project(':library')
     compile 'cn.bingoogolapple:bga-adapter:1.0.5@aar'
 
     compile 'com.facebook.fresco:fresco:0.5.2'
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.loopj.android:android-async-http:1.4.7'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
 }
