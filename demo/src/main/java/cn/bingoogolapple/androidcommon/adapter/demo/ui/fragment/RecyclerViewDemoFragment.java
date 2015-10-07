@@ -9,9 +9,11 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildCheckedChangeListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
@@ -23,13 +25,14 @@ import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
+public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
     private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
@@ -48,6 +51,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mAdapter.setOnRVItemLongClickListener(this);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
+        mAdapter.setOnItemChildCheckedChangeListener(this);
     }
 
     @Override
@@ -59,8 +63,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback();
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
         mItemTouchHelper.attachToRecyclerView(mDataRv);
         mAdapter.setItemTouchHelper(mItemTouchHelper);
 
@@ -71,7 +74,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     protected void onUserVisible() {
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
-            public void onResponse(Response<List<NormalModel>> response) {
+            public void onResponse(Response<List<NormalModel>> response, Retrofit retrofit) {
                 mAdapter.setDatas(response.body());
             }
 
@@ -107,6 +110,15 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     public boolean onRVItemLongClick(ViewGroup parent, View itemView, int position) {
         showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
         return true;
+    }
+
+    @Override
+    public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
+        if (isChecked) {
+            showSnackbar("选中 " + mAdapter.getItem(position).title);
+        } else {
+            showSnackbar("取消选中 " + mAdapter.getItem(position).title);
+        }
     }
 
     /**

@@ -34,8 +34,9 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     protected List<M> mDatas;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
-    private BGAOnRVItemClickListener mOnRVItemClickListener;
-    private BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
+    protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
+    protected BGAOnRVItemClickListener mOnRVItemClickListener;
+    protected BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
 
     protected RecyclerView mRecyclerView;
 
@@ -56,6 +57,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
+        viewHolder.getViewHolderHelper().setOnItemChildCheckedChangeListener(mOnItemChildCheckedChangeListener);
         setItemChildListener(viewHolder.getViewHolderHelper());
         return viewHolder;
     }
@@ -116,6 +118,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void setOnItemChildLongClickListener(BGAOnItemChildLongClickListener onItemChildLongClickListener) {
         mOnItemChildLongClickListener = onItemChildLongClickListener;
+    }
+
+    /**
+     * 设置item子控件选中状态变化事件监听器
+     *
+     * @param onItemChildCheckedChangeListener
+     */
+    public void setOnItemChildCheckedChangeListener(BGAOnItemChildCheckedChangeListener onItemChildCheckedChangeListener) {
+        mOnItemChildCheckedChangeListener = onItemChildCheckedChangeListener;
     }
 
     public M getItem(int position) {

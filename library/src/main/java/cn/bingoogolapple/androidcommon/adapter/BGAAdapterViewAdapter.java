@@ -36,6 +36,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     protected List<M> mDatas;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
+    protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
 
     public BGAAdapterViewAdapter(Context context, int itemLayoutId) {
         mContext = context;
@@ -64,6 +65,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
         viewHolder.getViewHolderHelper().setPosition(position);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
+        viewHolder.getViewHolderHelper().setOnItemChildCheckedChangeListener(mOnItemChildCheckedChangeListener);
         setItemChildListener(viewHolder.getViewHolderHelper());
 
         fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
@@ -103,6 +105,15 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      */
     public void setOnItemChildLongClickListener(BGAOnItemChildLongClickListener onItemChildLongClickListener) {
         mOnItemChildLongClickListener = onItemChildLongClickListener;
+    }
+
+    /**
+     * 设置item子控件选中状态变化事件监听器
+     *
+     * @param onItemChildCheckedChangeListener
+     */
+    public void setOnItemChildCheckedChangeListener(BGAOnItemChildCheckedChangeListener onItemChildCheckedChangeListener) {
+        mOnItemChildCheckedChangeListener = onItemChildCheckedChangeListener;
     }
 
     /**

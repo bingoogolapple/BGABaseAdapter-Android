@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 bingoogolapple
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,10 +36,11 @@ import android.widget.TextView;
  * 创建时间:15/5/26 17:06
  * 描述:为AdapterView和RecyclerView的item设置常见属性（链式编程）
  */
-public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongClickListener {
+public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     protected final SparseArray<View> mViews;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
+    protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
     protected View mConvertView;
     protected Context mContext;
     protected int mPosition;
@@ -120,6 +122,26 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
         getView(viewId).setOnLongClickListener(this);
     }
 
+    /**
+     * 设置item子控件选中状态变化事件监听器
+     *
+     * @param onItemChildCheckedChangeListener
+     */
+    public void setOnItemChildCheckedChangeListener(BGAOnItemChildCheckedChangeListener onItemChildCheckedChangeListener) {
+        mOnItemChildCheckedChangeListener = onItemChildCheckedChangeListener;
+    }
+
+    /**
+     * 为id为viewId的item子控件设置选中状态变化事件监听器
+     *
+     * @param viewId
+     */
+    public void setItemChildCheckedChangeListener(int viewId) {
+        if (getView(viewId) instanceof CompoundButton) {
+            ((CompoundButton) getView(viewId)).setOnCheckedChangeListener(this);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (mOnItemChildClickListener != null) {
@@ -141,6 +163,17 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
             }
         }
         return false;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (mOnItemChildCheckedChangeListener != null) {
+            if (mRecyclerView != null) {
+                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mRecyclerView, buttonView, getPosition(), isChecked);
+            } else if (mAdapterView != null) {
+                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mAdapterView, buttonView, getPosition(), isChecked);
+            }
+        }
     }
 
     /**
@@ -322,4 +355,5 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
         view.setImageResource(imageResId);
         return this;
     }
+
 }
