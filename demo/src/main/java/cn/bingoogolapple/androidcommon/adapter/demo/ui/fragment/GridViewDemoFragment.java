@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildCheckedChangeListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.App;
@@ -17,13 +19,14 @@ import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/6/28 下午12:34
  * 描述:
  */
-public class GridViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener {
+public class GridViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
     private static final String TAG = GridViewDemoFragment.class.getSimpleName();
     private GridView mDataGv;
     private NormalAdapterViewAdapter mAdapter;
@@ -42,6 +45,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
         mAdapter = new NormalAdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
+        mAdapter.setOnItemChildCheckedChangeListener(this);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
     protected void onUserVisible() {
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
-            public void onResponse(Response<List<NormalModel>> response) {
+            public void onResponse(Response<List<NormalModel>> response, Retrofit retrofit) {
                 mAdapter.setDatas(response.body());
             }
 
@@ -89,5 +93,14 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
+        if (isChecked) {
+            showSnackbar("选中 " + mAdapter.getItem(position).title);
+        } else {
+            showSnackbar("取消选中 " + mAdapter.getItem(position).title);
+        }
     }
 }

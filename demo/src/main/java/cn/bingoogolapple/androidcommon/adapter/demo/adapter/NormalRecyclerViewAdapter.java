@@ -34,6 +34,7 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
     public void setItemChildListener(final BGAViewHolderHelper viewHolderHelper) {
         viewHolderHelper.setItemChildClickListener(R.id.tv_item_normal_delete);
         viewHolderHelper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
+        viewHolderHelper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);
         viewHolderHelper.getView(R.id.sdv_item_normal_avator).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

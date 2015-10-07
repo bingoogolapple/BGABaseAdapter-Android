@@ -25,6 +25,7 @@ public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel>
     protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
         viewHolderHelper.setItemChildClickListener(R.id.tv_item_normal_delete);
         viewHolderHelper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
+        viewHolderHelper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);
     }
 
     @Override
