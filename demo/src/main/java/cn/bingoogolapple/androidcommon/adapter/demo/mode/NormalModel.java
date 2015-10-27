@@ -9,6 +9,7 @@ public class NormalModel {
     public String title;
     public String detail;
     public String avatorPath;
+    public boolean selected;
 
     public NormalModel() {
     }

@@ -22,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -258,13 +257,13 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     }
 
     /**
-     * 交换两个数据条目的位置
+     * 移动数据条目的位置
      *
      * @param fromPosition
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
-        Collections.swap(mDatas, fromPosition, toPosition);
+        mDatas.add(toPosition, mDatas.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
     }
 }
