@@ -23,6 +23,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -56,13 +57,14 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-//        mDataRv.addItemDecoration(new Divider(mActivity));
 //        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
 //        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
+        mDataRv.addItemDecoration(new Divider(mActivity));
+
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
         mItemTouchHelper.attachToRecyclerView(mDataRv);
         mAdapter.setItemTouchHelper(mItemTouchHelper);
@@ -114,10 +116,14 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
-        if (isChecked) {
-            showSnackbar("选中 " + mAdapter.getItem(position).title);
-        } else {
-            showSnackbar("取消选中 " + mAdapter.getItem(position).title);
+        // 在填充数据列表时，忽略选中状态变化
+        if (!mAdapter.isIgnoreChange()) {
+            mAdapter.getItem(position).selected = isChecked;
+            if (isChecked) {
+                showSnackbar("选中 " + mAdapter.getItem(position).title);
+            } else {
+                showSnackbar("取消选中 " + mAdapter.getItem(position).title);
+            }
         }
     }
 
@@ -150,12 +156,13 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
             if (source.getItemViewType() != target.getItemViewType()) {
                 return false;
             }
-            int from = source.getAdapterPosition();
-            int to = target.getAdapterPosition();
-            // 只有1列时时对的，大于1列拖拽时还有问题
-            Log.i(TAG, "before from " + from + " " + mAdapter.getItem(from).title + "  to " + to + " " + mAdapter.getItem(to).title);
-            mAdapter.moveItem(from, to);
-            Log.i(TAG, "after from " + from + " " + mAdapter.getItem(from).title + "  to " + to + " " + mAdapter.getItem(to).title);
+
+            mAdapter.moveItem(source.getAdapterPosition(), target.getAdapterPosition());
+
+            for (NormalModel normalModel : mAdapter.getDatas()) {
+                Log.i(TAG, normalModel.title);
+            }
+
             return true;
         }
 

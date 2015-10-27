@@ -2,8 +2,6 @@ package cn.bingoogolapple.androidcommon.adapter.demo;
 
 import android.app.Application;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -26,8 +24,6 @@ public class App extends Application {
                 .baseUrl("http://7xk9dj.com1.z0.glb.clouddn.com/adapter/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        Fresco.initialize(this);
     }
 
     public static App getInstance() {
