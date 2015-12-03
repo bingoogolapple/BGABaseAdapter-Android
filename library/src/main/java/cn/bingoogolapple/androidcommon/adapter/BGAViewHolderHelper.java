@@ -194,6 +194,26 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
     }
 
     /**
+     * 通过ImageView的Id获取ImageView
+     *
+     * @param viewId
+     * @return
+     */
+    public ImageView getImageView(@IdRes int viewId) {
+        return getView(viewId);
+    }
+
+    /**
+     * 通过TextView的Id获取TextView
+     *
+     * @param viewId
+     * @return
+     */
+    public TextView getTextView(@IdRes int viewId) {
+        return getView(viewId);
+    }
+
+    /**
      * 获取item的根控件
      *
      * @return
