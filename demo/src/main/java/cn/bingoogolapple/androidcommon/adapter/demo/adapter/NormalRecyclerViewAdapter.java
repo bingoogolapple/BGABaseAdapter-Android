@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -49,8 +48,7 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
 
     @Override
     public void fillData(BGAViewHolderHelper viewHolderHelper, int position, NormalModel model) {
-        ImageView avatorIv = viewHolderHelper.getView(R.id.iv_item_normal_avator);
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(avatorIv);
+        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(viewHolderHelper.getImageView(R.id.iv_item_normal_avator));
         viewHolderHelper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         // 在设置值的过程中忽略选中状态变化

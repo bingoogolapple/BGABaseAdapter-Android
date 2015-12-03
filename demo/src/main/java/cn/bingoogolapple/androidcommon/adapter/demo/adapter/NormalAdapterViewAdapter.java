@@ -1,7 +1,6 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -31,8 +30,7 @@ public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel>
 
     @Override
     public void fillData(BGAViewHolderHelper viewHolderHelper, int position, NormalModel model) {
-        ImageView avatorIv = viewHolderHelper.getView(R.id.iv_item_normal_avator);
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(avatorIv);
+        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(viewHolderHelper.getImageView(R.id.iv_item_normal_avator));
         viewHolderHelper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         // 在设置值的过程中忽略选中状态变化
