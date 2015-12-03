@@ -1,19 +1,17 @@
 :running:BGAAdapter-Android:running:
 ============
 
-[![Join the chat at https://gitter.im/bingoogolapple/BGAAdapter-Android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bingoogolapple/BGAAdapter-Android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [ ![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-adapter/images/download.svg) ](https://bintray.com/bingoogolapple/maven/bga-adapter/_latestVersion)
-
->关于我<br/>
->微博：<a href="http://weibo.com/bingoogol" target="_blank">bingoogolapple</a>&nbsp;&nbsp;&nbsp;&nbsp;主页：<a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：<a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a>
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter)
 
 在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
 其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
 
 #### 效果图
-![Image of 基本使用](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/1-normal.gif)
-![Image of 滑动删除+拖拽排序](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/adapter_drag.gif)
-![Image of 城市列表索引](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/2-index.gif)
-![Image of 聊天布局](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/3-chat.gif)
+![Image of 聊天布局](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter1.gif)
+![Image of 城市列表索引](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter2.gif)
+![Image of 滑动删除+拖拽排序](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter3.gif)
+![Image of 基本使用](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter4.gif)
 
 >Gradle
 
@@ -97,7 +95,11 @@ public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
 }
 ```
 
-##### 详细用法请查看[Demo](https://github.com/bingoogolapple/BGAAdapter-Android/tree/master/demo):feet:
+### 关于我
+
+| 新浪微博 | 个人主页 | 邮箱 | BGA系列开源库QQ群 |
+| ------------ | ------------- | ------------ | ------------ |
+| <a href="http://weibo.com/bingoogol" target="_blank">bingoogolapple</a> | <a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>  | <a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a> | ![BGA_CODE_CLUB](http://7xk9dj.com1.z0.glb.clouddn.com/BGA_CODE_CLUB.png?imageView2/2/w/200) |
 
 ## License
 
