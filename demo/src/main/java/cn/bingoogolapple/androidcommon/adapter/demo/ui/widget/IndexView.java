@@ -2,7 +2,6 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -10,6 +9,8 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import cn.bingoogolapple.androidcommon.adapter.demo.R;
 
 public class IndexView extends View {
     public static final String[] mDatas = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
@@ -19,8 +20,8 @@ public class IndexView extends View {
     private Paint mPaint = new Paint();
     private OnChangedListener mOnChangedListener;
     private TextView mTipTv;
-    private int mNormalTextColor = Color.parseColor("#92A9FC");
-    private int mPressedTextColor = Color.parseColor("#4060FA");
+    private int mNormalTextColor;
+    private int mPressedTextColor;
 
     public IndexView(Context context) {
         this(context, null);
@@ -32,6 +33,9 @@ public class IndexView extends View {
 
     public IndexView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        mNormalTextColor = context.getResources().getColor(R.color.colorPrimary);
+        mPressedTextColor = context.getResources().getColor(R.color.colorPrimaryDark);
     }
 
     protected void onDraw(Canvas canvas) {
