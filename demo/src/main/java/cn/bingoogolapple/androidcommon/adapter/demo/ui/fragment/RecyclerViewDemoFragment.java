@@ -24,9 +24,9 @@ import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAd
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -76,12 +76,12 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     protected void onUserVisible() {
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
-            public void onResponse(Response<List<NormalModel>> response, Retrofit retrofit) {
+            public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
                 mAdapter.setDatas(response.body());
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<NormalModel>> call, Throwable t) {
                 showSnackbar("数据加载失败");
             }
         });
