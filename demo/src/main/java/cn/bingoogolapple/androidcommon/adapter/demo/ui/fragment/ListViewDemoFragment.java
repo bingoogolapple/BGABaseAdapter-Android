@@ -17,9 +17,10 @@ import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalAdapterViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -57,12 +58,12 @@ public class ListViewDemoFragment extends BaseFragment implements AdapterView.On
     protected void onUserVisible() {
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
-            public void onResponse(Response<List<NormalModel>> response, Retrofit retrofit) {
+            public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
                 mAdapter.setDatas(response.body());
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<NormalModel>> call, Throwable t) {
                 showSnackbar("数据加载失败");
             }
         });

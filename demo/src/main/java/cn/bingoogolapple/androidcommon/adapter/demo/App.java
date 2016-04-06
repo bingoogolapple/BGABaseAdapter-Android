@@ -2,8 +2,8 @@ package cn.bingoogolapple.androidcommon.adapter.demo;
 
 import android.app.Application;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
