@@ -25,7 +25,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
 public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private static final String TAG = RecyclerIndexDemoFragment.class.getSimpleName();
     private RecyclerIndexAdapter mAdapter;
-    private List<IndexModel> mDatas;
+    private List<IndexModel> mData;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
@@ -81,8 +81,8 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
         mDataRv.setLayoutManager(mLayoutManager);
 
 
-        mDatas = DataEngine.loadIndexModelDatas();
-        mAdapter.setDatas(mDatas);
+        mData = DataEngine.loadIndexModelData();
+        mAdapter.setData(mData);
         mDataRv.setAdapter(mAdapter);
 
         mTopcTv.setText(mAdapter.getItem(0).topc);

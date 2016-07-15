@@ -13,7 +13,7 @@ import android.widget.TextView;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 
 public class IndexView extends View {
-    public static final String[] mDatas = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+    public static final String[] mData = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z"};
     private int mSelected = -1;
@@ -41,9 +41,9 @@ public class IndexView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int width = getWidth();
-        int singleHeight = getHeight() / mDatas.length;
+        int singleHeight = getHeight() / mData.length;
 
-        for (int i = 0; i < mDatas.length; i++) {
+        for (int i = 0; i < mData.length; i++) {
             mPaint.setColor(mNormalTextColor);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             mPaint.setAntiAlias(true);
@@ -52,16 +52,16 @@ public class IndexView extends View {
                 mPaint.setColor(mPressedTextColor);
                 mPaint.setFakeBoldText(true);
             }
-            float xPos = width / 2 - mPaint.measureText(mDatas[i]) / 2;
+            float xPos = width / 2 - mPaint.measureText(mData[i]) / 2;
             float yPos = singleHeight * i + singleHeight;
-            canvas.drawText(mDatas[i], xPos, yPos, mPaint);
+            canvas.drawText(mData[i], xPos, yPos, mPaint);
             mPaint.reset();
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int newSelected = (int) (event.getY() / getHeight() * mDatas.length);
+        int newSelected = (int) (event.getY() / getHeight() * mData.length);
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -74,12 +74,12 @@ public class IndexView extends View {
 
             default:
                 if (mSelected != newSelected) {
-                    if (newSelected >= 0 && newSelected < mDatas.length) {
+                    if (newSelected >= 0 && newSelected < mData.length) {
                         if (mOnChangedListener != null) {
-                            mOnChangedListener.onChanged(mDatas[newSelected]);
+                            mOnChangedListener.onChanged(mData[newSelected]);
                         }
                         if (mTipTv != null) {
-                            mTipTv.setText(mDatas[newSelected]);
+                            mTipTv.setText(mData[newSelected]);
                             mTipTv.setVisibility(View.VISIBLE);
                         }
                         mSelected = newSelected;

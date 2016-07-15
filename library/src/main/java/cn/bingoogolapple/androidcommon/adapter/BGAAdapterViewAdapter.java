@@ -33,7 +33,7 @@ import java.util.List;
 public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     protected final int mItemLayoutId;
     protected Context mContext;
-    protected List<M> mDatas;
+    protected List<M> mData;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
@@ -41,17 +41,17 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     public BGAAdapterViewAdapter(Context context, int itemLayoutId) {
         mContext = context;
         mItemLayoutId = itemLayoutId;
-        mDatas = new ArrayList<>();
+        mData = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return mDatas.size();
+        return mData.size();
     }
 
     @Override
     public M getItem(int position) {
-        return mDatas.get(position);
+        return mData.get(position);
     }
 
     @Override
@@ -121,18 +121,18 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      *
      * @return
      */
-    public List<M> getDatas() {
-        return mDatas;
+    public List<M> getData() {
+        return mData;
     }
 
     /**
      * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
      *
-     * @param datas
+     * @param data
      */
-    public void addNewDatas(List<M> datas) {
-        if (datas != null) {
-            mDatas.addAll(0, datas);
+    public void addNewData(List<M> data) {
+        if (data != null) {
+            mData.addAll(0, data);
             notifyDataSetChanged();
         }
     }
@@ -140,11 +140,11 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     /**
      * 在集合尾部添加更多数据集合（上拉从服务器获取更多的数据集合，例如新浪微博列表上拉加载更晚时间发布的微博数据）
      *
-     * @param datas
+     * @param data
      */
-    public void addMoreDatas(List<M> datas) {
-        if (datas != null) {
-            mDatas.addAll(mDatas.size(), datas);
+    public void addMoreData(List<M> data) {
+        if (data != null) {
+            mData.addAll(mData.size(), data);
             notifyDataSetChanged();
         }
     }
@@ -152,13 +152,13 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     /**
      * 设置全新的数据集合，如果传入null，则清空数据列表（第一次从服务器加载数据，或者下拉刷新当前界面数据表）
      *
-     * @param datas
+     * @param data
      */
-    public void setDatas(List<M> datas) {
-        if (datas != null) {
-            mDatas = datas;
+    public void setData(List<M> data) {
+        if (data != null) {
+            mData = data;
         } else {
-            mDatas.clear();
+            mData.clear();
         }
         notifyDataSetChanged();
     }
@@ -167,7 +167,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * 清空数据列表
      */
     public void clear() {
-        mDatas.clear();
+        mData.clear();
         notifyDataSetChanged();
     }
 
@@ -177,7 +177,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param position
      */
     public void removeItem(int position) {
-        mDatas.remove(position);
+        mData.remove(position);
         notifyDataSetChanged();
     }
 
@@ -187,7 +187,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param model
      */
     public void removeItem(M model) {
-        mDatas.remove(model);
+        mData.remove(model);
         notifyDataSetChanged();
     }
 
@@ -198,7 +198,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param model
      */
     public void addItem(int position, M model) {
-        mDatas.add(position, model);
+        mData.add(position, model);
         notifyDataSetChanged();
     }
 
@@ -217,7 +217,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param model
      */
     public void addLastItem(M model) {
-        addItem(mDatas.size(), model);
+        addItem(mData.size(), model);
     }
 
     /**
@@ -227,7 +227,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param newModel
      */
     public void setItem(int location, M newModel) {
-        mDatas.set(location, newModel);
+        mData.set(location, newModel);
         notifyDataSetChanged();
     }
 
@@ -238,7 +238,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param newModel
      */
     public void setItem(M oldModel, M newModel) {
-        setItem(mDatas.indexOf(oldModel), newModel);
+        setItem(mData.indexOf(oldModel), newModel);
     }
 
     /**
@@ -248,7 +248,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
-        Collections.swap(mDatas, fromPosition, toPosition);
+        Collections.swap(mData, fromPosition, toPosition);
         notifyDataSetChanged();
     }
 }

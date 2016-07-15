@@ -77,7 +77,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
-                mAdapter.setDatas(response.body());
+                mAdapter.setData(response.body());
             }
 
             @Override
@@ -159,7 +159,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
             mAdapter.moveItem(source.getAdapterPosition(), target.getAdapterPosition());
 
-            for (NormalModel normalModel : mAdapter.getDatas()) {
+            for (NormalModel normalModel : mAdapter.getData()) {
                 Log.i(TAG, normalModel.title);
             }
 
