@@ -58,7 +58,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
-                mAdapter.setDatas(response.body());
+                mAdapter.setData(response.body());
             }
 
             @Override

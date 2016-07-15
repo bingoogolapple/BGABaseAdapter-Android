@@ -23,7 +23,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  */
 public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private static final String TAG = ListIndexViewDemoFragment.class.getSimpleName();
-    private List<IndexModel> mDatas;
+    private List<IndexModel> mData;
     private ListView mDataLv;
     private IndexView mIndexView;
     private TextView mTipTv;
@@ -76,8 +76,8 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDatas = DataEngine.loadIndexModelDatas();
-        mAdapter.setDatas(mDatas);
+        mData = DataEngine.loadIndexModelData();
+        mAdapter.setData(mData);
         mDataLv.setAdapter(mAdapter);
 
         mTopcTv.setText(mAdapter.getItem(0).topc);

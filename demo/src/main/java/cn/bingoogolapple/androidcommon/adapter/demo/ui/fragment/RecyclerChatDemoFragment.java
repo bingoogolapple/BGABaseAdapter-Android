@@ -19,7 +19,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
 public class RecyclerChatDemoFragment extends BaseFragment {
     private static final String TAG = RecyclerChatDemoFragment.class.getSimpleName();
     private RecyclerChatAdapter mAdapter;
-    private List<ChatModel> mDatas;
+    private List<ChatModel> mData;
     private RecyclerView mDataRv;
 
     @Override
@@ -40,8 +40,8 @@ public class RecyclerChatDemoFragment extends BaseFragment {
 
         mAdapter = new RecyclerChatAdapter(mDataRv);
 
-        mDatas = DataEngine.loadChatModelDatas();
-        mAdapter.setDatas(mDatas);
+        mData = DataEngine.loadChatModelData();
+        mAdapter.setData(mData);
         mDataRv.setAdapter(mAdapter);
     }
 

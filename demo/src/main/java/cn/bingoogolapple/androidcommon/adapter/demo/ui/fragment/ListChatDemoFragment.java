@@ -17,7 +17,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
  */
 public class ListChatDemoFragment extends BaseFragment {
     private static final String TAG = ListChatDemoFragment.class.getSimpleName();
-    private List<ChatModel> mDatas;
+    private List<ChatModel> mData;
     private ListView mDataLv;
     private ListChatAdapter mAdapter;
 
@@ -36,8 +36,8 @@ public class ListChatDemoFragment extends BaseFragment {
         mDataLv.setSelector(android.R.color.transparent);
         mDataLv.setDivider(null);
         mAdapter = new ListChatAdapter(mActivity);
-        mDatas = DataEngine.loadChatModelDatas();
-        mAdapter.setDatas(mDatas);
+        mData = DataEngine.loadChatModelData();
+        mAdapter.setData(mData);
         mDataLv.setAdapter(mAdapter);
     }
 

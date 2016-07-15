@@ -16,71 +16,71 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.PinyinComparator;
  */
 public class DataEngine {
 
-    public static List<IndexModel> loadIndexModelDatas() {
-        List<IndexModel> datas = new ArrayList<>();
-        datas.add(new IndexModel("安阳"));
-        datas.add(new IndexModel("鞍山"));
-        datas.add(new IndexModel("保定"));
-        datas.add(new IndexModel("包头"));
-        datas.add(new IndexModel("北京"));
-        datas.add(new IndexModel("河北"));
-        datas.add(new IndexModel("北海"));
-        datas.add(new IndexModel("伊春"));
-        datas.add(new IndexModel("宝鸡"));
-        datas.add(new IndexModel("本兮"));
-        datas.add(new IndexModel("滨州"));
-        datas.add(new IndexModel("常州"));
-        datas.add(new IndexModel("常德"));
-        datas.add(new IndexModel("常熟"));
-        datas.add(new IndexModel("成都"));
-        datas.add(new IndexModel("承德"));
-        datas.add(new IndexModel("沧州"));
-        datas.add(new IndexModel("重庆"));
-        datas.add(new IndexModel("东莞"));
-        datas.add(new IndexModel("扬州"));
-        datas.add(new IndexModel("大庆"));
-        datas.add(new IndexModel("佛山"));
-        datas.add(new IndexModel("广州"));
-        datas.add(new IndexModel("合肥"));
-        datas.add(new IndexModel("海口"));
-        datas.add(new IndexModel("济南"));
-        datas.add(new IndexModel("兰州"));
-        datas.add(new IndexModel("南京"));
-        datas.add(new IndexModel("泉州"));
-        datas.add(new IndexModel("荣成"));
-        datas.add(new IndexModel("三亚"));
-        datas.add(new IndexModel("上海"));
-        datas.add(new IndexModel("汕头"));
-        datas.add(new IndexModel("天津"));
-        datas.add(new IndexModel("武汉"));
-        datas.add(new IndexModel("厦门"));
-        datas.add(new IndexModel("宜宾"));
-        datas.add(new IndexModel("张家界"));
-        datas.add(new IndexModel("自贡"));
+    public static List<IndexModel> loadIndexModelData() {
+        List<IndexModel> data = new ArrayList<>();
+        data.add(new IndexModel("安阳"));
+        data.add(new IndexModel("鞍山"));
+        data.add(new IndexModel("保定"));
+        data.add(new IndexModel("包头"));
+        data.add(new IndexModel("北京"));
+        data.add(new IndexModel("河北"));
+        data.add(new IndexModel("北海"));
+        data.add(new IndexModel("伊春"));
+        data.add(new IndexModel("宝鸡"));
+        data.add(new IndexModel("本兮"));
+        data.add(new IndexModel("滨州"));
+        data.add(new IndexModel("常州"));
+        data.add(new IndexModel("常德"));
+        data.add(new IndexModel("常熟"));
+        data.add(new IndexModel("成都"));
+        data.add(new IndexModel("承德"));
+        data.add(new IndexModel("沧州"));
+        data.add(new IndexModel("重庆"));
+        data.add(new IndexModel("东莞"));
+        data.add(new IndexModel("扬州"));
+        data.add(new IndexModel("大庆"));
+        data.add(new IndexModel("佛山"));
+        data.add(new IndexModel("广州"));
+        data.add(new IndexModel("合肥"));
+        data.add(new IndexModel("海口"));
+        data.add(new IndexModel("济南"));
+        data.add(new IndexModel("兰州"));
+        data.add(new IndexModel("南京"));
+        data.add(new IndexModel("泉州"));
+        data.add(new IndexModel("荣成"));
+        data.add(new IndexModel("三亚"));
+        data.add(new IndexModel("上海"));
+        data.add(new IndexModel("汕头"));
+        data.add(new IndexModel("天津"));
+        data.add(new IndexModel("武汉"));
+        data.add(new IndexModel("厦门"));
+        data.add(new IndexModel("宜宾"));
+        data.add(new IndexModel("张家界"));
+        data.add(new IndexModel("自贡"));
 
 
         PinyinComparator mPinyinComparator = new PinyinComparator();
         CharacterParser mCharacterParser = CharacterParser.getInstance();
-        for (IndexModel indexModel : datas) {
+        for (IndexModel indexModel : data) {
             indexModel.topc = mCharacterParser.getSelling(indexModel.name).substring(0, 1).toUpperCase();
             if (indexModel.name.equals("重庆")) {
                 indexModel.topc = "C";
             }
         }
-        Collections.sort(datas, mPinyinComparator);
-        return datas;
+        Collections.sort(data, mPinyinComparator);
+        return data;
     }
 
-    public static List<ChatModel> loadChatModelDatas() {
-        List<ChatModel> datas = new ArrayList<>();
+    public static List<ChatModel> loadChatModelData() {
+        List<ChatModel> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             if (i % 3 == 0) {
-                datas.add(new ChatModel("消息" + i, ChatModel.UserType.To));
+                data.add(new ChatModel("消息" + i, ChatModel.UserType.To));
             } else {
-                datas.add(new ChatModel("消息" + i, ChatModel.UserType.From));
+                data.add(new ChatModel("消息" + i, ChatModel.UserType.From));
             }
         }
-        return datas;
+        return data;
     }
 
 }
