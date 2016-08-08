@@ -8,10 +8,10 @@
 其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
 
 #### 效果图
-![Image of 聊天布局](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter1.gif)
-![Image of 城市列表索引](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter2.gif)
-![Image of 滑动删除+拖拽排序](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter3.gif)
-![Image of 基本使用](http://7xk9dj.com1.z0.glb.clouddn.com/adapter/screenshots/bga_adapter4.gif)
+![bga_adapter1](https://cloud.githubusercontent.com/assets/8949716/17476073/bf819e04-5d90-11e6-9c21-193ba3c426ed.gif)
+![bga_adapter2](https://cloud.githubusercontent.com/assets/8949716/17476074/bfb571ca-5d90-11e6-95b3-c5c345377a8d.gif)
+![bga_adapter3](https://cloud.githubusercontent.com/assets/8949716/17476075/bfee48ba-5d90-11e6-9e15-3340965a6867.gif)
+![bga_adapter4](https://cloud.githubusercontent.com/assets/8949716/17476076/bfef7082-5d90-11e6-9403-ba526a10d58f.gif)
 
 >Gradle
 
