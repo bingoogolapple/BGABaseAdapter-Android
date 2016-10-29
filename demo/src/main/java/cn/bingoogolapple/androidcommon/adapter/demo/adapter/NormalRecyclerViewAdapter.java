@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -31,15 +31,15 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
     }
 
     @Override
-    public void setItemChildListener(final BGAViewHolderHelper viewHolderHelper) {
-        viewHolderHelper.setItemChildClickListener(R.id.tv_item_normal_delete);
-        viewHolderHelper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
-        viewHolderHelper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);
-        viewHolderHelper.getView(R.id.iv_item_normal_avator).setOnTouchListener(new View.OnTouchListener() {
+    public void setItemChildListener(final BGAViewHolderHelper helper) {
+        helper.setItemChildClickListener(R.id.tv_item_normal_delete);
+        helper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
+        helper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);
+        helper.getView(R.id.iv_item_normal_avator).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    mItemTouchHelper.startDrag(viewHolderHelper.getRecyclerViewHolder());
+                    mItemTouchHelper.startDrag(helper.getRecyclerViewHolder());
                 }
                 return false;
             }
@@ -47,13 +47,13 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, NormalModel model) {
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(viewHolderHelper.getImageView(R.id.iv_item_normal_avator));
-        viewHolderHelper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
+    public void fillData(BGAViewHolderHelper helper, int position, NormalModel model) {
+        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(helper.getImageView(R.id.iv_item_normal_avator));
+        helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         // 在设置值的过程中忽略选中状态变化
         mIsIgnoreChange = true;
-        viewHolderHelper.setChecked(R.id.cb_item_normal_status, model.selected);
+        helper.setChecked(R.id.cb_item_normal_status, model.selected);
         mIsIgnoreChange = false;
     }
 

@@ -6,7 +6,7 @@ import android.view.View;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.ChatModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -19,21 +19,21 @@ public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
     }
 
     @Override
-    public void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
+    public void setItemChildListener(BGAViewHolderHelper helper) {
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, ChatModel model) {
+    public void fillData(BGAViewHolderHelper helper, int position, ChatModel model) {
         if (model.mUserType == ChatModel.UserType.From) {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);
+            helper.setVisibility(R.id.rl_item_chat_to, View.GONE);
+            helper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);
             String htmlMsg = String.format(mContext.getString(R.string.color_msg_from), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_from_msg, htmlMsg);
+            helper.setHtml(R.id.tv_item_chat_from_msg, htmlMsg);
         } else {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.VISIBLE);
+            helper.setVisibility(R.id.rl_item_chat_from, View.GONE);
+            helper.setVisibility(R.id.rl_item_chat_to, View.VISIBLE);
             String htmlMsg = String.format(mContext.getString(R.string.color_msg_to), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_to_msg, htmlMsg);
+            helper.setHtml(R.id.tv_item_chat_to_msg, htmlMsg);
         }
     }
 

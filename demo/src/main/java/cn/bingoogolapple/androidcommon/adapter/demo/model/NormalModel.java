@@ -1,4 +1,4 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.mode;
+package cn.bingoogolapple.androidcommon.adapter.demo.model;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

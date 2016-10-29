@@ -2,7 +2,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.engine;
 
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
 

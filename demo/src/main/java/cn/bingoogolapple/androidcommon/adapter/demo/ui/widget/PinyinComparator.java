@@ -2,7 +2,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.widget;
 
 import java.util.Comparator;
 
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 
 public class PinyinComparator implements Comparator<IndexModel> {
 

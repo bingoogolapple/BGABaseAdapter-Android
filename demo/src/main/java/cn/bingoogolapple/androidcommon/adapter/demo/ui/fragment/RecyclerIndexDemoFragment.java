@@ -13,7 +13,7 @@ import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
 

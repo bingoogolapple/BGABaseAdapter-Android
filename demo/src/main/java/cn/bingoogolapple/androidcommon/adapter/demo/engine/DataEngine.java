@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.ChatModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.CharacterParser;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.PinyinComparator;
 

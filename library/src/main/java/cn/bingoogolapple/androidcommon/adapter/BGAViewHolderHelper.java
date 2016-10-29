@@ -18,6 +18,7 @@ package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -26,6 +27,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
@@ -238,8 +240,10 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @return
      */
     public BGAViewHolderHelper setText(@IdRes int viewId, CharSequence text) {
-        TextView view = getView(viewId);
-        view.setText(text);
+        if (text == null) {
+            text = "";
+        }
+        getTextView(viewId).setText(text);
         return this;
     }
 
@@ -251,8 +255,31 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @return
      */
     public BGAViewHolderHelper setText(@IdRes int viewId, @StringRes int stringResId) {
-        TextView view = getView(viewId);
-        view.setText(stringResId);
+        getTextView(viewId).setText(stringResId);
+        return this;
+    }
+
+    /**
+     * 设置对应id的控件的文字大小，单位为 sp
+     *
+     * @param viewId
+     * @param size   文字大小，单位为 sp
+     * @return
+     */
+    public BGAViewHolderHelper setTextSizeSp(@IdRes int viewId, float size) {
+        getTextView(viewId).setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+        return this;
+    }
+
+    /**
+     * 设置对应id的控件的文字是否为粗体
+     *
+     * @param viewId
+     * @param isBold 是否为粗体
+     * @return
+     */
+    public BGAViewHolderHelper setIsBold(@IdRes int viewId, boolean isBold) {
+        getTextView(viewId).getPaint().setTypeface(isBold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
         return this;
     }
 
@@ -264,8 +291,10 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @return
      */
     public BGAViewHolderHelper setHtml(@IdRes int viewId, String source) {
-        TextView view = getView(viewId);
-        view.setText(Html.fromHtml(source));
+        if (source == null) {
+            source = "";
+        }
+        getTextView(viewId).setText(Html.fromHtml(source));
         return this;
     }
 
@@ -318,8 +347,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @return
      */
     public BGAViewHolderHelper setTextColorRes(@IdRes int viewId, @ColorRes int textColorResId) {
-        TextView view = getView(viewId);
-        view.setTextColor(mContext.getResources().getColor(textColorResId));
+        getTextView(viewId).setTextColor(mContext.getResources().getColor(textColorResId));
         return this;
     }
 
@@ -329,8 +357,7 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @return
      */
     public BGAViewHolderHelper setTextColor(@IdRes int viewId, int textColor) {
-        TextView view = getView(viewId);
-        view.setTextColor(textColor);
+        getTextView(viewId).setTextColor(textColor);
         return this;
     }
 
