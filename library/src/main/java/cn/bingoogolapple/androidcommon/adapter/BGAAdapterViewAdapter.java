@@ -75,19 +75,19 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     /**
      * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以这里采用了空实现，需要设置事件监听器时重写该方法即可
      *
-     * @param viewHolderHelper
+     * @param helper
      */
-    protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
+    protected void setItemChildListener(BGAViewHolderHelper helper) {
     }
 
     /**
      * 填充item数据
      *
-     * @param viewHolderHelper
+     * @param helper
      * @param position
      * @param model
      */
-    protected abstract void fillData(BGAViewHolderHelper viewHolderHelper, int position, M model);
+    protected abstract void fillData(BGAViewHolderHelper helper, int position, M model);
 
     /**
      * 设置item中的子控件点击事件监听器

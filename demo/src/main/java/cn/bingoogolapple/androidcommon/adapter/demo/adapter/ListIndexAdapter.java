@@ -6,7 +6,7 @@ import android.view.View;
 import cn.bingoogolapple.androidcommon.adapter.BGAAdapterViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.IndexModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -20,20 +20,20 @@ public class ListIndexAdapter extends BGAAdapterViewAdapter<IndexModel> {
     }
 
     @Override
-    protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
-        viewHolderHelper.setItemChildClickListener(R.id.tv_item_indexview_name);
+    protected void setItemChildListener(BGAViewHolderHelper helper) {
+        helper.setItemChildClickListener(R.id.tv_item_indexview_name);
     }
 
     @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, IndexModel model) {
+    public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
         int section = getSectionForPosition(position);
         if (position == getPositionForSection(section)) {
-            viewHolderHelper.setVisibility(R.id.tv_item_indexview_catalog, View.VISIBLE);
-            viewHolderHelper.setText(R.id.tv_item_indexview_catalog, model.topc);
+            helper.setVisibility(R.id.tv_item_indexview_catalog, View.VISIBLE);
+            helper.setText(R.id.tv_item_indexview_catalog, model.topc);
         } else {
-            viewHolderHelper.setVisibility(R.id.tv_item_indexview_catalog, View.GONE);
+            helper.setVisibility(R.id.tv_item_indexview_catalog, View.GONE);
         }
-        viewHolderHelper.setText(R.id.tv_item_indexview_name, model.name);
+        helper.setText(R.id.tv_item_indexview_name, model.name);
     }
 
     public int getSectionForPosition(int position) {

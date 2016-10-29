@@ -8,7 +8,7 @@ import java.util.List;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.ListChatAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.ChatModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.ChatModel;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

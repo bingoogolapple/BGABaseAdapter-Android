@@ -1,4 +1,4 @@
-package cn.bingoogolapple.androidcommon.adapter.demo.mode;
+package cn.bingoogolapple.androidcommon.adapter.demo.model;
 
 public class IndexModel {
     public String topc;

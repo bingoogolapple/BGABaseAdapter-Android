@@ -22,7 +22,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
-import cn.bingoogolapple.androidcommon.adapter.demo.mode.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import retrofit2.Call;
 import retrofit2.Callback;
