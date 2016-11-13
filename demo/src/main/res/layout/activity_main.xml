@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorLayout"
-    style="@style/MatchMatch.Vertical">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/coordinatorLayout"
+                                                 style="@style/MatchMatch.Vertical"
+                                                 android:background="@android:color/white">
 
     <android.support.design.widget.AppBarLayout
         style="@style/MatchWrap"
@@ -14,7 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
@@ -23,7 +24,7 @@
             app:tabIndicatorHeight="3dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="10dp"
-            app:tabTextAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -31,6 +32,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         style="@style/MatchMatch"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>
