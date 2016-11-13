@@ -40,7 +40,7 @@ import android.widget.TextView;
  * 创建时间:15/5/26 17:06
  * 描述:为AdapterView和RecyclerView的item设置常见属性（链式编程）
  */
-public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     protected final SparseArray<View> mViews;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
@@ -105,7 +105,18 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
      * @param viewId
      */
     public void setItemChildClickListener(@IdRes int viewId) {
-        getView(viewId).setOnClickListener(this);
+        getView(viewId).setOnClickListener(new BGAOnNoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                if (mOnItemChildClickListener != null) {
+                    if (mRecyclerView != null) {
+                        mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
+                    } else if (mAdapterView != null) {
+                        mOnItemChildClickListener.onItemChildClick(mAdapterView, v, getPosition());
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -143,17 +154,6 @@ public class BGAViewHolderHelper implements View.OnClickListener, View.OnLongCli
     public void setItemChildCheckedChangeListener(@IdRes int viewId) {
         if (getView(viewId) instanceof CompoundButton) {
             ((CompoundButton) getView(viewId)).setOnCheckedChangeListener(this);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (mOnItemChildClickListener != null) {
-            if (mRecyclerView != null) {
-                mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
-            } else if (mAdapterView != null) {
-                mOnItemChildClickListener.onItemChildClick(mAdapterView, v, getPosition());
-            }
         }
     }
 
