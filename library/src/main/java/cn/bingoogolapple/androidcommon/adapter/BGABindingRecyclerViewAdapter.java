@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends RecyclerView.Adapter<BGABindingViewHolder<B>> {
     private LayoutInflater mLayoutInflater;
     protected List<M> mData = new ArrayList<>();
-    protected ItemEventHandler mItemEventHandler;
+    protected Object mItemEventHandler;
 
     protected LayoutInflater getLayoutInflater(View view) {
         if (mLayoutInflater == null) {
@@ -39,25 +39,26 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     }
 
     @Override
-    public void onBindViewHolder(BGABindingViewHolder<B> holder, int position) {
+    public void onBindViewHolder(BGABindingViewHolder<B> viewHolder, int position) {
         M model = getItem(position);
-        B binding = holder.getBinding();
-        binding.setVariable(cn.bingoogolapple.androidcommon.adapter.BR.position, position);
+        B binding = viewHolder.getBinding();
+        binding.setVariable(cn.bingoogolapple.androidcommon.adapter.BR.viewHolder, viewHolder);
         binding.setVariable(cn.bingoogolapple.androidcommon.adapter.BR.model, model);
         binding.setVariable(cn.bingoogolapple.androidcommon.adapter.BR.itemEventHandler, mItemEventHandler);
         binding.executePendingBindings();
 
-        bindSpecialModel(binding, position, getItem(position));
+        bindSpecialModel(binding, position, model);
     }
 
     /**
-     * 绑定 item 数据模型
+     * 绑定特殊的 item 数据模型，比如滑动删除之类的
      *
      * @param binding
      * @param position
      * @param model
      */
-    protected abstract void bindSpecialModel(B binding, int position, M model);
+    protected void bindSpecialModel(B binding, int position, M model) {
+    }
 
     /**
      * 获取指定索引位置的数据模型
@@ -209,11 +210,7 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      *
      * @param itemEventHandler
      */
-    public void setItemEventHandler(ItemEventHandler itemEventHandler) {
+    public void setItemEventHandler(Object itemEventHandler) {
         mItemEventHandler = itemEventHandler;
-    }
-
-    public interface ItemEventHandler<M> {
-        void onItemClick(View v, int position, M model);
     }
 }

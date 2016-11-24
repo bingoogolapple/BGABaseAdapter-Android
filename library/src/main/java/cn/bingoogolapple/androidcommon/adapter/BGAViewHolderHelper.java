@@ -405,4 +405,16 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
         return this;
     }
 
+    /**
+     * 设置字体是否为粗体
+     *
+     * @param viewId
+     * @param isBold
+     * @return
+     */
+    public BGAViewHolderHelper setBold(@IdRes int viewId, boolean isBold) {
+        getTextView(viewId).getPaint().setTypeface(isBold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        return this;
+    }
+
 }

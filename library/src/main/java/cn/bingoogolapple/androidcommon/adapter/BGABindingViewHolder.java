@@ -2,6 +2,7 @@ package cn.bingoogolapple.androidcommon.adapter;
 
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewParent;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -18,5 +19,13 @@ public class BGABindingViewHolder<B extends ViewDataBinding> extends RecyclerVie
 
     public B getBinding() {
         return mBinding;
+    }
+
+    public RecyclerView getParent() {
+        ViewParent parent = mBinding.getRoot().getParent();
+        if (parent != null) {
+            return (RecyclerView) parent;
+        }
+        return null;
     }
 }
