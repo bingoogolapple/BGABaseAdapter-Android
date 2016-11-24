@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="position"
-            type="java.lang.Integer"/>
+            name="viewHolder"
+            type="cn.bingoogolapple.androidcommon.adapter.BGABindingViewHolder"/>
 
         <variable
             name="model"

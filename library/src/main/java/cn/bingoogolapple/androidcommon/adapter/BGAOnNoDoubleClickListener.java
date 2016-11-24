@@ -8,7 +8,7 @@ import android.view.View;
  * 描述:
  */
 public abstract class BGAOnNoDoubleClickListener implements View.OnClickListener {
-    private int mThrottleFirstTime = 600;
+    private int mThrottleFirstTime = 1000;
     private long mLastClickTime = 0;
 
     public BGAOnNoDoubleClickListener() {
