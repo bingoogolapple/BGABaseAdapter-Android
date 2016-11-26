@@ -24,9 +24,9 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +41,7 @@ import android.widget.TextView;
  * 描述:为AdapterView和RecyclerView的item设置常见属性（链式编程）
  */
 public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
-    protected final SparseArray<View> mViews;
+    protected final SparseArrayCompat<View> mViews;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
@@ -58,14 +58,14 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     protected Object mObj;
 
     public BGAViewHolderHelper(ViewGroup adapterView, View convertView) {
-        mViews = new SparseArray<>();
+        mViews = new SparseArrayCompat<>();
         mAdapterView = adapterView;
         mConvertView = convertView;
         mContext = convertView.getContext();
     }
 
     public BGAViewHolderHelper(RecyclerView recyclerView, View convertView) {
-        mViews = new SparseArray<>();
+        mViews = new SparseArrayCompat<>();
         mRecyclerView = recyclerView;
         mConvertView = convertView;
         mContext = convertView.getContext();
@@ -85,7 +85,7 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
 
     public int getPosition() {
         if (mRecyclerViewHolder != null) {
-            return mRecyclerViewHolder.getAdapterPosition();
+            return mRecyclerViewHolder.getAdapterPositionWrapper();
         }
         return mPosition;
     }

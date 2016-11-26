@@ -18,10 +18,10 @@ android {
 
 dependencies {
 
-//    compile project(':library')
+    compile project(':library')
     
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-    compile 'cn.bingoogolapple:bga-adapter:1.1.4@aar'
+//    compile 'cn.bingoogolapple:bga-adapter:1.1.5@aar'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 

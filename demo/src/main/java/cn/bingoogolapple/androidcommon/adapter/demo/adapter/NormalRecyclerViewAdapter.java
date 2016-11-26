@@ -20,7 +20,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
  */
 public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalModel> {
     private ItemTouchHelper mItemTouchHelper;
-    private boolean mIsIgnoreChange = true;
+
 
     public NormalRecyclerViewAdapter(RecyclerView recyclerView) {
         super(recyclerView, R.layout.item_normal);
@@ -51,13 +51,8 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
         Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(helper.getImageView(R.id.iv_item_normal_avator));
         helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
-        // 在设置值的过程中忽略选中状态变化
-        mIsIgnoreChange = true;
         helper.setChecked(R.id.cb_item_normal_status, model.selected);
-        mIsIgnoreChange = false;
     }
 
-    public boolean isIgnoreChange() {
-        return mIsIgnoreChange;
-    }
+
 }

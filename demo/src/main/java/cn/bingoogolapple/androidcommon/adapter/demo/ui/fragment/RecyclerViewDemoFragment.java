@@ -1,15 +1,18 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -76,7 +79,46 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mItemTouchHelper.attachToRecyclerView(mDataRv);
         mAdapter.setItemTouchHelper(mItemTouchHelper);
 
-        mDataRv.setAdapter(mAdapter);
+//        mDataRv.setAdapter(mAdapter);
+
+        TextView header1Tv = new TextView(mActivity);
+        header1Tv.setBackgroundColor(Color.parseColor("#E15B5A"));
+        header1Tv.setTextColor(Color.WHITE);
+        header1Tv.setGravity(Gravity.CENTER);
+        header1Tv.setPadding(30, 30, 30, 30);
+        header1Tv.setText("头部1");
+        // 当时 LinearLayoutManager 时，需要设置一下布局参数的宽度为填充父窗体，否则 header 和 footer 的宽度会是包裹内容
+        header1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        mAdapter.addHeaderView(header1Tv);
+
+        TextView header2Tv = new TextView(mActivity);
+        header2Tv.setBackgroundColor(Color.parseColor("#71CE7E"));
+        header2Tv.setTextColor(Color.WHITE);
+        header2Tv.setGravity(Gravity.CENTER);
+        header2Tv.setPadding(50, 50, 50, 50);
+        header2Tv.setText("头部2");
+        header2Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        mAdapter.addHeaderView(header2Tv);
+
+        TextView footer1Tv = new TextView(mActivity);
+        footer1Tv.setBackgroundColor(Color.parseColor("#6C9FFC"));
+        footer1Tv.setTextColor(Color.WHITE);
+        footer1Tv.setGravity(Gravity.CENTER);
+        footer1Tv.setPadding(30, 30, 30, 30);
+        footer1Tv.setText("底部1");
+        footer1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        mAdapter.addFooterView(footer1Tv);
+
+        TextView footer2Tv = new TextView(mActivity);
+        footer2Tv.setBackgroundColor(Color.parseColor("#51535B"));
+        footer2Tv.setTextColor(Color.WHITE);
+        footer2Tv.setGravity(Gravity.CENTER);
+        footer2Tv.setPadding(50, 50, 50, 50);
+        footer2Tv.setText("底部2");
+        footer2Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        mAdapter.addFooterView(footer2Tv);
+
+        mDataRv.setAdapter(mAdapter.getHeaderAndFooterAdapter());
     }
 
     @Override
@@ -124,7 +166,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     @Override
     public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
         // 在填充数据列表时，忽略选中状态变化
-        if (!mAdapter.isIgnoreChange()) {
+        if (!mAdapter.isIgnoreCheckedChanged()) {
             mAdapter.getItem(position).selected = isChecked;
             if (isChecked) {
                 showSnackbar("选中 " + mAdapter.getItem(position).title);
@@ -155,6 +197,12 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+
+            // 当加了 HeaderAndFooterAdapter 时需要加上下面的判断
+            if (mAdapter.isHeaderOrFooter(viewHolder)) {
+                dragFlags = swipeFlags = ItemTouchHelper.ACTION_STATE_IDLE;
+            }
+
             return makeMovementFlags(dragFlags, swipeFlags);
         }
 
@@ -164,7 +212,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
                 return false;
             }
 
-            mAdapter.moveItem(source.getAdapterPosition(), target.getAdapterPosition());
+            mAdapter.moveItem(source, target);
 
             for (NormalModel normalModel : mAdapter.getData()) {
                 Log.i(TAG, normalModel.title);
@@ -175,7 +223,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.removeItem(viewHolder.getAdapterPosition());
+            mAdapter.removeItem(viewHolder);
         }
 
         @Override
