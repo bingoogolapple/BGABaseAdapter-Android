@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MatchWrap.Vertical">
+              style="@style/MatchWrap.Vertical">
 
     <RelativeLayout
         android:id="@+id/rl_item_chat_from"
-        style="@style/MatchWrap.Horizontal"
-        android:gravity="center_vertical"
-        android:padding="10dp">
+        style="@style/MatchWrap"
+        android:padding="8dp">
 
         <ImageView
-            android:id="@+id/iv_item_chat_from_avator"
+            android:id="@+id/iv_item_chat_other_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@mipmap/chat_her" />
+            android:src="@mipmap/chat_her"/>
 
         <TextView
-            android:id="@+id/tv_item_chat_from_msg"
+            android:id="@+id/tv_item_chat_other_msg"
             style="@style/WrapWrap"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/iv_item_chat_from_avator"
+            android:layout_toRightOf="@id/iv_item_chat_other_avatar"
             android:background="@drawable/selector_item_chat_from"
             android:gravity="left|center"
             android:text="测试消息"
             android:textColor="@android:color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_item_chat_to"
-        style="@style/MatchWrap.Horizontal"
-        android:gravity="center_vertical"
-        android:padding="5dp">
+        android:id="@+id/rl_item_chat_me"
+        style="@style/MatchWrap"
+        android:padding="8dp">
 
         <ImageView
-            android:id="@+id/iv_item_chat_to_avator"
+            android:id="@+id/iv_item_chat_me_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/chat_me" />
+            android:src="@mipmap/chat_me"/>
 
         <TextView
-            android:id="@+id/tv_item_chat_to_msg"
+            android:id="@+id/tv_item_chat_me_msg"
             style="@style/WrapWrap"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/iv_item_chat_to_avator"
+            android:layout_toLeftOf="@id/iv_item_chat_me_avatar"
             android:background="@drawable/selector_item_chat_to"
             android:gravity="right|center"
             android:text="测试消息"
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
     </RelativeLayout>
 
 </LinearLayout>

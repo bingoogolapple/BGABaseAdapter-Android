@@ -17,6 +17,7 @@
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import java.util.List;
  * @param <M> 适配的数据类型
  */
 public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGARecyclerViewHolder> {
-    protected final int mItemLayoutId;
+    protected int mItemLayoutId;
     protected Context mContext;
     protected List<M> mData;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
@@ -39,11 +40,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     protected RecyclerView mRecyclerView;
 
-    public BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId) {
+    public BGARecyclerViewAdapter(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mContext = mRecyclerView.getContext();
-        mItemLayoutId = itemLayoutId;
         mData = new ArrayList<>();
+    }
+
+    public BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId) {
+        this(recyclerView);
+        mItemLayoutId = itemLayoutId;
     }
 
     @Override
@@ -53,11 +58,11 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public BGARecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(mItemLayoutId, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
+        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(viewType, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildCheckedChangeListener(mOnItemChildCheckedChangeListener);
-        setItemChildListener(viewHolder.getViewHolderHelper());
+        setItemChildListener(viewHolder.getViewHolderHelper(), viewType);
         return viewHolder;
     }
 
@@ -66,7 +71,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      *
      * @param helper
      */
-    protected void setItemChildListener(BGAViewHolderHelper helper) {
+    protected void setItemChildListener(BGAViewHolderHelper helper, int viewType) {
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mItemLayoutId == 0) {
+            throw new RuntimeException("请在 " + this.getClass().getSimpleName() + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGARecyclerViewAdapter 两个参数的构造方法 BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId)");
+        }
+        return mItemLayoutId;
     }
 
     @Override
@@ -128,6 +141,12 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         mOnItemChildCheckedChangeListener = onItemChildCheckedChangeListener;
     }
 
+    /**
+     * 获取指定索引位置的数据模型
+     *
+     * @param position
+     * @return
+     */
     public M getItem(int position) {
         return mData.get(position);
     }
@@ -263,7 +282,30 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
+        notifyItemChanged(fromPosition);
+        notifyItemChanged(toPosition);
+
+        // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
+
         mData.add(toPosition, mData.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    /**
+     * @return 获取第一个数据模型
+     */
+    public
+    @Nullable
+    M getFirstItem() {
+        return getItemCount() > 0 ? getItem(0) : null;
+    }
+
+    /**
+     * @return 获取最后一个数据模型
+     */
+    public
+    @Nullable
+    M getLastItem() {
+        return getItemCount() > 0 ? getItem(getItemCount() - 1) : null;
     }
 }

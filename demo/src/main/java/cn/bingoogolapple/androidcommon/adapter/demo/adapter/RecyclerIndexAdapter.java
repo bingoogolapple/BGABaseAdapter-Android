@@ -19,7 +19,7 @@ public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
     }
 
     @Override
-    public void setItemChildListener(BGAViewHolderHelper helper) {
+    public void setItemChildListener(BGAViewHolderHelper helper, int viewType) {
         helper.setItemChildClickListener(R.id.tv_item_indexview_name);
     }
 

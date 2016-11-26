@@ -3,7 +3,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -57,11 +57,18 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-//        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-//        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position % 3 == 0 || position % 2 == 0) ? 1 : layoutManager.getSpanCount();
+            }
+        });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         mDataRv.setLayoutManager(layoutManager);
         mDataRv.addItemDecoration(new Divider(mActivity));
 
@@ -146,7 +153,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
             return makeMovementFlags(dragFlags, swipeFlags);
         }

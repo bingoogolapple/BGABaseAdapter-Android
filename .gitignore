@@ -41,3 +41,9 @@ proguard/
 .DS_Store
 
 *.keystore
+
+captures
+
+freeline/
+freeline_core/
+freeline.py

@@ -17,12 +17,12 @@
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -242,13 +242,31 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     }
 
     /**
-     * 交换两个数据条目的位置
+     * 移动数据条目的位置
      *
      * @param fromPosition
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
-        Collections.swap(mData, fromPosition, toPosition);
+        mData.add(toPosition, mData.remove(fromPosition));
         notifyDataSetChanged();
+    }
+
+    /**
+     * @return 获取第一个数据模型
+     */
+    public
+    @Nullable
+    M getFirstItem() {
+        return getCount() > 0 ? getItem(0) : null;
+    }
+
+    /**
+     * @return 获取最后一个数据模型
+     */
+    public
+    @Nullable
+    M getLastItem() {
+        return getCount() > 0 ? getItem(getCount() - 1) : null;
     }
 }

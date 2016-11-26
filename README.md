@@ -4,8 +4,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter)
 
-在AdapterView和RecyclerView中通用的Adapter和ViewHolder，使AdapterView和RecyclerView适配器的使用方式基本一致。
-其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
+在 AdapterView 和 RecyclerView 中通用的 Adapter 和 ViewHolder。RecyclerView 支持 DataBinding 和多种 Item 类型的情况。其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
 
 #### 效果图
 ![bga_adapter1](https://cloud.githubusercontent.com/assets/8949716/17476073/bf819e04-5d90-11e6-9c21-193ba3c426ed.gif)
@@ -19,79 +18,6 @@
 dependencies {
     compile 'com.android.support:recyclerview-v7:latestVersion'
     compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
-}
-```
-
-##### 使用非常简单，这里展示一下ListView和RecyclerView实现qq聊天界面的适配器
-
-> ListView实现qq聊天界面的适配器
-
-```Java
-public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
-
-    public ListChatAdapter(Context context) {
-        super(context, R.layout.item_chat);
-    }
-
-    /**
-     * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以在父类中采用了空实现，需要设置事件监听器时重写该方法即可
-     *
-     * @param viewHolderHelper
-     */
-    @Override
-    protected void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
-    }
-
-    @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, ChatModel model) {
-        if (model.mUserType == ChatModel.UserType.From) {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);
-            String htmlMsg = String.format(mContext.getString(R.string.color_msg_from), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_from_msg, htmlMsg);
-        } else {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.VISIBLE);
-            String htmlMsg = String.format(mContext.getString(R.string.color_msg_to), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_to_msg, htmlMsg);
-        }
-    }
-
-}
-```
-
-> RecyclerView实现qq聊天界面的适配器
-
-```Java
-public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
-    public RecyclerChatAdapter(RecyclerView recyclerView) {
-        super(recyclerView, R.layout.item_chat);
-    }
-
-    /**
-     * 为item的孩子节点设置监听器，并不是每一个数据列表都要为item的子控件添加事件监听器，所以在父类中采用了空实现，需要设置事件监听器时重写该方法即可
-     *
-     * @param viewHolderHelper
-     */
-    @Override
-    public void setItemChildListener(BGAViewHolderHelper viewHolderHelper) {
-    }
-
-    @Override
-    public void fillData(BGAViewHolderHelper viewHolderHelper, int position, ChatModel model) {
-        if (model.mUserType == ChatModel.UserType.From) {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);
-            String htmlMsg = String.format(mContext.getString(R.string.color_msg_from), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_from_msg, htmlMsg);
-        } else {
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_from, View.GONE);
-            viewHolderHelper.setVisibility(R.id.rl_item_chat_to, View.VISIBLE);
-            String htmlMsg = String.format(mContext.getString(R.string.color_msg_to), model.mMsg);
-            viewHolderHelper.setHtml(R.id.tv_item_chat_to_msg, htmlMsg);
-        }
-    }
-
 }
 ```
 

@@ -74,10 +74,10 @@ public class DataEngine {
     public static List<ChatModel> loadChatModelData() {
         List<ChatModel> data = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            if (i % 3 == 0) {
-                data.add(new ChatModel("消息" + i, ChatModel.UserType.To));
+            if (i % 3 != 0) {
+                data.add(new ChatModel("消息" + i, ChatModel.UserType.Me, i % 2 == 0 ? ChatModel.SendStatus.Success : ChatModel.SendStatus.Failure));
             } else {
-                data.add(new ChatModel("消息" + i, ChatModel.UserType.From));
+                data.add(new ChatModel("消息" + i, ChatModel.UserType.Other, null));
             }
         }
         return data;

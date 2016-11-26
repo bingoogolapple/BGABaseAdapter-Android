@@ -1,8 +1,25 @@
+/**
+ * Copyright 2015 bingoogolapple
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.bingoogolapple.androidcommon.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,6 +218,11 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
+        notifyItemChanged(fromPosition);
+        notifyItemChanged(toPosition);
+
+        // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
+
         mData.add(toPosition, mData.remove(fromPosition));
         notifyItemMoved(fromPosition, toPosition);
     }
@@ -212,5 +234,23 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      */
     public void setItemEventHandler(Object itemEventHandler) {
         mItemEventHandler = itemEventHandler;
+    }
+
+    /**
+     * @return 获取第一个数据模型
+     */
+    public
+    @Nullable
+    M getFirstItem() {
+        return getItemCount() > 0 ? getItem(0) : null;
+    }
+
+    /**
+     * @return 获取最后一个数据模型
+     */
+    public
+    @Nullable
+    M getLastItem() {
+        return getItemCount() > 0 ? getItem(getItemCount() - 1) : null;
     }
 }
