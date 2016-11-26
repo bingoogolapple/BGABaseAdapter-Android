@@ -3,9 +3,10 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
-import java.util.List;
-
+import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerChatAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
@@ -16,10 +17,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.model.ChatModel;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RecyclerChatDemoFragment extends BaseFragment {
-    private static final String TAG = RecyclerChatDemoFragment.class.getSimpleName();
+public class RecyclerChatDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private RecyclerChatAdapter mAdapter;
-    private List<ChatModel> mData;
     private RecyclerView mDataRv;
 
     @Override
@@ -30,6 +29,8 @@ public class RecyclerChatDemoFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        mAdapter = new RecyclerChatAdapter(mDataRv);
+        mAdapter.setOnItemChildClickListener(this);
     }
 
     @Override
@@ -38,14 +39,18 @@ public class RecyclerChatDemoFragment extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
 
-        mAdapter = new RecyclerChatAdapter(mDataRv);
-
-        mData = DataEngine.loadChatModelData();
-        mAdapter.setData(mData);
+        mAdapter.setData(DataEngine.loadChatModelData());
         mDataRv.setAdapter(mAdapter);
     }
 
     @Override
     protected void onUserVisible() {
+    }
+
+    @Override
+    public void onItemChildClick(ViewGroup parent, View childView, int position) {
+        mAdapter.getItem(position).mSendStatus = ChatModel.SendStatus.Success;
+
+        mAdapter.moveItem(position, mAdapter.getItemCount() - 1);
     }
 }

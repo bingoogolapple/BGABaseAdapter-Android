@@ -105,18 +105,22 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
      * @param viewId
      */
     public void setItemChildClickListener(@IdRes int viewId) {
-        getView(viewId).setOnClickListener(new BGAOnNoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(View v) {
-                if (mOnItemChildClickListener != null) {
-                    if (mRecyclerView != null) {
-                        mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
-                    } else if (mAdapterView != null) {
-                        mOnItemChildClickListener.onItemChildClick(mAdapterView, v, getPosition());
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnClickListener(new BGAOnNoDoubleClickListener() {
+                @Override
+                public void onNoDoubleClick(View v) {
+                    if (mOnItemChildClickListener != null) {
+                        if (mRecyclerView != null) {
+                            mOnItemChildClickListener.onItemChildClick(mRecyclerView, v, getPosition());
+                        } else if (mAdapterView != null) {
+                            mOnItemChildClickListener.onItemChildClick(mAdapterView, v, getPosition());
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     /**
@@ -134,7 +138,10 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
      * @param viewId
      */
     public void setItemChildLongClickListener(@IdRes int viewId) {
-        getView(viewId).setOnLongClickListener(this);
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnLongClickListener(this);
+        }
     }
 
     /**
@@ -152,8 +159,9 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
      * @param viewId
      */
     public void setItemChildCheckedChangeListener(@IdRes int viewId) {
-        if (getView(viewId) instanceof CompoundButton) {
-            ((CompoundButton) getView(viewId)).setOnCheckedChangeListener(this);
+        View view = getView(viewId);
+        if (view != null && view instanceof CompoundButton) {
+            ((CompoundButton) view).setOnCheckedChangeListener(this);
         }
     }
 

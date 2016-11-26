@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchWrap"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/iv_item_chat_me_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/chat_me"/>
+
+    <TextView
+        android:id="@+id/tv_item_chat_me_msg"
+        style="@style/WrapWrap"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/iv_item_chat_me_avatar"
+        android:background="@drawable/selector_item_chat_to"
+        android:gravity="right|center"
+        android:text="测试消息"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"/>
+
+    <ImageView
+        android:id="@+id/iv_item_chat_me_status"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/tv_item_chat_me_msg"
+        android:src="@mipmap/exclamation_mark_red"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</RelativeLayout>

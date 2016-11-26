@@ -31,7 +31,7 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
     }
 
     @Override
-    public void setItemChildListener(final BGAViewHolderHelper helper) {
+    public void setItemChildListener(final BGAViewHolderHelper helper, int viewType) {
         helper.setItemChildClickListener(R.id.tv_item_normal_delete);
         helper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
         helper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);

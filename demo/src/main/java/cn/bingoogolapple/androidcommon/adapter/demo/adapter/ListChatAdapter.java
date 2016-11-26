@@ -25,16 +25,16 @@ public class ListChatAdapter extends BGAAdapterViewAdapter<ChatModel> {
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, ChatModel model) {
-        if (model.mUserType == ChatModel.UserType.From) {
-            helper.setVisibility(R.id.rl_item_chat_to, View.GONE);
+        if (model.mUserType == ChatModel.UserType.Other) {
+            helper.setVisibility(R.id.rl_item_chat_me, View.GONE);
             helper.setVisibility(R.id.rl_item_chat_from, View.VISIBLE);
             String htmlMsg = String.format(mContext.getString(R.string.color_msg_from), model.mMsg);
-            helper.setHtml(R.id.tv_item_chat_from_msg, htmlMsg);
+            helper.setHtml(R.id.tv_item_chat_other_msg, htmlMsg);
         } else {
             helper.setVisibility(R.id.rl_item_chat_from, View.GONE);
-            helper.setVisibility(R.id.rl_item_chat_to, View.VISIBLE);
+            helper.setVisibility(R.id.rl_item_chat_me, View.VISIBLE);
             String htmlMsg = String.format(mContext.getString(R.string.color_msg_to), model.mMsg);
-            helper.setHtml(R.id.tv_item_chat_to_msg, htmlMsg);
+            helper.setHtml(R.id.tv_item_chat_me_msg, htmlMsg);
         }
     }
 
