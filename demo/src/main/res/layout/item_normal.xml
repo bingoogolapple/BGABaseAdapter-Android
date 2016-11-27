@@ -34,7 +34,7 @@
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/cb_item_normal_status"
         android:scaleType="centerCrop"
-        android:src="@mipmap/holder" />
+        android:src="@drawable/holder" />
 
     <TextView
         android:id="@+id/tv_item_normal_delete"

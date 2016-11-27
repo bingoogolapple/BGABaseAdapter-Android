@@ -28,7 +28,7 @@ public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel>
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, NormalModel model) {
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(helper.getImageView(R.id.iv_item_normal_avatar));
+        Glide.with(mContext).load(model.avatorPath).placeholder(R.drawable.holder).error(R.drawable.holder).into(helper.getImageView(R.id.iv_item_normal_avatar));
         helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         helper.setChecked(R.id.cb_item_normal_status, model.selected);
