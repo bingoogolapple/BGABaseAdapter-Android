@@ -31,9 +31,11 @@ public class BGARecyclerViewHolder extends RecyclerView.ViewHolder implements Vi
     protected BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
     protected BGAViewHolderHelper mViewHolderHelper;
     protected RecyclerView mRecyclerView;
+    protected BGARecyclerViewAdapter mRecyclerViewAdapter;
 
-    public BGARecyclerViewHolder(RecyclerView recyclerView, View itemView, BGAOnRVItemClickListener onRVItemClickListener, BGAOnRVItemLongClickListener onRVItemLongClickListener) {
+    public BGARecyclerViewHolder(BGARecyclerViewAdapter recyclerViewAdapter, RecyclerView recyclerView, View itemView, BGAOnRVItemClickListener onRVItemClickListener, BGAOnRVItemLongClickListener onRVItemLongClickListener) {
         super(itemView);
+        mRecyclerViewAdapter = recyclerViewAdapter;
         mRecyclerView = recyclerView;
         mContext = mRecyclerView.getContext();
         mOnRVItemClickListener = onRVItemClickListener;
@@ -42,13 +44,13 @@ public class BGARecyclerViewHolder extends RecyclerView.ViewHolder implements Vi
             @Override
             public void onNoDoubleClick(View v) {
                 if (v.getId() == BGARecyclerViewHolder.this.itemView.getId() && null != mOnRVItemClickListener) {
-                    mOnRVItemClickListener.onRVItemClick(mRecyclerView, v, getAdapterPosition());
+                    mOnRVItemClickListener.onRVItemClick(mRecyclerView, v, getAdapterPositionWrapper());
                 }
             }
         });
         itemView.setOnLongClickListener(this);
-        mViewHolderHelper = new BGAViewHolderHelper(mRecyclerView, this.itemView);
-        mViewHolderHelper.setRecyclerViewHolder(this);
+
+        mViewHolderHelper = new BGAViewHolderHelper(mRecyclerView, this);
     }
 
     public BGAViewHolderHelper getViewHolderHelper() {
@@ -58,9 +60,16 @@ public class BGARecyclerViewHolder extends RecyclerView.ViewHolder implements Vi
     @Override
     public boolean onLongClick(View v) {
         if (v.getId() == this.itemView.getId() && null != mOnRVItemLongClickListener) {
-            return mOnRVItemLongClickListener.onRVItemLongClick(mRecyclerView, v, getAdapterPosition());
+            return mOnRVItemLongClickListener.onRVItemLongClick(mRecyclerView, v, getAdapterPositionWrapper());
         }
         return false;
     }
 
+    public int getAdapterPositionWrapper() {
+        if (mRecyclerViewAdapter.getHeadersCount() > 0) {
+            return getAdapterPosition() - mRecyclerViewAdapter.getHeadersCount();
+        } else {
+            return getAdapterPosition();
+        }
+    }
 }

@@ -11,12 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GridViewDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListChatDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListIndexViewDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListViewDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerChatDemoFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewDemoFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.util.SnackbarUtil;
 
@@ -26,7 +27,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.util.SnackbarUtil;
  * 描述:
  */
 public class MainActivity extends AppCompatActivity {
-    private Class[] mFragmentClasses = new Class[]{GridViewDemoFragment.class, ListViewDemoFragment.class, RecyclerViewDemoFragment.class, ListChatDemoFragment.class, RecyclerChatDemoFragment.class, ListIndexViewDemoFragment.class, RecyclerIndexDemoFragment.class};
+    private Class[] mFragmentClasses = new Class[]{GridViewDemoFragment.class, ListViewDemoFragment.class, RecyclerViewDemoFragment.class, RecyclerViewBindingDemoFragment.class, ListChatDemoFragment.class, RecyclerChatDemoFragment.class, ListIndexViewDemoFragment.class, RecyclerIndexDemoFragment.class};
     private CoordinatorLayout mCoordinatorLayout;
 
     @Override

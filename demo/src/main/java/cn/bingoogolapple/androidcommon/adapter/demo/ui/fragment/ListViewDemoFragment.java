@@ -98,14 +98,7 @@ public class ListViewDemoFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
-        // 在填充数据列表时，忽略选中状态变化
-        if (!mAdapter.isIgnoreChange()) {
-            mAdapter.getItem(position).selected = isChecked;
-            if (isChecked) {
-                showSnackbar("选中 " + mAdapter.getItem(position).title);
-            } else {
-                showSnackbar("取消选中 " + mAdapter.getItem(position).title);
-            }
-        }
+        mAdapter.getItem(position).selected = isChecked;
+        showSnackbar((isChecked ? "选中 " : "取消选中") + mAdapter.getItem(position).title);
     }
 }

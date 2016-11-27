@@ -33,10 +33,28 @@ import java.util.List;
  * 创建时间:16/11/10 下午9:36
  * 描述:在子类的 getItemViewType 方法中，把 item 的布局文件资源 id 作为返回值
  */
-public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends RecyclerView.Adapter<BGABindingViewHolder<B>> {
+public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends RecyclerView.Adapter<BGABindingViewHolder<B>> {
     private LayoutInflater mLayoutInflater;
     protected List<M> mData = new ArrayList<>();
     protected Object mItemEventHandler;
+    protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
+    protected int mDefaultItemLayoutId;
+    private boolean mIsIgnoreCheckedChanged = true;
+
+    /**
+     * 使用该构造方法时需要重写 getItemViewType 方法来返回布局文件资源 id
+     */
+    public BGABindingRecyclerViewAdapter() {
+    }
+
+    /**
+     * 默认的布局文件资源 id
+     *
+     * @param defaultItemLayoutId
+     */
+    public BGABindingRecyclerViewAdapter(int defaultItemLayoutId) {
+        mDefaultItemLayoutId = defaultItemLayoutId;
+    }
 
     protected LayoutInflater getLayoutInflater(View view) {
         if (mLayoutInflater == null) {
@@ -51,12 +69,23 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (mDefaultItemLayoutId == 0) {
+            throw new RuntimeException("请在 " + this.getClass().getSimpleName() + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGABindingRecyclerViewAdapter 一个参数的构造方法 BGABindingRecyclerViewAdapter(int defaultItemLayoutId)");
+        }
+        return mDefaultItemLayoutId;
+    }
+
+    @Override
     public BGABindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BGABindingViewHolder(DataBindingUtil.inflate(getLayoutInflater(parent), viewType, parent, false));
+        return new BGABindingViewHolder(this, DataBindingUtil.inflate(getLayoutInflater(parent), viewType, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BGABindingViewHolder<B> viewHolder, int position) {
+        // 在设置值的过程中忽略选中状态变化
+        mIsIgnoreCheckedChanged = true;
+
         M model = getItem(position);
         B binding = viewHolder.getBinding();
         binding.setVariable(cn.bingoogolapple.androidcommon.adapter.BR.viewHolder, viewHolder);
@@ -65,6 +94,8 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
         binding.executePendingBindings();
 
         bindSpecialModel(binding, position, model);
+
+        mIsIgnoreCheckedChanged = false;
     }
 
     /**
@@ -75,6 +106,10 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      * @param model
      */
     protected void bindSpecialModel(B binding, int position, M model) {
+    }
+
+    public boolean isIgnoreCheckedChanged() {
+        return mIsIgnoreCheckedChanged;
     }
 
     /**
@@ -97,6 +132,23 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     }
 
     /**
+     * 设置 item 事件处理器
+     *
+     * @param itemEventHandler
+     */
+    public void setItemEventHandler(Object itemEventHandler) {
+        mItemEventHandler = itemEventHandler;
+    }
+
+    public final void notifyItemRangeInsertedWrapper(int positionStart, int itemCount) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemRangeInserted(positionStart, itemCount);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemRangeInserted(mHeaderAndFooterAdapter.getHeadersCount() + positionStart, itemCount);
+        }
+    }
+
+    /**
      * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
      *
      * @param data
@@ -104,7 +156,7 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     public void addNewData(List<M> data) {
         if (data != null) {
             mData.addAll(0, data);
-            notifyItemRangeInserted(0, data.size());
+            notifyItemRangeInsertedWrapper(0, data.size());
         }
     }
 
@@ -116,7 +168,15 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     public void addMoreData(List<M> data) {
         if (data != null) {
             mData.addAll(mData.size(), data);
-            notifyItemRangeInserted(mData.size(), data.size());
+            notifyItemRangeInsertedWrapper(mData.size(), data.size());
+        }
+    }
+
+    public final void notifyDataSetChangedWrapper() {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyDataSetChanged();
+        } else {
+            mHeaderAndFooterAdapter.notifyDataSetChanged();
         }
     }
 
@@ -131,7 +191,7 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
         } else {
             mData.clear();
         }
-        notifyDataSetChanged();
+        notifyDataSetChangedWrapper();
     }
 
     /**
@@ -139,7 +199,15 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      */
     public void clear() {
         mData.clear();
-        notifyDataSetChanged();
+        notifyDataSetChangedWrapper();
+    }
+
+    public final void notifyItemRemovedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemRemoved(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemRemoved(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
     }
 
     /**
@@ -149,7 +217,22 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      */
     public void removeItem(int position) {
         mData.remove(position);
-        notifyItemRemoved(position);
+        notifyItemRemovedWrapper(position);
+    }
+
+    /**
+     * 删除指定数据条目。该方法在 ItemTouchHelper.Callback 的 onSwiped 方法中调用
+     *
+     * @param viewHolder
+     */
+    public void removeItem(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getAdapterPosition();
+        if (mHeaderAndFooterAdapter != null) {
+            mData.remove(position - mHeaderAndFooterAdapter.getHeadersCount());
+            mHeaderAndFooterAdapter.notifyItemRemoved(position);
+        } else {
+            removeItem(position);
+        }
     }
 
     /**
@@ -161,6 +244,14 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
         removeItem(mData.indexOf(model));
     }
 
+    public final void notifyItemInsertedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemInserted(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemInserted(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
+    }
+
     /**
      * 在指定位置添加数据条目
      *
@@ -169,7 +260,7 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      */
     public void addItem(int position, M model) {
         mData.add(position, model);
-        notifyItemInserted(position);
+        notifyItemInsertedWrapper(position);
     }
 
     /**
@@ -190,6 +281,14 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
         addItem(mData.size(), model);
     }
 
+    public final void notifyItemChangedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemChanged(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemChanged(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
+    }
+
     /**
      * 替换指定索引的数据条目
      *
@@ -198,7 +297,7 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      */
     public void setItem(int location, M newModel) {
         mData.set(location, newModel);
-        notifyItemChanged(location);
+        notifyItemChangedWrapper(location);
     }
 
     /**
@@ -211,6 +310,14 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
         setItem(mData.indexOf(oldModel), newModel);
     }
 
+    public final void notifyItemMovedWrapper(int fromPosition, int toPosition) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemMoved(fromPosition, toPosition);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemMoved(mHeaderAndFooterAdapter.getHeadersCount() + fromPosition, mHeaderAndFooterAdapter.getHeadersCount() + toPosition);
+        }
+    }
+
     /**
      * 移动数据条目的位置
      *
@@ -218,22 +325,35 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
-        notifyItemChanged(fromPosition);
-        notifyItemChanged(toPosition);
+        notifyItemChangedWrapper(fromPosition);
+        notifyItemChangedWrapper(toPosition);
 
         // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
 
         mData.add(toPosition, mData.remove(fromPosition));
-        notifyItemMoved(fromPosition, toPosition);
+        notifyItemMovedWrapper(fromPosition, toPosition);
     }
 
     /**
-     * 设置 item 时间处理器
+     * 移动数据条目的位置。该方法在 ItemTouchHelper.Callback 的 onMove 方法中调用
      *
-     * @param itemEventHandler
+     * @param from
+     * @param to
      */
-    public void setItemEventHandler(Object itemEventHandler) {
-        mItemEventHandler = itemEventHandler;
+    public void moveItem(RecyclerView.ViewHolder from, RecyclerView.ViewHolder to) {
+        int fromPosition = from.getAdapterPosition();
+        int toPosition = to.getAdapterPosition();
+        if (mHeaderAndFooterAdapter != null) {
+            mHeaderAndFooterAdapter.notifyItemChanged(fromPosition);
+            mHeaderAndFooterAdapter.notifyItemChanged(toPosition);
+
+            // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
+
+            mData.add(toPosition - mHeaderAndFooterAdapter.getHeadersCount(), mData.remove(fromPosition - mHeaderAndFooterAdapter.getHeadersCount()));
+            mHeaderAndFooterAdapter.notifyItemMoved(fromPosition, toPosition);
+        } else {
+            moveItem(fromPosition, toPosition);
+        }
     }
 
     /**
@@ -252,5 +372,43 @@ public abstract class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding
     @Nullable
     M getLastItem() {
         return getItemCount() > 0 ? getItem(getItemCount() - 1) : null;
+    }
+
+
+    public void addHeaderView(View headerView) {
+        getHeaderAndFooterAdapter().addHeaderView(headerView);
+    }
+
+    public void addFooterView(View footerView) {
+        getHeaderAndFooterAdapter().addFooterView(footerView);
+    }
+
+    public int getHeadersCount() {
+        return mHeaderAndFooterAdapter == null ? 0 : mHeaderAndFooterAdapter.getHeadersCount();
+    }
+
+    public int getFootersCount() {
+        return mHeaderAndFooterAdapter == null ? 0 : mHeaderAndFooterAdapter.getFootersCount();
+    }
+
+    public BGAHeaderAndFooterAdapter getHeaderAndFooterAdapter() {
+        if (mHeaderAndFooterAdapter == null) {
+            synchronized (BGABindingRecyclerViewAdapter.this) {
+                if (mHeaderAndFooterAdapter == null) {
+                    mHeaderAndFooterAdapter = new BGAHeaderAndFooterAdapter(this);
+                }
+            }
+        }
+        return mHeaderAndFooterAdapter;
+    }
+
+    /**
+     * 是否是头部或尾部
+     *
+     * @param viewHolder
+     * @return
+     */
+    public boolean isHeaderOrFooter(RecyclerView.ViewHolder viewHolder) {
+        return viewHolder.getAdapterPosition() < getHeadersCount() || viewHolder.getAdapterPosition() >= getHeadersCount() + getItemCount();
     }
 }

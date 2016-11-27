@@ -24,12 +24,14 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.SparseArray;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -40,39 +42,37 @@ import android.widget.TextView;
  * 创建时间:15/5/26 17:06
  * 描述:为AdapterView和RecyclerView的item设置常见属性（链式编程）
  */
-public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
-    protected final SparseArray<View> mViews;
+public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
+    protected final SparseArrayCompat<View> mViews;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
+    protected BGAOnRVItemChildTouchListener mOnRVItemChildTouchListener;
     protected View mConvertView;
     protected Context mContext;
     protected int mPosition;
     protected BGARecyclerViewHolder mRecyclerViewHolder;
     protected RecyclerView mRecyclerView;
 
-    protected ViewGroup mAdapterView;
+    protected AdapterView mAdapterView;
     /**
      * 留着以后作为扩充对象
      */
     protected Object mObj;
 
     public BGAViewHolderHelper(ViewGroup adapterView, View convertView) {
-        mViews = new SparseArray<>();
-        mAdapterView = adapterView;
+        mViews = new SparseArrayCompat<>();
+        mAdapterView = (AdapterView) adapterView;
         mConvertView = convertView;
         mContext = convertView.getContext();
     }
 
-    public BGAViewHolderHelper(RecyclerView recyclerView, View convertView) {
-        mViews = new SparseArray<>();
+    public BGAViewHolderHelper(RecyclerView recyclerView, BGARecyclerViewHolder recyclerViewHolder) {
+        mViews = new SparseArrayCompat<>();
         mRecyclerView = recyclerView;
-        mConvertView = convertView;
-        mContext = convertView.getContext();
-    }
-
-    public void setRecyclerViewHolder(BGARecyclerViewHolder recyclerViewHolder) {
         mRecyclerViewHolder = recyclerViewHolder;
+        mConvertView = mRecyclerViewHolder.itemView;
+        mContext = mConvertView.getContext();
     }
 
     public BGARecyclerViewHolder getRecyclerViewHolder() {
@@ -85,7 +85,7 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
 
     public int getPosition() {
         if (mRecyclerViewHolder != null) {
-            return mRecyclerViewHolder.getAdapterPosition();
+            return mRecyclerViewHolder.getAdapterPositionWrapper();
         }
         return mPosition;
     }
@@ -145,6 +145,27 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     }
 
     /**
+     * 设置 RecyclerView 中的 item 子控件触摸事件监听器
+     *
+     * @param onRVItemChildTouchListener
+     */
+    public void setOnRVItemChildTouchListener(BGAOnRVItemChildTouchListener onRVItemChildTouchListener) {
+        mOnRVItemChildTouchListener = onRVItemChildTouchListener;
+    }
+
+    /**
+     * 为 id 为 viewId 的 RecyclerView 的 item 子控件设置触摸事件监听器
+     *
+     * @param viewId
+     */
+    public void setRVItemChildTouchListener(@IdRes int viewId) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnTouchListener(this);
+        }
+    }
+
+    /**
      * 设置item子控件选中状态变化事件监听器
      *
      * @param onItemChildCheckedChangeListener
@@ -166,6 +187,14 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     }
 
     @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (mOnRVItemChildTouchListener != null && mRecyclerView != null) {
+            return mOnRVItemChildTouchListener.onRvItemChildTouch(mRecyclerViewHolder, view, motionEvent);
+        }
+        return false;
+    }
+
+    @Override
     public boolean onLongClick(View v) {
         if (mOnItemChildLongClickListener != null) {
             if (mRecyclerView != null) {
@@ -181,9 +210,21 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (mOnItemChildCheckedChangeListener != null) {
             if (mRecyclerView != null) {
-                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mRecyclerView, buttonView, getPosition(), isChecked);
+                BGARecyclerViewAdapter recyclerViewAdapter;
+
+                RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+                if (adapter instanceof BGAHeaderAndFooterAdapter) {
+                    recyclerViewAdapter = (BGARecyclerViewAdapter) ((BGAHeaderAndFooterAdapter) adapter).getInnerAdapter();
+                } else {
+                    recyclerViewAdapter = (BGARecyclerViewAdapter) adapter;
+                }
+                if (!recyclerViewAdapter.isIgnoreCheckedChanged()) {
+                    mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mRecyclerView, buttonView, getPosition(), isChecked);
+                }
             } else if (mAdapterView != null) {
-                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mAdapterView, buttonView, getPosition(), isChecked);
+                if (!((BGAAdapterViewAdapter) mAdapterView.getAdapter()).isIgnoreCheckedChanged()) {
+                    mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mAdapterView, buttonView, getPosition(), isChecked);
+                }
             }
         }
     }
@@ -424,5 +465,4 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
         getTextView(viewId).getPaint().setTypeface(isBold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
         return this;
     }
-
 }

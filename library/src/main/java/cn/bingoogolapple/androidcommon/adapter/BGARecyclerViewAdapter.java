@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
  * @param <M> 适配的数据类型
  */
 public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGARecyclerViewHolder> {
-    protected int mItemLayoutId;
+    protected int mDefaultItemLayoutId;
     protected Context mContext;
     protected List<M> mData;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
@@ -37,8 +38,14 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
     protected BGAOnRVItemClickListener mOnRVItemClickListener;
     protected BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
+    protected BGAOnRVItemChildTouchListener mOnRVItemChildTouchListener;
+    protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
 
     protected RecyclerView mRecyclerView;
+    /**
+     * 在填充数据列表时，忽略选中状态变化
+     */
+    private boolean mIsIgnoreCheckedChanged = true;
 
     public BGARecyclerViewAdapter(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
@@ -46,9 +53,9 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         mData = new ArrayList<>();
     }
 
-    public BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId) {
+    public BGARecyclerViewAdapter(RecyclerView recyclerView, int defaultItemLayoutId) {
         this(recyclerView);
-        mItemLayoutId = itemLayoutId;
+        mDefaultItemLayoutId = defaultItemLayoutId;
     }
 
     @Override
@@ -58,10 +65,11 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public BGARecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(mRecyclerView, LayoutInflater.from(mContext).inflate(viewType, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
+        BGARecyclerViewHolder viewHolder = new BGARecyclerViewHolder(this, mRecyclerView, LayoutInflater.from(mContext).inflate(viewType, parent, false), mOnRVItemClickListener, mOnRVItemLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildCheckedChangeListener(mOnItemChildCheckedChangeListener);
+        viewHolder.getViewHolderHelper().setOnRVItemChildTouchListener(mOnRVItemChildTouchListener);
         setItemChildListener(viewHolder.getViewHolderHelper(), viewType);
         return viewHolder;
     }
@@ -76,15 +84,20 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public int getItemViewType(int position) {
-        if (mItemLayoutId == 0) {
+        if (mDefaultItemLayoutId == 0) {
             throw new RuntimeException("请在 " + this.getClass().getSimpleName() + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGARecyclerViewAdapter 两个参数的构造方法 BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId)");
         }
-        return mItemLayoutId;
+        return mDefaultItemLayoutId;
     }
 
     @Override
     public void onBindViewHolder(BGARecyclerViewHolder viewHolder, int position) {
+        // 在设置值的过程中忽略选中状态变化
+        mIsIgnoreCheckedChanged = true;
+
         fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
+
+        mIsIgnoreCheckedChanged = false;
     }
 
     /**
@@ -95,6 +108,10 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      * @param model
      */
     protected abstract void fillData(BGAViewHolderHelper helper, int position, M model);
+
+    public boolean isIgnoreCheckedChanged() {
+        return mIsIgnoreCheckedChanged;
+    }
 
     /**
      * 设置item的点击事件监听器
@@ -142,6 +159,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     }
 
     /**
+     * 设置item子控件触摸事件监听器
+     *
+     * @param onRVItemChildTouchListener
+     */
+    public void setOnRVItemChildTouchListener(BGAOnRVItemChildTouchListener onRVItemChildTouchListener) {
+        mOnRVItemChildTouchListener = onRVItemChildTouchListener;
+    }
+
+    /**
      * 获取指定索引位置的数据模型
      *
      * @param position
@@ -160,6 +186,14 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         return mData;
     }
 
+    public final void notifyItemRangeInsertedWrapper(int positionStart, int itemCount) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemRangeInserted(positionStart, itemCount);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemRangeInserted(mHeaderAndFooterAdapter.getHeadersCount() + positionStart, itemCount);
+        }
+    }
+
     /**
      * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
      *
@@ -168,7 +202,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     public void addNewData(List<M> data) {
         if (data != null) {
             mData.addAll(0, data);
-            notifyItemRangeInserted(0, data.size());
+            notifyItemRangeInsertedWrapper(0, data.size());
         }
     }
 
@@ -180,7 +214,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     public void addMoreData(List<M> data) {
         if (data != null) {
             mData.addAll(mData.size(), data);
-            notifyItemRangeInserted(mData.size(), data.size());
+            notifyItemRangeInsertedWrapper(mData.size(), data.size());
+        }
+    }
+
+    public final void notifyDataSetChangedWrapper() {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyDataSetChanged();
+        } else {
+            mHeaderAndFooterAdapter.notifyDataSetChanged();
         }
     }
 
@@ -195,7 +237,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         } else {
             mData.clear();
         }
-        notifyDataSetChanged();
+        notifyDataSetChangedWrapper();
     }
 
     /**
@@ -203,7 +245,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void clear() {
         mData.clear();
-        notifyDataSetChanged();
+        notifyDataSetChangedWrapper();
+    }
+
+    public final void notifyItemRemovedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemRemoved(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemRemoved(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
     }
 
     /**
@@ -213,7 +263,22 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void removeItem(int position) {
         mData.remove(position);
-        notifyItemRemoved(position);
+        notifyItemRemovedWrapper(position);
+    }
+
+    /**
+     * 删除指定数据条目。该方法在 ItemTouchHelper.Callback 的 onSwiped 方法中调用
+     *
+     * @param viewHolder
+     */
+    public void removeItem(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getAdapterPosition();
+        if (mHeaderAndFooterAdapter != null) {
+            mData.remove(position - mHeaderAndFooterAdapter.getHeadersCount());
+            mHeaderAndFooterAdapter.notifyItemRemoved(position);
+        } else {
+            removeItem(position);
+        }
     }
 
     /**
@@ -225,6 +290,14 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         removeItem(mData.indexOf(model));
     }
 
+    public final void notifyItemInsertedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemInserted(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemInserted(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
+    }
+
     /**
      * 在指定位置添加数据条目
      *
@@ -233,7 +306,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void addItem(int position, M model) {
         mData.add(position, model);
-        notifyItemInserted(position);
+        notifyItemInsertedWrapper(position);
     }
 
     /**
@@ -254,6 +327,14 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         addItem(mData.size(), model);
     }
 
+    public final void notifyItemChangedWrapper(int position) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemChanged(position);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemChanged(mHeaderAndFooterAdapter.getHeadersCount() + position);
+        }
+    }
+
     /**
      * 替换指定索引的数据条目
      *
@@ -262,7 +343,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void setItem(int location, M newModel) {
         mData.set(location, newModel);
-        notifyItemChanged(location);
+        notifyItemChangedWrapper(location);
     }
 
     /**
@@ -275,6 +356,14 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         setItem(mData.indexOf(oldModel), newModel);
     }
 
+    public final void notifyItemMovedWrapper(int fromPosition, int toPosition) {
+        if (mHeaderAndFooterAdapter == null) {
+            notifyItemMoved(fromPosition, toPosition);
+        } else {
+            mHeaderAndFooterAdapter.notifyItemMoved(mHeaderAndFooterAdapter.getHeadersCount() + fromPosition, mHeaderAndFooterAdapter.getHeadersCount() + toPosition);
+        }
+    }
+
     /**
      * 移动数据条目的位置
      *
@@ -282,13 +371,35 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
-        notifyItemChanged(fromPosition);
-        notifyItemChanged(toPosition);
+        notifyItemChangedWrapper(fromPosition);
+        notifyItemChangedWrapper(toPosition);
 
         // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
 
         mData.add(toPosition, mData.remove(fromPosition));
-        notifyItemMoved(fromPosition, toPosition);
+        notifyItemMovedWrapper(fromPosition, toPosition);
+    }
+
+    /**
+     * 移动数据条目的位置。该方法在 ItemTouchHelper.Callback 的 onMove 方法中调用
+     *
+     * @param from
+     * @param to
+     */
+    public void moveItem(RecyclerView.ViewHolder from, RecyclerView.ViewHolder to) {
+        int fromPosition = from.getAdapterPosition();
+        int toPosition = to.getAdapterPosition();
+        if (mHeaderAndFooterAdapter != null) {
+            mHeaderAndFooterAdapter.notifyItemChanged(fromPosition);
+            mHeaderAndFooterAdapter.notifyItemChanged(toPosition);
+
+            // 要先执行上面的 notifyItemChanged,然后再执行下面的 moveItem 操作
+
+            mData.add(toPosition - mHeaderAndFooterAdapter.getHeadersCount(), mData.remove(fromPosition - mHeaderAndFooterAdapter.getHeadersCount()));
+            mHeaderAndFooterAdapter.notifyItemMoved(fromPosition, toPosition);
+        } else {
+            moveItem(fromPosition, toPosition);
+        }
     }
 
     /**
@@ -307,5 +418,43 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     @Nullable
     M getLastItem() {
         return getItemCount() > 0 ? getItem(getItemCount() - 1) : null;
+    }
+
+
+    public void addHeaderView(View headerView) {
+        getHeaderAndFooterAdapter().addHeaderView(headerView);
+    }
+
+    public void addFooterView(View footerView) {
+        getHeaderAndFooterAdapter().addFooterView(footerView);
+    }
+
+    public int getHeadersCount() {
+        return mHeaderAndFooterAdapter == null ? 0 : mHeaderAndFooterAdapter.getHeadersCount();
+    }
+
+    public int getFootersCount() {
+        return mHeaderAndFooterAdapter == null ? 0 : mHeaderAndFooterAdapter.getFootersCount();
+    }
+
+    public BGAHeaderAndFooterAdapter getHeaderAndFooterAdapter() {
+        if (mHeaderAndFooterAdapter == null) {
+            synchronized (BGARecyclerViewAdapter.this) {
+                if (mHeaderAndFooterAdapter == null) {
+                    mHeaderAndFooterAdapter = new BGAHeaderAndFooterAdapter(this);
+                }
+            }
+        }
+        return mHeaderAndFooterAdapter;
+    }
+
+    /**
+     * 是否是头部或尾部
+     *
+     * @param viewHolder
+     * @return
+     */
+    public boolean isHeaderOrFooter(RecyclerView.ViewHolder viewHolder) {
+        return viewHolder.getAdapterPosition() < getHeadersCount() || viewHolder.getAdapterPosition() >= getHeadersCount() + getItemCount();
     }
 }

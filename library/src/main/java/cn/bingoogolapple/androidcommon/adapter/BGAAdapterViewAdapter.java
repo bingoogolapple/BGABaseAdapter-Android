@@ -37,6 +37,10 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
+    /**
+     * 在填充数据列表时，忽略选中状态变化
+     */
+    private boolean mIsIgnoreCheckedChanged = true;
 
     public BGAAdapterViewAdapter(Context context, int itemLayoutId) {
         mContext = context;
@@ -61,6 +65,9 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // 在设置值的过程中忽略选中状态变化
+        mIsIgnoreCheckedChanged = true;
+
         final BGAAdapterViewHolder viewHolder = BGAAdapterViewHolder.dequeueReusableAdapterViewHolder(convertView, parent, mItemLayoutId);
         viewHolder.getViewHolderHelper().setPosition(position);
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
@@ -69,7 +76,14 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
         setItemChildListener(viewHolder.getViewHolderHelper());
 
         fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
+
+        mIsIgnoreCheckedChanged = false;
+
         return viewHolder.getConvertView();
+    }
+
+    public boolean isIgnoreCheckedChanged() {
+        return mIsIgnoreCheckedChanged;
     }
 
     /**
