@@ -28,6 +28,7 @@ import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,11 +42,12 @@ import android.widget.TextView;
  * 创建时间:15/5/26 17:06
  * 描述:为AdapterView和RecyclerView的item设置常见属性（链式编程）
  */
-public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
     protected final SparseArrayCompat<View> mViews;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
     protected BGAOnItemChildLongClickListener mOnItemChildLongClickListener;
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
+    protected BGAOnRVItemChildTouchListener mOnRVItemChildTouchListener;
     protected View mConvertView;
     protected Context mContext;
     protected int mPosition;
@@ -65,15 +67,12 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
         mContext = convertView.getContext();
     }
 
-    public BGAViewHolderHelper(RecyclerView recyclerView, View convertView) {
+    public BGAViewHolderHelper(RecyclerView recyclerView, BGARecyclerViewHolder recyclerViewHolder) {
         mViews = new SparseArrayCompat<>();
         mRecyclerView = recyclerView;
-        mConvertView = convertView;
-        mContext = convertView.getContext();
-    }
-
-    public void setRecyclerViewHolder(BGARecyclerViewHolder recyclerViewHolder) {
         mRecyclerViewHolder = recyclerViewHolder;
+        mConvertView = mRecyclerViewHolder.itemView;
+        mContext = mConvertView.getContext();
     }
 
     public BGARecyclerViewHolder getRecyclerViewHolder() {
@@ -146,6 +145,27 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     }
 
     /**
+     * 设置 RecyclerView 中的 item 子控件触摸事件监听器
+     *
+     * @param onRVItemChildTouchListener
+     */
+    public void setOnRVItemChildTouchListener(BGAOnRVItemChildTouchListener onRVItemChildTouchListener) {
+        mOnRVItemChildTouchListener = onRVItemChildTouchListener;
+    }
+
+    /**
+     * 为 id 为 viewId 的 RecyclerView 的 item 子控件设置触摸事件监听器
+     *
+     * @param viewId
+     */
+    public void setRVItemChildTouchListener(@IdRes int viewId) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnTouchListener(this);
+        }
+    }
+
+    /**
      * 设置item子控件选中状态变化事件监听器
      *
      * @param onItemChildCheckedChangeListener
@@ -164,6 +184,14 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
         if (view != null && view instanceof CompoundButton) {
             ((CompoundButton) view).setOnCheckedChangeListener(this);
         }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (mOnRVItemChildTouchListener != null && mRecyclerView != null) {
+            return mOnRVItemChildTouchListener.onRvItemChildTouch(mRecyclerViewHolder, view, motionEvent);
+        }
+        return false;
     }
 
     @Override
@@ -437,5 +465,4 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
         getTextView(viewId).getPaint().setTypeface(isBold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
         return this;
     }
-
 }

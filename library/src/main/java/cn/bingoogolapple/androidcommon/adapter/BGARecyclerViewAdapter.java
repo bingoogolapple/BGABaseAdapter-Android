@@ -38,6 +38,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     protected BGAOnItemChildCheckedChangeListener mOnItemChildCheckedChangeListener;
     protected BGAOnRVItemClickListener mOnRVItemClickListener;
     protected BGAOnRVItemLongClickListener mOnRVItemLongClickListener;
+    protected BGAOnRVItemChildTouchListener mOnRVItemChildTouchListener;
     protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
 
     protected RecyclerView mRecyclerView;
@@ -68,6 +69,7 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         viewHolder.getViewHolderHelper().setOnItemChildClickListener(mOnItemChildClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildLongClickListener(mOnItemChildLongClickListener);
         viewHolder.getViewHolderHelper().setOnItemChildCheckedChangeListener(mOnItemChildCheckedChangeListener);
+        viewHolder.getViewHolderHelper().setOnRVItemChildTouchListener(mOnRVItemChildTouchListener);
         setItemChildListener(viewHolder.getViewHolderHelper(), viewType);
         return viewHolder;
     }
@@ -154,6 +156,15 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public void setOnItemChildCheckedChangeListener(BGAOnItemChildCheckedChangeListener onItemChildCheckedChangeListener) {
         mOnItemChildCheckedChangeListener = onItemChildCheckedChangeListener;
+    }
+
+    /**
+     * 设置item子控件触摸事件监听器
+     *
+     * @param onRVItemChildTouchListener
+     */
+    public void setOnRVItemChildTouchListener(BGAOnRVItemChildTouchListener onRVItemChildTouchListener) {
+        mOnRVItemChildTouchListener = onRVItemChildTouchListener;
     }
 
     /**

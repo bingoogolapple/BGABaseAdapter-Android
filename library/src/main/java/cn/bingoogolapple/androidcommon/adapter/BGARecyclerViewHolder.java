@@ -49,8 +49,8 @@ public class BGARecyclerViewHolder extends RecyclerView.ViewHolder implements Vi
             }
         });
         itemView.setOnLongClickListener(this);
-        mViewHolderHelper = new BGAViewHolderHelper(mRecyclerView, this.itemView);
-        mViewHolderHelper.setRecyclerViewHolder(this);
+
+        mViewHolderHelper = new BGAViewHolderHelper(mRecyclerView, this);
     }
 
     public BGAViewHolderHelper getViewHolderHelper() {

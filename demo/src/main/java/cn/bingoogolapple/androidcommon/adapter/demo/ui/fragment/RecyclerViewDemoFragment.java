@@ -3,6 +3,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -21,8 +23,10 @@ import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildCheckedChangeListen
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnNoDoubleClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemChildTouchListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemLongClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewHolder;
 import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
@@ -38,7 +42,7 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
+public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
     private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
@@ -58,6 +62,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
         mAdapter.setOnItemChildCheckedChangeListener(this);
+        mAdapter.setOnRVItemChildTouchListener(this);
     }
 
     private RecyclerView.LayoutManager getGridLayoutManager() {
@@ -85,7 +90,6 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         // 初始化拖拽排序和滑动删除
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
         mItemTouchHelper.attachToRecyclerView(mDataRv);
-        mAdapter.setItemTouchHelper(mItemTouchHelper);
 
 
         // 测试 GridLayoutManager
@@ -213,6 +217,14 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
         mAdapter.getItem(position).selected = isChecked;
         showSnackbar((isChecked ? "选中 " : "取消选中") + mAdapter.getItem(position).title);
+    }
+
+    @Override
+    public boolean onRvItemChildTouch(BGARecyclerViewHolder holder, View childView, MotionEvent event) {
+        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+            mItemTouchHelper.startDrag(holder);
+        }
+        return false;
     }
 
     /**
