@@ -15,7 +15,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -31,8 +35,10 @@ import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
+import cn.bingoogolapple.androidcommon.adapter.demo.model.BannerModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
+import cn.bingoogolapple.bgabanner.BGABanner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +53,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
+    private BGABanner mBanner;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -106,6 +113,8 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     }
 
     private void testHaveHeaderAndFooterAdapter() {
+        addBannerHeader();
+
         TextView header1Tv = new TextView(mActivity);
         header1Tv.setBackgroundColor(Color.parseColor("#E15B5A"));
         header1Tv.setTextColor(Color.WHITE);
@@ -121,21 +130,6 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         // 当时 LinearLayoutManager 时，需要设置一下布局参数的宽度为填充父窗体，否则 header 和 footer 的宽度会是包裹内容
         header1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         mAdapter.addHeaderView(header1Tv);
-
-        TextView header2Tv = new TextView(mActivity);
-        header2Tv.setBackgroundColor(Color.parseColor("#71CE7E"));
-        header2Tv.setTextColor(Color.WHITE);
-        header2Tv.setGravity(Gravity.CENTER);
-        header2Tv.setPadding(50, 50, 50, 50);
-        header2Tv.setText("头部2");
-        header2Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(View v) {
-                showSnackbar("点击了头部2");
-            }
-        });
-        header2Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-        mAdapter.addHeaderView(header2Tv);
 
         TextView footer1Tv = new TextView(mActivity);
         footer1Tv.setBackgroundColor(Color.parseColor("#6C9FFC"));
@@ -171,8 +165,47 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mDataRv.setAdapter(mAdapter.getHeaderAndFooterAdapter());
     }
 
-    @Override
-    protected void onUserVisible() {
+    private void addBannerHeader() {
+        // 初始化HeaderView
+        View headerView = View.inflate(mActivity, R.layout.layout_header_banner, null);
+        mBanner = (BGABanner) headerView.findViewById(R.id.banner);
+        mBanner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+            }
+        });
+        mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+                showSnackbar("点击了第" + (position + 1) + "页");
+            }
+        });
+        mAdapter.addHeaderView(headerView);
+    }
+
+    /**
+     * 加载广告条数据
+     */
+    private void loadBannerModels() {
+        App.getInstance().getRetrofit().create(ApiEngine.class).loadBannerData("http://7xk9dj.com1.z0.glb.clouddn.com/banner/api/4item.json").enqueue(new Callback<BannerModel>() {
+            @Override
+            public void onResponse(Call<BannerModel> call, Response<BannerModel> response) {
+                BannerModel bannerModel = response.body();
+                mBanner.setData(bannerModel.imgs, bannerModel.tips);
+            }
+
+            @Override
+            public void onFailure(Call<BannerModel> call, Throwable t) {
+                Toast.makeText(App.getInstance(), "加载广告条数据失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 加载列表数据
+     */
+    private void loadNormalModels() {
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
@@ -184,6 +217,12 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
                 showSnackbar("数据加载失败");
             }
         });
+    }
+
+    @Override
+    protected void onUserVisible() {
+        loadBannerModels();
+        loadNormalModels();
     }
 
     @Override

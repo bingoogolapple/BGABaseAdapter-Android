@@ -45,9 +45,9 @@
             android:layout_toRightOf="@id/cb_item_normal_status"
             android:onTouch="@{(v, event) -> itemEventHandler.onTouchAvatar(viewHolder, event)}"
             android:scaleType="centerCrop"
-            android:src="@drawable/holder"
+            android:src="@drawable/holder_avatar"
             app:path="@{model.avatorPath}"
-            app:placeholder="@{@drawable/holder}"/>
+            app:placeholder="@{@drawable/holder_avatar}"/>
 
         <TextView
             android:id="@+id/tv_item_normal_delete"

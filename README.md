@@ -6,11 +6,16 @@
 
 在 AdapterView 和 RecyclerView 中通用的 Adapter 和 ViewHolder。RecyclerView 支持 DataBinding 和多种 Item 类型的情况。其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
 
-#### 效果图
+## 效果图与示例 apk
 ![bga_adapter1](https://cloud.githubusercontent.com/assets/8949716/17476073/bf819e04-5d90-11e6-9c21-193ba3c426ed.gif)
 ![bga_adapter2](https://cloud.githubusercontent.com/assets/8949716/17476074/bfb571ca-5d90-11e6-95b3-c5c345377a8d.gif)
-![bga_adapter3](https://cloud.githubusercontent.com/assets/8949716/17476075/bfee48ba-5d90-11e6-9e15-3340965a6867.gif)
+![bgaadapter-recyclerview](https://cloud.githubusercontent.com/assets/8949716/20648733/0b405938-b4ea-11e6-9a37-9fad31f72ec8.gif)
+![bgaadapter-recyclerviewbinding](https://cloud.githubusercontent.com/assets/8949716/20648734/0b816fd6-b4ea-11e6-9716-e869f7af0564.gif)
 ![bga_adapter4](https://cloud.githubusercontent.com/assets/8949716/17476076/bfef7082-5d90-11e6-9403-ba526a10d58f.gif)
+
+[点击下载 BGAAdapterDemo.apk](http://fir.im/BGAAdapterDemo) 或扫描下面的二维码安装
+
+![BGAAdapterDemo apk文件二维码](https://cloud.githubusercontent.com/assets/8949716/20648602/bd14c31e-b4e6-11e6-9f0d-c6b909f46e2d.png)
 
 >Gradle
 
@@ -20,6 +25,8 @@ dependencies {
     compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
 }
 ```
+
+## 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGAAdapter-Android/tree/master/demo):feet:
 
 ## 关于我
 

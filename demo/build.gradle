@@ -22,10 +22,10 @@ android {
 
 dependencies {
 
-    compile project(':library')
+//    compile project(':library')
     
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-//    compile 'cn.bingoogolapple:bga-adapter:1.1.5@aar'
+    compile 'cn.bingoogolapple:bga-adapter:1.1.5@aar'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 
@@ -35,4 +35,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'cn.bingoogolapple:bga-banner:2.1.0@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
