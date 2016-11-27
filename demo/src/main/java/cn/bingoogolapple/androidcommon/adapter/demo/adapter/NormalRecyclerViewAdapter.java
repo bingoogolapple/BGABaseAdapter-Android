@@ -35,7 +35,7 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
         helper.setItemChildClickListener(R.id.tv_item_normal_delete);
         helper.setItemChildLongClickListener(R.id.tv_item_normal_delete);
         helper.setItemChildCheckedChangeListener(R.id.cb_item_normal_status);
-        helper.getView(R.id.iv_item_normal_avator).setOnTouchListener(new View.OnTouchListener() {
+        helper.getView(R.id.iv_item_normal_avatar).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -48,11 +48,10 @@ public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalMode
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, NormalModel model) {
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(helper.getImageView(R.id.iv_item_normal_avator));
+        Glide.with(mContext).load(model.avatorPath).placeholder(R.mipmap.holder).error(R.mipmap.holder).into(helper.getImageView(R.id.iv_item_normal_avatar));
         helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         helper.setChecked(R.id.cb_item_normal_status, model.selected);
     }
-
 
 }

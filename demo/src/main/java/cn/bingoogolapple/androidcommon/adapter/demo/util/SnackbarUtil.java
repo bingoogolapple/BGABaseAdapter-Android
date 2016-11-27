@@ -16,7 +16,7 @@ public class SnackbarUtil {
 
     public static void show(View view, CharSequence text) {
         Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(Color.parseColor("#E984FA"));
+        snackbar.getView().setBackgroundColor(Color.parseColor("#71CE7E"));
         if (text.length() > 10) {
             snackbar.setDuration(Snackbar.LENGTH_LONG);
         }

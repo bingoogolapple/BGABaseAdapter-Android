@@ -30,7 +30,7 @@ import java.util.List;
  * @param <M> 适配的数据类型
  */
 public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGARecyclerViewHolder> {
-    protected int mItemLayoutId;
+    protected int mDefaultItemLayoutId;
     protected Context mContext;
     protected List<M> mData;
     protected BGAOnItemChildClickListener mOnItemChildClickListener;
@@ -41,6 +41,9 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
     protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
 
     protected RecyclerView mRecyclerView;
+    /**
+     * 在填充数据列表时，忽略选中状态变化
+     */
     private boolean mIsIgnoreCheckedChanged = true;
 
     public BGARecyclerViewAdapter(RecyclerView recyclerView) {
@@ -49,9 +52,9 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
         mData = new ArrayList<>();
     }
 
-    public BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId) {
+    public BGARecyclerViewAdapter(RecyclerView recyclerView, int defaultItemLayoutId) {
         this(recyclerView);
-        mItemLayoutId = itemLayoutId;
+        mDefaultItemLayoutId = defaultItemLayoutId;
     }
 
     @Override
@@ -79,17 +82,19 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     @Override
     public int getItemViewType(int position) {
-        if (mItemLayoutId == 0) {
+        if (mDefaultItemLayoutId == 0) {
             throw new RuntimeException("请在 " + this.getClass().getSimpleName() + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGARecyclerViewAdapter 两个参数的构造方法 BGARecyclerViewAdapter(RecyclerView recyclerView, int itemLayoutId)");
         }
-        return mItemLayoutId;
+        return mDefaultItemLayoutId;
     }
 
     @Override
     public void onBindViewHolder(BGARecyclerViewHolder viewHolder, int position) {
         // 在设置值的过程中忽略选中状态变化
         mIsIgnoreCheckedChanged = true;
+
         fillData(viewHolder.getViewHolderHelper(), position, getItem(position));
+
         mIsIgnoreCheckedChanged = false;
     }
 

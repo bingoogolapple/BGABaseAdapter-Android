@@ -77,7 +77,8 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 给View控件添加事件监听器
      */
-    protected abstract void setListener();
+    protected void setListener() {
+    }
 
     /**
      * 处理业务逻辑，状态恢复等操作

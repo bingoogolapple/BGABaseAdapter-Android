@@ -27,7 +27,7 @@
         android:layout_centerVertical="true" />
 
     <ImageView
-        android:id="@+id/iv_item_normal_avator"
+        android:id="@+id/iv_item_normal_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
@@ -54,7 +54,7 @@
         android:id="@+id/tv_item_normal_title"
         style="@style/WrapWrap"
         android:layout_toLeftOf="@id/tv_item_normal_delete"
-        android:layout_toRightOf="@id/iv_item_normal_avator"
+        android:layout_toRightOf="@id/iv_item_normal_avatar"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="标题"
@@ -65,7 +65,7 @@
         style="@style/WrapWrap"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@id/tv_item_normal_delete"
-        android:layout_toRightOf="@id/iv_item_normal_avator"
+        android:layout_toRightOf="@id/iv_item_normal_avatar"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="详细内容"

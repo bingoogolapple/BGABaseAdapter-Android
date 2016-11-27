@@ -30,6 +30,7 @@ import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -51,7 +52,7 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     protected BGARecyclerViewHolder mRecyclerViewHolder;
     protected RecyclerView mRecyclerView;
 
-    protected ViewGroup mAdapterView;
+    protected AdapterView mAdapterView;
     /**
      * 留着以后作为扩充对象
      */
@@ -59,7 +60,7 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
 
     public BGAViewHolderHelper(ViewGroup adapterView, View convertView) {
         mViews = new SparseArrayCompat<>();
-        mAdapterView = adapterView;
+        mAdapterView = (AdapterView) adapterView;
         mConvertView = convertView;
         mContext = convertView.getContext();
     }
@@ -181,9 +182,21 @@ public class BGAViewHolderHelper implements View.OnLongClickListener, CompoundBu
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (mOnItemChildCheckedChangeListener != null) {
             if (mRecyclerView != null) {
-                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mRecyclerView, buttonView, getPosition(), isChecked);
+                BGARecyclerViewAdapter recyclerViewAdapter;
+
+                RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+                if (adapter instanceof BGAHeaderAndFooterAdapter) {
+                    recyclerViewAdapter = (BGARecyclerViewAdapter) ((BGAHeaderAndFooterAdapter) adapter).getInnerAdapter();
+                } else {
+                    recyclerViewAdapter = (BGARecyclerViewAdapter) adapter;
+                }
+                if (!recyclerViewAdapter.isIgnoreCheckedChanged()) {
+                    mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mRecyclerView, buttonView, getPosition(), isChecked);
+                }
             } else if (mAdapterView != null) {
-                mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mAdapterView, buttonView, getPosition(), isChecked);
+                if (!((BGAAdapterViewAdapter) mAdapterView.getAdapter()).isIgnoreCheckedChanged()) {
+                    mOnItemChildCheckedChangeListener.onItemChildCheckedChanged(mAdapterView, buttonView, getPosition(), isChecked);
+                }
             }
         }
     }

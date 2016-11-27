@@ -3,6 +3,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,22 +11,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
 
-import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildCheckedChangeListener;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGABindingRecyclerViewAdapter;
+import cn.bingoogolapple.androidcommon.adapter.BGABindingViewHolder;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnNoDoubleClickListener;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemLongClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAdapter;
+import cn.bingoogolapple.androidcommon.adapter.demo.databinding.ItemBindingNormalBinding;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
@@ -38,9 +35,9 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
-    private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
-    private NormalRecyclerViewAdapter mAdapter;
+public class RecyclerViewBindingDemoFragment extends BaseFragment {
+    private static final String TAG = RecyclerViewBindingDemoFragment.class.getSimpleName();
+    private BGABindingRecyclerViewAdapter<NormalModel, ItemBindingNormalBinding> mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
 
@@ -48,16 +45,6 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_recyclerview);
         mDataRv = getViewById(R.id.rv_recyclerview_data);
-    }
-
-    @Override
-    protected void setListener() {
-        mAdapter = new NormalRecyclerViewAdapter(mDataRv);
-        mAdapter.setOnRVItemClickListener(this);
-        mAdapter.setOnRVItemLongClickListener(this);
-        mAdapter.setOnItemChildClickListener(this);
-        mAdapter.setOnItemChildLongClickListener(this);
-        mAdapter.setOnItemChildCheckedChangeListener(this);
     }
 
     private RecyclerView.LayoutManager getGridLayoutManager() {
@@ -78,6 +65,10 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+        // 初始化 Adapter
+        mAdapter = new BGABindingRecyclerViewAdapter<>(R.layout.item_binding_normal);
+        mAdapter.setItemEventHandler(this);
+
         // 设置分割线
         mDataRv.addItemDecoration(new Divider(mActivity));
 
@@ -85,7 +76,6 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         // 初始化拖拽排序和滑动删除
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
         mItemTouchHelper.attachToRecyclerView(mDataRv);
-        mAdapter.setItemTouchHelper(mItemTouchHelper);
 
 
         // 测试 GridLayoutManager
@@ -182,37 +172,39 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         });
     }
 
-    @Override
-    public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_item_normal_delete) {
-            mAdapter.removeItem(position);
-        }
+    public void onClickDelete(BGABindingViewHolder holder, NormalModel model) {
+        showSnackbar("删除了 " + model.title);
+        mAdapter.removeItem(holder.getAdapterPositionWrapper());
     }
 
-    @Override
-    public boolean onItemChildLongClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_item_normal_delete) {
-            showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
-            return true;
+    public boolean onLongClickDelete(BGABindingViewHolder holder, NormalModel model) {
+        showSnackbar("长按了删除 " + model.title);
+        return true;
+    }
+
+    public void onClickItem(BGABindingViewHolder holder, NormalModel model) {
+        showSnackbar("点击了条目 " + model.title);
+    }
+
+    public boolean onLongClickItem(BGABindingViewHolder holder, NormalModel model) {
+        showSnackbar("长按了条目 " + model.title);
+        return true;
+    }
+
+    public boolean onTouchAvatar(BGABindingViewHolder holder, MotionEvent event) {
+        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+            mItemTouchHelper.startDrag(holder);
         }
         return false;
     }
 
-    @Override
-    public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
-    }
+    public void onItemCheckedChanged(NormalModel model, boolean isChecked) {
+        // 在填充数据列表时，忽略选中状态变化
+        if (!mAdapter.isIgnoreCheckedChanged()) {
+            model.selected = isChecked;
 
-    @Override
-    public boolean onRVItemLongClick(ViewGroup parent, View itemView, int position) {
-        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
-        return true;
-    }
-
-    @Override
-    public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
-        mAdapter.getItem(position).selected = isChecked;
-        showSnackbar((isChecked ? "选中 " : "取消选中") + mAdapter.getItem(position).title);
+            showSnackbar((isChecked ? "选中 " : "取消选中") + model.title);
+        }
     }
 
     /**

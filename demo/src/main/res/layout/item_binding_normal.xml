@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewHolder"
+            type="cn.bingoogolapple.androidcommon.adapter.BGABindingViewHolder"/>
+
+        <variable
+            name="model"
+            type="cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel"/>
+
+        <variable
+            name="itemEventHandler"
+            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/selector_item"
+        android:descendantFocusability="blocksDescendants"
+        android:onLongClick="@{() -> itemEventHandler.onLongClickItem(viewHolder, model)}"
+        android:padding="5dp"
+        app:onNoDoubleClick="@{() -> itemEventHandler.onClickItem(viewHolder, model)}">
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/cb_item_normal_status"
+            style="@style/WrapWrap"
+            android:layout_centerVertical="true"
+            android:checked="@{model.selected}"
+            android:onCheckedChanged="@{(v, isChecked) -> itemEventHandler.onItemCheckedChanged(model, isChecked)}"/>
+
+        <ImageView
+            android:id="@+id/iv_item_normal_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/cb_item_normal_status"
+            android:onTouch="@{(v, event) -> itemEventHandler.onTouchAvatar(viewHolder, event)}"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/holder"/>
+
+        <TextView
+            android:id="@+id/tv_item_normal_delete"
+            style="@style/WrapMatch"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_btn_red"
+            android:clickable="true"
+            android:gravity="center"
+            android:onLongClick="@{() -> itemEventHandler.onLongClickDelete(viewHolder, model)}"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="删除"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:onNoDoubleClick="@{() -> itemEventHandler.onClickDelete(viewHolder, model)}"/>
+
+        <TextView
+            android:id="@+id/tv_item_normal_title"
+            style="@style/WrapWrap"
+            android:layout_toLeftOf="@id/tv_item_normal_delete"
+            android:layout_toRightOf="@id/iv_item_normal_avatar"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{model.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="标题"/>
+
+        <TextView
+            android:id="@+id/tv_item_normal_detail"
+            style="@style/WrapWrap"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/tv_item_normal_delete"
+            android:layout_toRightOf="@id/iv_item_normal_avatar"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{model.detail}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="详细内容"/>
+
+    </RelativeLayout>
+</layout>

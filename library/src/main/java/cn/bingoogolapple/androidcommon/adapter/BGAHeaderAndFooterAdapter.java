@@ -35,10 +35,14 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
     private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
-    private BGARecyclerViewAdapter mInnerAdapter;
+    private RecyclerView.Adapter mInnerAdapter;
 
-    BGAHeaderAndFooterAdapter(BGARecyclerViewAdapter innerAdapter) {
+    BGAHeaderAndFooterAdapter(RecyclerView.Adapter innerAdapter) {
         mInnerAdapter = innerAdapter;
+    }
+
+    public RecyclerView.Adapter getInnerAdapter() {
+        return mInnerAdapter;
     }
 
     @Override
@@ -76,7 +80,7 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
         if (isFooterView(position)) {
             return;
         }
-        mInnerAdapter.onBindViewHolder((BGARecyclerViewHolder) holder, position - getHeadersCount());
+        mInnerAdapter.onBindViewHolder(holder, position - getHeadersCount());
     }
 
     @Override

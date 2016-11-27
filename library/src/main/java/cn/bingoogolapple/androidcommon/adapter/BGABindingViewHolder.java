@@ -27,9 +27,11 @@ import android.view.ViewParent;
  */
 public class BGABindingViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
     private B mBinding;
+    protected BGABindingRecyclerViewAdapter mBindingRecyclerViewAdapter;
 
-    public BGABindingViewHolder(B binding) {
+    public BGABindingViewHolder(BGABindingRecyclerViewAdapter bindingRecyclerViewAdapter, B binding) {
         super(binding.getRoot());
+        mBindingRecyclerViewAdapter = bindingRecyclerViewAdapter;
         mBinding = binding;
     }
 
@@ -43,5 +45,13 @@ public class BGABindingViewHolder<B extends ViewDataBinding> extends RecyclerVie
             return (RecyclerView) parent;
         }
         return null;
+    }
+
+    public int getAdapterPositionWrapper() {
+        if (mBindingRecyclerViewAdapter.getHeadersCount() > 0) {
+            return getAdapterPosition() - mBindingRecyclerViewAdapter.getHeadersCount();
+        } else {
+            return getAdapterPosition();
+        }
     }
 }
