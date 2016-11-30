@@ -1,10 +1,20 @@
 :running:BGAAdapter-Android:running:
 ============
 
-[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter)
+## 目录
+* [功能介绍](#功能介绍)
+* [效果图与示例 apk](#效果图与示例-apk)
+* [使用](#使用)
+* [感谢](#感谢)
+* [关于我](#关于我)
+* [打赏支持](#打赏支持)
 
-在 AdapterView 和 RecyclerView 中通用的 Adapter 和 ViewHolder。RecyclerView 支持 DataBinding 和多种 Item 类型的情况。其中拖拽排序是参考的[Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
+## 功能介绍
+在 AdapterView 和 RecyclerView 中通用的 Adapter 和 ViewHolder。
+
+- [x] BGAAdapterViewAdapter 和 BGAViewHolderHelper 用于简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
+- [x] BGARecyclerViewAdapter 和 BGAViewHolderHelper 用于简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
+- [x] BGABindingRecyclerViewAdapter 和 BGABindingViewHolder 用于 RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
 
 ## 效果图与示例 apk
 ![bga_adapter1](https://cloud.githubusercontent.com/assets/8949716/17476073/bf819e04-5d90-11e6-9c21-193ba3c426ed.gif)
@@ -17,7 +27,11 @@
 
 ![BGAAdapterDemo apk文件二维码](https://cloud.githubusercontent.com/assets/8949716/20648602/bd14c31e-b4e6-11e6-9f0d-c6b909f46e2d.png)
 
->Gradle
+## 使用
+
+### Gradle 依赖
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter) bga-adapter 后面的「latestVersion」指的是左边这个 maven-central 徽章后面的「数字」，请自行替换。
 
 ```groovy
 dependencies {
@@ -26,7 +40,26 @@ dependencies {
 }
 ```
 
-## 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGAAdapter-Android/tree/master/demo):feet:
+### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
+
+TODO
+
+### 简化 RecyclerView 的适配器的编写
+
+TODO
+
+### RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写
+
+TODO
+
+### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGAAdapter-Android/tree/master/demo):feet:
+
+## 感谢
+
+* [https://github.com/hongyangAndroid/baseAdapter](https://github.com/hongyangAndroid/baseAdapter)
+参考该库的为 RecyclerView 添加 Header 和 Footer
+* [https://github.com/iPaulPro/Android-ItemTouchHelper-Demo](https://github.com/iPaulPro/Android-ItemTouchHelper-Demo)
+参考该库的拖拽排序功能
 
 ## 关于我
 
