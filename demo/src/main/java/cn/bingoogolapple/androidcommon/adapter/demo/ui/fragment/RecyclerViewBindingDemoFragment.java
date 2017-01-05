@@ -23,6 +23,7 @@ import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGABindingRecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGABindingViewHolder;
+import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnNoDoubleClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.App;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
@@ -30,7 +31,6 @@ import cn.bingoogolapple.androidcommon.adapter.demo.databinding.ItemBindingNorma
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.BannerModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +77,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mAdapter.setItemEventHandler(this);
 
         // 设置分割线
-        mDataRv.addItemDecoration(new Divider(mActivity));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
 
 
         // 初始化拖拽排序和滑动删除
@@ -155,15 +155,15 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         // 初始化HeaderView
         View headerView = View.inflate(mActivity, R.layout.layout_header_banner, null);
         mBanner = (BGABanner) headerView.findViewById(R.id.banner);
-        mBanner.setAdapter(new BGABanner.Adapter() {
+        mBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
-            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+            public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
+                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) itemView);
             }
         });
-        mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+        mBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
-            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+            public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
                 showSnackbar("点击了第" + (position + 1) + "页");
             }
         });

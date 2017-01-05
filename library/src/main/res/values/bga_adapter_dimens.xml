@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bga_adapter_divider_size">1px</dimen>
+    <dimen name="bga_adapter_line_size">1px</dimen>
+    <dimen name="bga_adapter_horizontal_margin">16dp</dimen>
+    <dimen name="bga_adapter_vertical_margin">8dp</dimen>
+</resources>

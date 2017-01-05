@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/lv_listindexview_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@mipmap/list_divider"
-        android:scrollbars="none" />
+        android:divider="@mipmap/bga_adapter_divider_bitmap"
+        android:scrollbars="none"/>
 
     <TextView
         android:id="@+id/tv_listindexview_topc"
@@ -22,7 +22,7 @@
         android:text="A"
         android:textColor="#3c3c3c"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_listindexview_tip"
@@ -35,12 +35,12 @@
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible"/>
 
     <cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView
         android:id="@+id/indexview"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_gravity="right|center"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"/>
 </FrameLayout>
