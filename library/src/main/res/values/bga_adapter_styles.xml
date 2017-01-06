@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
     <style name="WrapMatch">
         <item name="android:layout_width">wrap_content</item>
@@ -111,11 +111,45 @@
 
     <style name="MatchOne">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
+        <item name="android:layout_height">@dimen/bga_adapter_line_size</item>
     </style>
 
     <style name="OneMatch">
-        <item name="android:layout_width">1px</item>
+        <item name="android:layout_width">@dimen/bga_adapter_line_size</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="HLine" parent="MatchOne">
+        <item name="android:background">@color/bga_adapter_line</item>
+    </style>
+
+    <style name="HLine.LeftMargin">
+        <item name="android:layout_marginLeft">@dimen/bga_adapter_horizontal_margin</item>
+    </style>
+
+    <style name="HLine.RightMargin">
+        <item name="android:layout_marginRight">@dimen/bga_adapter_horizontal_margin</item>
+    </style>
+
+    <style name="HLine.BothMargin">
+        <item name="android:layout_marginRight">@dimen/bga_adapter_horizontal_margin</item>
+        <item name="android:layout_marginLeft">@dimen/bga_adapter_horizontal_margin</item>
+    </style>
+
+    <style name="VLine" parent="OneMatch">
+        <item name="android:background">@color/bga_adapter_line</item>
+    </style>
+
+    <style name="VLine.TopMargin">
+        <item name="android:layout_marginTop">@dimen/bga_adapter_vertical_margin</item>
+    </style>
+
+    <style name="VLine.BottomMargin">
+        <item name="android:layout_marginBottom">@dimen/bga_adapter_vertical_margin</item>
+    </style>
+
+    <style name="VLine.BothMargin">
+        <item name="android:layout_marginTop">@dimen/bga_adapter_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/bga_adapter_vertical_margin</item>
     </style>
 </resources>

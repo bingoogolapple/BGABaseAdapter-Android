@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildCheckedChangeListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildLongClickListener;
@@ -37,7 +38,6 @@ import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAd
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.BannerModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,7 +91,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         // 设置分割线
-        mDataRv.addItemDecoration(new Divider(mActivity));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
 
 
         // 初始化拖拽排序和滑动删除
@@ -169,15 +169,15 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         // 初始化HeaderView
         View headerView = View.inflate(mActivity, R.layout.layout_header_banner, null);
         mBanner = (BGABanner) headerView.findViewById(R.id.banner);
-        mBanner.setAdapter(new BGABanner.Adapter() {
+        mBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
-            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+            public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
+                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) itemView);
             }
         });
-        mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+        mBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
-            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+            public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
                 showSnackbar("点击了第" + (position + 1) + "页");
             }
         });
@@ -188,6 +188,10 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
      * 加载广告条数据
      */
     private void loadBannerModels() {
+        if (mBanner == null) {
+            return;
+        }
+
         App.getInstance().getRetrofit().create(ApiEngine.class).loadBannerData("http://7xk9dj.com1.z0.glb.clouddn.com/banner/api/4item.json").enqueue(new Callback<BannerModel>() {
             @Override
             public void onResponse(Call<BannerModel> call, Response<BannerModel> response) {

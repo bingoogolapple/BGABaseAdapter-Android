@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <solid android:color="@color/bga_adapter_divider"/>
+    <size
+        android:width="@dimen/bga_adapter_divider_size"
+        android:height="@dimen/bga_adapter_divider_size"/>
+</shape>

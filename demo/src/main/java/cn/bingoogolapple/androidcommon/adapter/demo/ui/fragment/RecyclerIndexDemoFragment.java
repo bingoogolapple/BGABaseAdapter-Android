@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.Divider;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
 
 /**
@@ -75,7 +75,7 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(new Divider(mActivity));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(mLayoutManager);

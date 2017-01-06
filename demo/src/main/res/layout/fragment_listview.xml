@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lv_listview_data"
-    style="@style/MatchMatch"
-    android:divider="@mipmap/list_divider"
-    android:scrollbars="none" />
+          android:id="@+id/lv_listview_data"
+          style="@style/MatchMatch"
+          android:divider="@mipmap/bga_adapter_divider_bitmap"
+          android:scrollbars="none"/>
