@@ -16,9 +16,13 @@
 
 package cn.bingoogolapple.androidcommon.adapter;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -28,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -38,6 +43,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     private Drawable mDividerDrawable;
     private int mLeftMargin;
     private int mRightMargin;
+    private int mOrientation = LinearLayout.VERTICAL;
 
     private BGADivider(@DrawableRes int drawableResId) {
         mDividerDrawable = ContextCompat.getDrawable(BGAAdapterApp.getApp(), drawableResId);
@@ -162,37 +168,117 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         return this;
     }
 
+    /**
+     * 设置为水平方向
+     *
+     * @return
+     */
+    public BGADivider setHorizontal() {
+        mOrientation = LinearLayout.HORIZONTAL;
+        return this;
+    }
+
+    /**
+     * 旋转分隔线，仅用于分隔线为 Bitmap 时。应用场景：UI 给了一个水平分隔线，恰巧项目里需要一条一模一样的竖直分隔线
+     *
+     * @return
+     */
+    public BGADivider rotateDivider() {
+        if (mDividerDrawable != null && mDividerDrawable instanceof BitmapDrawable) {
+            Bitmap inputBitmap = ((BitmapDrawable) mDividerDrawable).getBitmap();
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90, (float) inputBitmap.getWidth() / 2, (float) inputBitmap.getHeight() / 2);
+
+            float outputX = inputBitmap.getHeight();
+            float outputY = 0;
+
+            final float[] values = new float[9];
+            matrix.getValues(values);
+            float x1 = values[Matrix.MTRANS_X];
+            float y1 = values[Matrix.MTRANS_Y];
+            matrix.postTranslate(outputX - x1, outputY - y1);
+            Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap.getHeight(), inputBitmap.getWidth(), Bitmap.Config.ARGB_8888);
+            Paint paint = new Paint();
+            Canvas canvas = new Canvas(outputBitmap);
+            canvas.drawBitmap(inputBitmap, matrix, paint);
+            mDividerDrawable = new BitmapDrawable(null, outputBitmap);
+        }
+        return this;
+    }
+
+    private boolean isNeedSkip(int position, int itemCount) {
+        if (position == itemCount - 1) {
+            return true;
+        }
+        return false;
+    }
+
     // 如果等于分隔线的宽度或高度的话可以不用重写该方法
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        if (parent.getChildAdapterPosition(view) == parent.getChildCount() - 1) {
-            outRect.set(0, 0, 0, 0);
+        if (parent.getLayoutManager() == null || parent.getAdapter() == null) {
+            return;
+        }
+
+        int position = parent.getChildAdapterPosition(view);
+        int itemCount = parent.getAdapter().getItemCount();
+
+        if (mOrientation == LinearLayout.VERTICAL) {
+            if (isNeedSkip(position, itemCount)) {
+                outRect.set(0, 0, 0, 0);
+            } else {
+                outRect.set(0, 0, 0, mDividerDrawable.getIntrinsicHeight());
+            }
         } else {
-            outRect.set(0, 0, 0, mDividerDrawable.getIntrinsicHeight());
+            if (isNeedSkip(position, itemCount)) {
+                outRect.set(0, 0, 0, 0);
+            } else {
+                outRect.set(0, 0, mDividerDrawable.getIntrinsicWidth(), 0);
+            }
         }
     }
 
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        drawVertical(c, parent);
+    public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+        if (parent.getLayoutManager() == null || parent.getAdapter() == null) {
+            return;
+        }
+
+        if (mOrientation == LinearLayout.VERTICAL) {
+            drawVertical(canvas, parent);
+        } else {
+            drawHorizontal(canvas, parent);
+        }
     }
 
-    public void drawVertical(Canvas c, RecyclerView parent) {
+    private void drawVertical(Canvas canvas, RecyclerView parent) {
         int left = parent.getPaddingLeft() + mLeftMargin;
         int right = parent.getWidth() - parent.getPaddingRight() - mRightMargin;
         View child;
         RecyclerView.LayoutParams layoutParams;
         int top;
         int bottom;
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount - 1; i++) {
-            child = parent.getChildAt(i);
+        int itemCount = parent.getAdapter().getItemCount();
+        for (int position = 0; position < itemCount; position++) {
+            if (isNeedSkip(position, itemCount)) {
+                continue;
+            }
+
+            child = parent.getChildAt(position);
+            if (child == null || child.getLayoutParams() == null) {
+                continue;
+            }
+
             layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
             top = child.getBottom() + layoutParams.bottomMargin;
             bottom = top + mDividerDrawable.getIntrinsicHeight();
             mDividerDrawable.setBounds(left, top, right, bottom);
-            mDividerDrawable.draw(c);
+            mDividerDrawable.draw(canvas);
         }
+    }
+
+    private void drawHorizontal(Canvas canvas, RecyclerView parent) {
+
     }
 
     private static int dp2px(float dpValue) {

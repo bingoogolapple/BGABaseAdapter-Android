@@ -174,6 +174,10 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
      * 加载广告条数据
      */
     private void loadBannerModels() {
+        if (mBanner == null) {
+            return;
+        }
+
         App.getInstance().getRetrofit().create(ApiEngine.class).loadBannerData("http://7xk9dj.com1.z0.glb.clouddn.com/banner/api/4item.json").enqueue(new Callback<BannerModel>() {
             @Override
             public void onResponse(Call<BannerModel> call, Response<BannerModel> response) {
