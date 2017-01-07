@@ -22,7 +22,7 @@ public class RecyclerIndexDemoTwoAdapter extends BGARecyclerViewAdapter<IndexMod
         helper.setText(R.id.tv_item_index_content_name, model.name);
     }
 
-    public boolean isSection(int position) {
+    public boolean isCategory(int position) {
         int section = mData.get(position).topc.charAt(0);
         return position == getPositionForSection(section);
     }

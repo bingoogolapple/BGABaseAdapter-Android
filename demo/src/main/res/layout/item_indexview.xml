@@ -26,7 +26,6 @@
         android:paddingTop="@dimen/size_level2"
         android:text="成都"
         android:textColor="#949494"
-        android:textSize="13sp"
-        android:textStyle="bold"/>
+        android:textSize="@dimen/textSize_14"/>
 
 </LinearLayout>

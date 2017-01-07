@@ -25,7 +25,7 @@ public class RecyclerIndexDemoOneAdapter extends BGARecyclerViewAdapter<IndexMod
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
-        if (isSection(position)) {
+        if (isCategory(position)) {
             helper.setVisibility(R.id.tv_item_indexview_catalog, View.VISIBLE);
             helper.setText(R.id.tv_item_indexview_catalog, model.topc);
         } else {
@@ -34,7 +34,7 @@ public class RecyclerIndexDemoOneAdapter extends BGARecyclerViewAdapter<IndexMod
         helper.setText(R.id.tv_item_indexview_name, model.name);
     }
 
-    public boolean isSection(int position) {
+    public boolean isCategory(int position) {
         int section = mData.get(position).topc.charAt(0);
         return position == getPositionForSection(section);
     }

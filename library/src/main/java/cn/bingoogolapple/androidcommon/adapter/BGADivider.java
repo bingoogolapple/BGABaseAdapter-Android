@@ -16,9 +16,8 @@
 
 package cn.bingoogolapple.androidcommon.adapter;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -31,8 +30,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -43,15 +40,15 @@ import android.widget.LinearLayout;
  */
 public class BGADivider extends RecyclerView.ItemDecoration {
     private Drawable mDividerDrawable;
-    private int mLeftMargin;
-    private int mRightMargin;
+    private int mMarginLeft;
+    private int mMarginRight;
     private int mOrientation = LinearLayout.VERTICAL;
     private int mStartSkipCount = 1;
     private int mEndSkipCount = 0;
     private Delegate mDelegate;
 
     private BGADivider(@DrawableRes int drawableResId) {
-        mDividerDrawable = ContextCompat.getDrawable(BGAAdapterApp.getApp(), drawableResId);
+        mDividerDrawable = ContextCompat.getDrawable(BGAAdapterUtil.getApp(), drawableResId);
     }
 
     /**
@@ -100,8 +97,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @return
      */
     public BGADivider setBothMarginResource(@DimenRes int resId) {
-        mLeftMargin = BGAAdapterApp.getApp().getResources().getDimensionPixelOffset(resId);
-        mRightMargin = mLeftMargin;
+        mMarginLeft = BGAAdapterUtil.getDimensionPixelOffset(resId);
+        mMarginRight = mMarginLeft;
         return this;
     }
 
@@ -112,8 +109,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @return
      */
     public BGADivider setBothMargin(int dpValue) {
-        mLeftMargin = dp2px(dpValue);
-        mRightMargin = mLeftMargin;
+        mMarginLeft = BGAAdapterUtil.dp2px(dpValue);
+        mMarginRight = mMarginLeft;
         return this;
     }
 
@@ -123,8 +120,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param resId
      * @return
      */
-    public BGADivider setLeftMarginResource(@DimenRes int resId) {
-        mLeftMargin = BGAAdapterApp.getApp().getResources().getDimensionPixelOffset(resId);
+    public BGADivider setMarginLeftResource(@DimenRes int resId) {
+        mMarginLeft = BGAAdapterUtil.getDimensionPixelOffset(resId);
         return this;
     }
 
@@ -134,8 +131,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param dpValue 单位为 dp
      * @return
      */
-    public BGADivider setLeftMargin(int dpValue) {
-        mLeftMargin = dp2px(dpValue);
+    public BGADivider setMarginLeft(int dpValue) {
+        mMarginLeft = BGAAdapterUtil.dp2px(dpValue);
         return this;
     }
 
@@ -145,8 +142,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param resId
      * @return
      */
-    public BGADivider setRightMarginResource(@DimenRes int resId) {
-        mRightMargin = BGAAdapterApp.getApp().getResources().getDimensionPixelOffset(resId);
+    public BGADivider setMarginRightResource(@DimenRes int resId) {
+        mMarginRight = BGAAdapterUtil.getDimensionPixelOffset(resId);
         return this;
     }
 
@@ -156,8 +153,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param dpValue 单位为 dp
      * @return
      */
-    public BGADivider setRightMargin(int dpValue) {
-        mRightMargin = dp2px(dpValue);
+    public BGADivider setMarginRight(int dpValue) {
+        mMarginRight = BGAAdapterUtil.dp2px(dpValue);
         return this;
     }
 
@@ -169,7 +166,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @return
      */
     public BGADivider setColorResource(@ColorRes int resId, boolean isSrcTop) {
-        return setColor(BGAAdapterApp.getApp().getResources().getColor(resId), isSrcTop);
+        return setColor(BGAAdapterUtil.getColor(resId), isSrcTop);
     }
 
     /**
@@ -201,23 +198,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      */
     public BGADivider rotateDivider() {
         if (mDividerDrawable != null && mDividerDrawable instanceof BitmapDrawable) {
-            Bitmap inputBitmap = ((BitmapDrawable) mDividerDrawable).getBitmap();
-            Matrix matrix = new Matrix();
-            matrix.setRotate(90, (float) inputBitmap.getWidth() / 2, (float) inputBitmap.getHeight() / 2);
-
-            float outputX = inputBitmap.getHeight();
-            float outputY = 0;
-
-            final float[] values = new float[9];
-            matrix.getValues(values);
-            float x1 = values[Matrix.MTRANS_X];
-            float y1 = values[Matrix.MTRANS_Y];
-            matrix.postTranslate(outputX - x1, outputY - y1);
-            Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap.getHeight(), inputBitmap.getWidth(), Bitmap.Config.ARGB_8888);
-            Paint paint = new Paint();
-            Canvas canvas = new Canvas(outputBitmap);
-            canvas.drawBitmap(inputBitmap, matrix, paint);
-            mDividerDrawable = new BitmapDrawable(null, outputBitmap);
+            mDividerDrawable = BGAAdapterUtil.rotateBitmap(((BitmapDrawable) mDividerDrawable).getBitmap());
         }
         return this;
     }
@@ -248,6 +229,24 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             mEndSkipCount = 0;
         }
         return this;
+    }
+
+    /**
+     * 获取左边距
+     *
+     * @return
+     */
+    public int getMarginLeft() {
+        return mMarginLeft;
+    }
+
+    /**
+     * 获取右边距
+     *
+     * @return
+     */
+    public int getMarginRight() {
+        return mMarginRight;
     }
 
     private BGAHeaderAndFooterAdapter getHeaderAndFooterAdapter(RecyclerView parent) {
@@ -309,15 +308,19 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             outRect.set(0, 0, 0, 0);
         } else {
             if (mDelegate != null && mDelegate.isNeedCustom(realChildAdapterPosition, realItemCount)) {
-                mDelegate.getItemOffsets(realChildAdapterPosition, realItemCount, outRect);
+                mDelegate.getItemOffsets(this, realChildAdapterPosition, realItemCount, outRect);
             } else {
                 if (mOrientation == LinearLayout.VERTICAL) {
-                    outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
+                    getVerticalItemOffsets(outRect);
                 } else {
                     outRect.set(mDividerDrawable.getIntrinsicWidth(), 0, 0, 0);
                 }
             }
         }
+    }
+
+    public void getVerticalItemOffsets(Rect outRect) {
+        outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
     }
 
     @Override
@@ -343,12 +346,10 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     private void drawVertical(Canvas canvas, RecyclerView parent, BGAHeaderAndFooterAdapter headerAndFooterAdapter, int itemCount, int realItemCount) {
-        int dividerLeft = parent.getPaddingLeft() + mLeftMargin;
-        int dividerRight = parent.getWidth() - parent.getPaddingRight() - mRightMargin;
+        int dividerLeft = parent.getPaddingLeft() + mMarginLeft;
+        int dividerRight = parent.getWidth() - parent.getPaddingRight() - mMarginRight;
         View itemView;
         RecyclerView.LayoutParams itemLayoutParams;
-        int dividerTop;
-        int dividerBottom;
         int realChildAdapterPosition;
 
         for (int childPosition = 0; childPosition < itemCount; childPosition++) {
@@ -364,19 +365,22 @@ public class BGADivider extends RecyclerView.ItemDecoration {
                 continue;
             }
 
-
             itemLayoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+            int dividerBottom = itemView.getTop() - itemLayoutParams.topMargin;
 
-            int itemTop = itemView.getTop() - itemLayoutParams.topMargin;
             if (mDelegate != null && mDelegate.isNeedCustom(realChildAdapterPosition, realItemCount)) {
-                mDelegate.drawVertical(canvas, parent.getPaddingLeft(), parent.getWidth() - parent.getPaddingRight(), itemTop, realChildAdapterPosition, realItemCount);
+                mDelegate.drawVertical(this, canvas, dividerLeft, dividerRight, dividerBottom, realChildAdapterPosition, realItemCount);
             } else {
-                dividerBottom = itemTop;
-                dividerTop = dividerBottom - mDividerDrawable.getIntrinsicHeight();
-                mDividerDrawable.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
-                mDividerDrawable.draw(canvas);
+                drawVertical(canvas, dividerLeft, dividerRight, dividerBottom);
             }
         }
+    }
+
+    public void drawVertical(Canvas canvas, int dividerLeft, int dividerRight, int itemTop) {
+        int dividerBottom = itemTop;
+        int dividerTop = dividerBottom - mDividerDrawable.getIntrinsicHeight();
+        mDividerDrawable.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
+        mDividerDrawable.draw(canvas);
     }
 
     private int getRealChildAdapterPosition(int childAdapterPosition, BGAHeaderAndFooterAdapter headerAndFooterAdapter) {
@@ -396,9 +400,9 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
         boolean isNeedCustom(int position, int itemCount);
 
-        void getItemOffsets(int position, int itemCount, Rect outRect);
+        void getItemOffsets(BGADivider divider, int position, int itemCount, Rect outRect);
 
-        void drawVertical(Canvas canvas, int left, int right, int itemTop, int position, int itemCount);
+        void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount);
     }
 
     public static class SimpleDelegate implements Delegate {
@@ -424,19 +428,119 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         }
 
         @Override
-        public void getItemOffsets(int position, int itemCount, Rect outRect) {
+        public void getItemOffsets(BGADivider divider, int position, int itemCount, Rect outRect) {
         }
 
         @Override
-        public void drawVertical(Canvas canvas, int left, int right, int itemTop, int position, int itemCount) {
+        public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
         }
     }
 
-    private static int dp2px(float dpValue) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, BGAAdapterApp.getApp().getResources().getDisplayMetrics());
-    }
+    /**
+     * 继承该类实现自定义悬浮分类样式
+     */
+    public static abstract class SuspensionCategoryDelegate extends SimpleDelegate {
+        protected int mCategoryBackgroundColor;
+        protected int mCategoryTextColor;
+        protected int mCategoryPaddingLeft;
+        protected int mCategoryTextSize;
+        protected int mCategoryHeight;
+        protected float mCategoryTextOffset;
 
-    private void debug(String msg) {
-        Log.i(BGADivider.class.getSimpleName(), msg);
+        @Override
+        protected void initAttr() {
+            mCategoryBackgroundColor = Color.parseColor("#F2F2F2");
+            mCategoryTextColor = Color.parseColor("#848484");
+            mCategoryPaddingLeft = BGAAdapterUtil.dp2px(16);
+            mCategoryTextSize = BGAAdapterUtil.sp2px(14);
+            mCategoryHeight = BGAAdapterUtil.dp2px(40);
+
+            initCategoryAttr();
+
+            mPaint.setFakeBoldText(true);
+            mPaint.setStyle(Paint.Style.FILL);
+
+            calculateCategoryTextOffset();
+        }
+
+        /**
+         * 计算文字底部偏移量
+         */
+        public void calculateCategoryTextOffset() {
+            mPaint.setTextSize(mCategoryTextSize);
+
+            Rect rect = new Rect();
+            mPaint.getTextBounds("王浩", 0, 2, rect);
+            int textHeight = rect.height();
+            mCategoryTextOffset = (mCategoryHeight - textHeight) / 2.0f;
+        }
+
+        /**
+         * 需要自定义分类属性时重写该方法
+         */
+        protected void initCategoryAttr() {
+        }
+
+        @Override
+        public boolean isNeedCustom(int position, int itemCount) {
+            // 每一项都自定义
+            return true;
+        }
+
+        @Override
+        public void getItemOffsets(BGADivider divider, int position, int itemCount, Rect outRect) {
+            if (isCategory(position)) {
+                // 如果是分类则设置高度为分类高度
+                outRect.set(0, mCategoryHeight, 0, 0);
+            } else {
+                // 如果不是分类则调用 BGADivider 的 getVerticalItemOffsets 来设置 item 高度
+                divider.getVerticalItemOffsets(outRect);
+            }
+        }
+
+        @Override
+        public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
+            if (isCategory(position)) {
+                drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, getCategoryName(position));
+            } else {
+                divider.drawVertical(canvas, dividerLeft, dividerRight, dividerBottom);
+            }
+
+            // 悬浮分类每次都要绘制，mCategoryHeight 赋值给 dividerBottom，保证始终绘制在最顶部
+            drawCategory(divider, canvas, dividerLeft, dividerRight, mCategoryHeight, getCategoryName(getFirstVisibleItemPosition()));
+        }
+
+        /**
+         * 指定索引位置是否是分类
+         *
+         * @param position
+         * @return
+         */
+        protected abstract boolean isCategory(int position);
+
+        /**
+         * 获取指定索引位置的分类名称
+         *
+         * @param position
+         * @return
+         */
+        protected abstract String getCategoryName(int position);
+
+        /**
+         * 获取第一个可见条目的索引位置
+         *
+         * @return
+         */
+        protected abstract int getFirstVisibleItemPosition();
+
+        protected void drawCategory(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, String category) {
+            // 绘制背景
+            mPaint.setColor(mCategoryBackgroundColor);
+            canvas.drawRect(dividerLeft - divider.getMarginLeft(), dividerBottom - mCategoryHeight, dividerRight + divider.getMarginRight(), dividerBottom, mPaint);
+
+            // 绘制文字
+            mPaint.setColor(mCategoryTextColor);
+            canvas.drawText(category, 0, category.length(), mCategoryPaddingLeft, dividerBottom - mCategoryTextOffset, mPaint);
+        }
     }
 }

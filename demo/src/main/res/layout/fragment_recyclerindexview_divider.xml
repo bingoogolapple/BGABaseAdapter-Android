@@ -10,19 +10,6 @@
         android:scrollbars="none"/>
 
     <TextView
-        android:id="@+id/tv_recyclerindexview_topc"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_level12"
-        android:background="@color/category_backgroundColor"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/size_level4"
-        android:paddingRight="@dimen/size_level4"
-        android:text="A"
-        android:textColor="@color/category_textColor"
-        android:textSize="@dimen/textSize_16"
-        android:textStyle="bold"/>
-
-    <TextView
         android:id="@+id/tv_recyclerindexview_tip"
         android:layout_width="60dp"
         android:layout_height="60dp"

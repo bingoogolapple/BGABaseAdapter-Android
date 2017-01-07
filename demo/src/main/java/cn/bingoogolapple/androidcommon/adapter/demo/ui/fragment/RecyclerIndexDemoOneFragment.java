@@ -7,14 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import cn.bingoogolapple.androidcommon.adapter.BGADivider;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoOneAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
-import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
 
 /**
@@ -24,7 +21,6 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  */
 public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private RecyclerIndexDemoOneAdapter mAdapter;
-    private List<IndexModel> mData;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
@@ -74,19 +70,23 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setDelegate(new BGADivider.SimpleDelegate() {
-            @Override
-            public boolean isNeedSkip(int position, int itemCount) {
-                return mAdapter.isSection(position);
-            }
-        }));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
+                .setMarginLeftResource(R.dimen.size_level3)
+                .setMarginRightResource(R.dimen.size_level9)
+                .setDelegate(new BGADivider.SimpleDelegate() {
+                    @Override
+                    public boolean isNeedSkip(int position, int itemCount) {
+                        // 如果分类的话就跳过，顶部不绘制
+                        return mAdapter.isCategory(position);
+                    }
+                }));
+
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(mLayoutManager);
 
 
-        mData = DataEngine.loadIndexModelData();
-        mAdapter.setData(mData);
+        mAdapter.setData(DataEngine.loadIndexModelData());
         mDataRv.setAdapter(mAdapter);
 
         mTopcTv.setText(mAdapter.getItem(0).topc);
