@@ -77,9 +77,9 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mAdapter.setItemEventHandler(this);
 
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(0).setEndSkipCount(0).setDelegate(new BGADivider.Delegate() {
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(1).setEndSkipCount(1).setDelegate(new BGADivider.SimpleDelegate() {
             @Override
-            public boolean isNeedSkip(int position) {
+            public boolean isNeedSkip(int position, int itemCount) {
                 return position == 3;
             }
         }));

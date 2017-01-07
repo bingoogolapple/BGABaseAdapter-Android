@@ -3,4 +3,7 @@
     <color name="colorPrimaryDark">#f57257</color>
     <color name="colorPrimary">#f46444</color>
     <color name="navigationBarColor">#f46444</color>
+
+    <color name="category_backgroundColor">#eeeeee</color>
+    <color name="category_textColor">#3c3c3c</color>
 </resources>

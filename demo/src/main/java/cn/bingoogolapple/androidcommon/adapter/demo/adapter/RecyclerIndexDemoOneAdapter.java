@@ -13,8 +13,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
  * 创建时间:15/5/22 16:31
  * 描述:
  */
-public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
-    public RecyclerIndexAdapter(RecyclerView recyclerView) {
+public class RecyclerIndexDemoOneAdapter extends BGARecyclerViewAdapter<IndexModel> {
+    public RecyclerIndexDemoOneAdapter(RecyclerView recyclerView) {
         super(recyclerView, R.layout.item_indexview);
     }
 
@@ -34,6 +34,11 @@ public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
         helper.setText(R.id.tv_item_indexview_name, model.name);
     }
 
+    public boolean isSection(int position) {
+        int section = mData.get(position).topc.charAt(0);
+        return position == getPositionForSection(section);
+    }
+
     public int getPositionForSection(int section) {
         for (int i = 0; i < getItemCount(); i++) {
             String sortStr = mData.get(i).topc;
@@ -43,10 +48,5 @@ public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
             }
         }
         return -1;
-    }
-
-    public boolean isSection(int position) {
-        int section = mData.get(position).topc.charAt(0);
-        return position == getPositionForSection(section);
     }
 }

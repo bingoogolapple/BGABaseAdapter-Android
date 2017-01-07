@@ -1,5 +1,8 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +13,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGADivider;
-import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexAdapter;
+import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoTwoAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
@@ -22,9 +25,8 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
-    private static final String TAG = RecyclerIndexDemoFragment.class.getSimpleName();
-    private RecyclerIndexAdapter mAdapter;
+public class RecyclerIndexDemoTwoFragment extends BaseFragment implements BGAOnRVItemClickListener {
+    private RecyclerIndexDemoTwoAdapter mAdapter;
     private List<IndexModel> mData;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
@@ -44,8 +46,8 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
 
     @Override
     protected void setListener() {
-        mAdapter = new RecyclerIndexAdapter(mDataRv);
-        mAdapter.setOnItemChildClickListener(this);
+        mAdapter = new RecyclerIndexDemoTwoAdapter(mDataRv);
+        mAdapter.setOnRVItemClickListener(this);
 
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
             @Override
@@ -75,10 +77,50 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setDelegate(new BGADivider.Delegate() {
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(0).setDelegate(new BGADivider.SimpleDelegate() {
+            private int mCategoryBackgroundColor;
+            private int mCategoryTextColor;
+            private int mPaddingLeft;
+            private int mTextHeight;
+            private int mCategoryHeight;
+            private float mCategoryTextOffset;
+
             @Override
-            public boolean isNeedSkip(int position) {
+            protected void initAttr() {
+                mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
+                mCategoryTextColor = getResources().getColor(R.color.category_textColor);
+                mPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
+
+                mPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.textSize_16));
+                mPaint.setFakeBoldText(true);
+                mPaint.setStyle(Paint.Style.FILL);
+
+                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level12);
+
+                Rect rect = new Rect();
+                mPaint.getTextBounds("A", 0, 1, rect);
+                mTextHeight = rect.height();
+                mCategoryTextOffset = (mCategoryHeight - mTextHeight) / 2.0f;
+            }
+
+            @Override
+            public boolean isNeedCustom(int position, int itemCount) {
                 return mAdapter.isSection(position);
+            }
+
+            @Override
+            public void getItemOffsets(int position, int itemCount, Rect outRect) {
+                outRect.set(0, mCategoryHeight, 0, 0);
+            }
+
+            @Override
+            public void drawVertical(Canvas canvas, int left, int right, int bottom, int position, int itemCount) {
+                mPaint.setColor(mCategoryBackgroundColor);
+                canvas.drawRect(left, bottom - mCategoryHeight, right, bottom, mPaint);
+
+                mPaint.setColor(mCategoryTextColor);
+                String topc = mAdapter.getItem(position).topc;
+                canvas.drawText(topc, 0, topc.length(), mPaddingLeft, bottom - mCategoryTextOffset, mPaint);
             }
         }));
         mLayoutManager = new LinearLayoutManager(mActivity);
@@ -94,13 +136,7 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
     }
 
     @Override
-    protected void onUserVisible() {
-    }
-
-    @Override
-    public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_item_indexview_name) {
-            showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
-        }
+    public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+        showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
     }
 }

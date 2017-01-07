@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recyclerindexview_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:scrollbars="none"/>
 
     <TextView
         android:id="@+id/tv_recyclerindexview_topc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#eee"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="10dp"
+        android:layout_height="@dimen/size_level12"
+        android:background="@color/category_backgroundColor"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/size_level4"
+        android:paddingRight="@dimen/size_level4"
         android:text="A"
-        android:textColor="#3c3c3c"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textColor="@color/category_textColor"
+        android:textSize="@dimen/textSize_16"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_recyclerindexview_tip"
@@ -34,12 +34,12 @@
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible"/>
 
     <cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView
         android:id="@+id/indexview"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_gravity="right|center"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"/>
 </FrameLayout>

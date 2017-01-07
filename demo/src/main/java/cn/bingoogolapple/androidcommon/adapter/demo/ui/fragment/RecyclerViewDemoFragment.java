@@ -91,7 +91,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(0).setEndSkipCount(0));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(1).setEndSkipCount(1));
 
 
         // 初始化拖拽排序和滑动删除

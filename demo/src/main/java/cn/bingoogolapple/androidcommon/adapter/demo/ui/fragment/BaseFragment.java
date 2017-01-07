@@ -90,5 +90,6 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 当fragment对用户可见时，会调用该方法，可在该方法中懒加载网络数据
      */
-    protected abstract void onUserVisible();
+    protected void onUserVisible() {
+    }
 }

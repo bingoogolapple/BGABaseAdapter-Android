@@ -46,7 +46,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     private int mLeftMargin;
     private int mRightMargin;
     private int mOrientation = LinearLayout.VERTICAL;
-    private int mStartSkipCount = 0;
+    private int mStartSkipCount = 1;
     private int mEndSkipCount = 0;
     private Delegate mDelegate;
 
@@ -223,7 +223,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * 跳过开始的条数
+     * 跳过开始的条数。默认值为 1，不绘制第一个 item 顶部的分隔线
      *
      * @param startSkipCount
      * @return
@@ -259,36 +259,26 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         }
     }
 
-    private boolean isNeedSkip(View view, RecyclerView parent) {
-        int position = parent.getChildAdapterPosition(view);
-        int itemCount = parent.getAdapter().getItemCount();
-
-        BGAHeaderAndFooterAdapter headerAndFooterAdapter = getHeaderAndFooterAdapter(parent);
-        if (headerAndFooterAdapter != null) {
-            if (headerAndFooterAdapter.isHeaderViewOrFooterView(position)) {
-                // 是 header 和 footer 时跳过
-                return true;
-            }
-
-            // 转换成真实 item 的索引
-            position = headerAndFooterAdapter.getRealItemPosition(position);
-            // 转换成真实 item 的总数
-            itemCount = headerAndFooterAdapter.getRealItemCount();
+    private boolean isNeedSkip(int childAdapterPosition, BGAHeaderAndFooterAdapter headerAndFooterAdapter, int realChildAdapterPosition, int realItemCount) {
+        if (headerAndFooterAdapter != null && headerAndFooterAdapter.isHeaderViewOrFooterView(childAdapterPosition)) {
+            // 是 header 和 footer 时跳过
+            return true;
         }
 
-        int lastPosition = itemCount - 1;
+        int lastPosition = realItemCount - 1;
         // 跳过最后 mEndSkipCount 个
-        if (position > lastPosition - mEndSkipCount) {
+        if (realChildAdapterPosition > lastPosition - mEndSkipCount) {
             return true;
         }
 
         // 跳过前 mStartSkipCount 个
-        if (position <= mStartSkipCount) {
+        // 1
+        if (realChildAdapterPosition < mStartSkipCount) {
             return true;
         }
 
         if (mDelegate != null) {
-            return mDelegate.isNeedSkip(position);
+            return mDelegate.isNeedSkip(realChildAdapterPosition, realItemCount);
         }
 
         // 默认不跳过
@@ -301,17 +291,31 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             return;
         }
 
-        if (mOrientation == LinearLayout.VERTICAL) {
-            if (isNeedSkip(view, parent)) {
-                outRect.set(0, 0, 0, 0);
-            } else {
-                outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
-            }
+        int childAdapterPosition = parent.getChildAdapterPosition(view);
+        int itemCount = parent.getAdapter().getItemCount();
+
+        int realChildAdapterPosition = childAdapterPosition;
+        int realItemCount = itemCount;
+
+        BGAHeaderAndFooterAdapter headerAndFooterAdapter = getHeaderAndFooterAdapter(parent);
+        if (headerAndFooterAdapter != null) {
+            // 转换成真实 item 的索引
+            realChildAdapterPosition = headerAndFooterAdapter.getRealItemPosition(childAdapterPosition);
+            // 转换成真实 item 的总数
+            realItemCount = headerAndFooterAdapter.getRealItemCount();
+        }
+
+        if (isNeedSkip(childAdapterPosition, headerAndFooterAdapter, realChildAdapterPosition, realItemCount)) {
+            outRect.set(0, 0, 0, 0);
         } else {
-            if (isNeedSkip(view, parent)) {
-                outRect.set(0, 0, 0, 0);
+            if (mDelegate != null && mDelegate.isNeedCustom(realChildAdapterPosition, realItemCount)) {
+                mDelegate.getItemOffsets(realChildAdapterPosition, realItemCount, outRect);
             } else {
-                outRect.set(mDividerDrawable.getIntrinsicWidth(), 0, 0, 0);
+                if (mOrientation == LinearLayout.VERTICAL) {
+                    outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
+                } else {
+                    outRect.set(mDividerDrawable.getIntrinsicWidth(), 0, 0, 0);
+                }
             }
         }
     }
@@ -322,39 +326,65 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             return;
         }
 
+        int itemCount = parent.getAdapter().getItemCount();
+        BGAHeaderAndFooterAdapter headerAndFooterAdapter = getHeaderAndFooterAdapter(parent);
+        // 除去 header 和 footer 后中间部分真实 item 的总数
+        int realItemCount = itemCount;
+        if (headerAndFooterAdapter != null) {
+            // 转换成真实 item 的总数
+            realItemCount = headerAndFooterAdapter.getRealItemCount();
+        }
+
         if (mOrientation == LinearLayout.VERTICAL) {
-            drawVertical(canvas, parent);
+            drawVertical(canvas, parent, headerAndFooterAdapter, itemCount, realItemCount);
         } else {
             drawHorizontal(canvas, parent);
         }
     }
 
-    private void drawVertical(Canvas canvas, RecyclerView parent) {
-        int left = parent.getPaddingLeft() + mLeftMargin;
-        int right = parent.getWidth() - parent.getPaddingRight() - mRightMargin;
-        View child;
-        RecyclerView.LayoutParams layoutParams;
-        int top;
-        int bottom;
-        int itemCount = parent.getAdapter().getItemCount();
+    private void drawVertical(Canvas canvas, RecyclerView parent, BGAHeaderAndFooterAdapter headerAndFooterAdapter, int itemCount, int realItemCount) {
+        int dividerLeft = parent.getPaddingLeft() + mLeftMargin;
+        int dividerRight = parent.getWidth() - parent.getPaddingRight() - mRightMargin;
+        View itemView;
+        RecyclerView.LayoutParams itemLayoutParams;
+        int dividerTop;
+        int dividerBottom;
+        int realChildAdapterPosition;
+
         for (int childPosition = 0; childPosition < itemCount; childPosition++) {
-            child = parent.getChildAt(childPosition);
-            if (child == null || child.getLayoutParams() == null) {
+            itemView = parent.getChildAt(childPosition);
+            if (itemView == null || itemView.getLayoutParams() == null) {
                 continue;
             }
 
-            if (isNeedSkip(child, parent)) {
-                debug("是 header 和 footer 时跳过");
+            int childAdapterPosition = parent.getChildAdapterPosition(itemView);
+            realChildAdapterPosition = getRealChildAdapterPosition(childAdapterPosition, headerAndFooterAdapter);
+
+            if (isNeedSkip(childAdapterPosition, headerAndFooterAdapter, realChildAdapterPosition, realItemCount)) {
                 continue;
             }
 
-            layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
 
-            bottom = child.getTop() - layoutParams.topMargin;
-            top = bottom - mDividerDrawable.getIntrinsicHeight();
-            mDividerDrawable.setBounds(left, top, right, bottom);
-            mDividerDrawable.draw(canvas);
+            itemLayoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+
+            int itemTop = itemView.getTop() - itemLayoutParams.topMargin;
+            if (mDelegate != null && mDelegate.isNeedCustom(realChildAdapterPosition, realItemCount)) {
+                mDelegate.drawVertical(canvas, parent.getPaddingLeft(), parent.getWidth() - parent.getPaddingRight(), itemTop, realChildAdapterPosition, realItemCount);
+            } else {
+                dividerBottom = itemTop;
+                dividerTop = dividerBottom - mDividerDrawable.getIntrinsicHeight();
+                mDividerDrawable.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
+                mDividerDrawable.draw(canvas);
+            }
         }
+    }
+
+    private int getRealChildAdapterPosition(int childAdapterPosition, BGAHeaderAndFooterAdapter headerAndFooterAdapter) {
+        if (headerAndFooterAdapter != null) {
+            // 转换成真实 item 的索引
+            return headerAndFooterAdapter.getRealItemPosition(childAdapterPosition);
+        }
+        return childAdapterPosition;
     }
 
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
@@ -362,7 +392,44 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     public interface Delegate {
-        boolean isNeedSkip(int position);
+        boolean isNeedSkip(int position, int itemCount);
+
+        boolean isNeedCustom(int position, int itemCount);
+
+        void getItemOffsets(int position, int itemCount, Rect outRect);
+
+        void drawVertical(Canvas canvas, int left, int right, int itemTop, int position, int itemCount);
+    }
+
+    public static class SimpleDelegate implements Delegate {
+        protected Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        public SimpleDelegate() {
+            mPaint.setDither(true);
+            mPaint.setAntiAlias(true);
+            initAttr();
+        }
+
+        protected void initAttr() {
+        }
+
+        @Override
+        public boolean isNeedSkip(int position, int itemCount) {
+            return false;
+        }
+
+        @Override
+        public boolean isNeedCustom(int position, int itemCount) {
+            return false;
+        }
+
+        @Override
+        public void getItemOffsets(int position, int itemCount, Rect outRect) {
+        }
+
+        @Override
+        public void drawVertical(Canvas canvas, int left, int right, int itemTop, int position, int itemCount) {
+        }
     }
 
     private static int dp2px(float dpValue) {
