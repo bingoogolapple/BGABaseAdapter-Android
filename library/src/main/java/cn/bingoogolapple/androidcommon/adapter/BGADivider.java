@@ -28,6 +28,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntRange;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -215,8 +216,11 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param startSkipCount
      * @return
      */
-    public BGADivider setStartSkipCount(int startSkipCount) {
+    public BGADivider setStartSkipCount(@IntRange(from = 0) int startSkipCount) {
         mStartSkipCount = startSkipCount;
+        if (mStartSkipCount < 0) {
+            mStartSkipCount = 0;
+        }
         return this;
     }
 
@@ -226,8 +230,11 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      * @param endSkipCount
      * @return
      */
-    public BGADivider setEndSkipCount(int endSkipCount) {
+    public BGADivider setEndSkipCount(@IntRange(from = 0) int endSkipCount) {
         mEndSkipCount = endSkipCount;
+        if (mEndSkipCount < 0) {
+            mEndSkipCount = 0;
+        }
         return this;
     }
 
@@ -248,8 +255,13 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             itemCount = headerAndFooterAdapter.getRealItemCount();
         }
 
-        // 跳过最后一个
-        if (position == itemCount - 1) {
+        int lastPosition = itemCount - 1;
+        // 跳过最后 mEndSkipCount 个
+        if (position >= lastPosition - mEndSkipCount) {
+            return true;
+        }
+        // 跳过前 mStartSkipCount 个
+        if (position < mStartSkipCount) {
             return true;
         }
 
@@ -257,7 +269,6 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         return false;
     }
 
-    // 如果等于分隔线的宽度或高度的话可以不用重写该方法
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         if (parent.getLayoutManager() == null || parent.getAdapter() == null) {

@@ -77,7 +77,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mAdapter.setItemEventHandler(this);
 
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(1).setEndSkipCount(1));
 
 
         // 初始化拖拽排序和滑动删除
