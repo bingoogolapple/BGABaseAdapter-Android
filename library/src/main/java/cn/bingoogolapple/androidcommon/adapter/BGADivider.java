@@ -30,6 +30,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -44,6 +45,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     private int mLeftMargin;
     private int mRightMargin;
     private int mOrientation = LinearLayout.VERTICAL;
+    private int mStartSkipCount = 0;
+    private int mEndSkipCount = 0;
 
     private BGADivider(@DrawableRes int drawableResId) {
         mDividerDrawable = ContextCompat.getDrawable(BGAAdapterApp.getApp(), drawableResId);
@@ -206,10 +209,51 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         return this;
     }
 
-    private boolean isNeedSkip(int position, int itemCount) {
+    /**
+     * 跳过开始的条数
+     *
+     * @param startSkipCount
+     * @return
+     */
+    public BGADivider setStartSkipCount(int startSkipCount) {
+        mStartSkipCount = startSkipCount;
+        return this;
+    }
+
+    /**
+     * 跳过末尾的条数
+     *
+     * @param endSkipCount
+     * @return
+     */
+    public BGADivider setEndSkipCount(int endSkipCount) {
+        mEndSkipCount = endSkipCount;
+        return this;
+    }
+
+    private boolean isNeedSkip(int position, RecyclerView parent) {
+        RecyclerView.Adapter adapter = parent.getAdapter();
+        int itemCount = parent.getAdapter().getItemCount();
+
+        if (adapter instanceof BGAHeaderAndFooterAdapter) {
+            BGAHeaderAndFooterAdapter headerAndFooterAdapter = (BGAHeaderAndFooterAdapter) adapter;
+            if (headerAndFooterAdapter.isHeaderViewOrFooterView(position)) {
+                // 是 header 和 footer 时跳过
+                return true;
+            }
+
+            // 转换成真实 item 的索引
+            position = headerAndFooterAdapter.getRealItemPosition(position);
+            // 转换成真实 item 的总数
+            itemCount = headerAndFooterAdapter.getRealItemCount();
+        }
+
+        // 跳过最后一个
         if (position == itemCount - 1) {
             return true;
         }
+
+        // 默认不跳过
         return false;
     }
 
@@ -221,16 +265,15 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         }
 
         int position = parent.getChildAdapterPosition(view);
-        int itemCount = parent.getAdapter().getItemCount();
 
         if (mOrientation == LinearLayout.VERTICAL) {
-            if (isNeedSkip(position, itemCount)) {
+            if (isNeedSkip(position, parent)) {
                 outRect.set(0, 0, 0, 0);
             } else {
                 outRect.set(0, 0, 0, mDividerDrawable.getIntrinsicHeight());
             }
         } else {
-            if (isNeedSkip(position, itemCount)) {
+            if (isNeedSkip(position, parent)) {
                 outRect.set(0, 0, 0, 0);
             } else {
                 outRect.set(0, 0, mDividerDrawable.getIntrinsicWidth(), 0);
@@ -259,13 +302,15 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         int top;
         int bottom;
         int itemCount = parent.getAdapter().getItemCount();
-        for (int position = 0; position < itemCount; position++) {
-            if (isNeedSkip(position, itemCount)) {
+        for (int childPosition = 0; childPosition < itemCount; childPosition++) {
+            child = parent.getChildAt(childPosition);
+            if (child == null || child.getLayoutParams() == null) {
                 continue;
             }
 
-            child = parent.getChildAt(position);
-            if (child == null || child.getLayoutParams() == null) {
+            int childAdapterPosition = parent.getChildAdapterPosition(child);
+            if (isNeedSkip(childAdapterPosition, parent)) {
+                debug("是 header 和 footer 时跳过");
                 continue;
             }
 
@@ -283,5 +328,9 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
     private static int dp2px(float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, BGAAdapterApp.getApp().getResources().getDisplayMetrics());
+    }
+
+    private void debug(String msg) {
+        Log.i(BGADivider.class.getSimpleName(), msg);
     }
 }
