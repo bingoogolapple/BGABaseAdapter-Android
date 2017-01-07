@@ -75,7 +75,12 @@ public class RecyclerIndexDemoFragment extends BaseFragment implements BGAOnItem
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setDelegate(new BGADivider.Delegate() {
+            @Override
+            public boolean isNeedSkip(int position) {
+                return mAdapter.isSection(position);
+            }
+        }));
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(mLayoutManager);

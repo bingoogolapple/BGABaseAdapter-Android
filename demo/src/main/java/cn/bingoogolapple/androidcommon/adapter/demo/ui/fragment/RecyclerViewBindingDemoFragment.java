@@ -77,7 +77,12 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mAdapter.setItemEventHandler(this);
 
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(1).setEndSkipCount(1));
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(0).setEndSkipCount(0).setDelegate(new BGADivider.Delegate() {
+            @Override
+            public boolean isNeedSkip(int position) {
+                return position == 3;
+            }
+        }));
 
 
         // 初始化拖拽排序和滑动删除
@@ -86,9 +91,9 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
 
 
         // 测试 GridLayoutManager
-        mDataRv.setLayoutManager(getGridLayoutManager());
+//        mDataRv.setLayoutManager(getGridLayoutManager());
         // 测试 LinearLayoutManager
-//        mDataRv.setLayoutManager(getLinearLayoutManager());
+        mDataRv.setLayoutManager(getLinearLayoutManager());
 
 
         // 测试没有 Header 和 Footer 的情况

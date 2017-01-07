@@ -91,7 +91,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(1).setEndSkipCount(1));
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(0).setEndSkipCount(0));
 
 
         // 初始化拖拽排序和滑动删除
@@ -100,9 +100,9 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
 
         // 测试 GridLayoutManager
-        mDataRv.setLayoutManager(getGridLayoutManager());
+//        mDataRv.setLayoutManager(getGridLayoutManager());
         // 测试 LinearLayoutManager
-//        mDataRv.setLayoutManager(getLinearLayoutManager());
+        mDataRv.setLayoutManager(getLinearLayoutManager());
 
 
         // 测试没有 Header 和 Footer 的情况

@@ -48,6 +48,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     private int mOrientation = LinearLayout.VERTICAL;
     private int mStartSkipCount = 0;
     private int mEndSkipCount = 0;
+    private Delegate mDelegate;
 
     private BGADivider(@DrawableRes int drawableResId) {
         mDividerDrawable = ContextCompat.getDrawable(BGAAdapterApp.getApp(), drawableResId);
@@ -79,6 +80,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      */
     public static BGADivider newBitmapDivider() {
         return new BGADivider(R.mipmap.bga_adapter_divider_bitmap);
+    }
+
+    /**
+     * 设置代理
+     *
+     * @param delegate
+     * @return
+     */
+    public BGADivider setDelegate(Delegate delegate) {
+        mDelegate = delegate;
+        return this;
     }
 
     /**
@@ -238,12 +250,21 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         return this;
     }
 
-    private boolean isNeedSkip(int position, RecyclerView parent) {
+    private BGAHeaderAndFooterAdapter getHeaderAndFooterAdapter(RecyclerView parent) {
         RecyclerView.Adapter adapter = parent.getAdapter();
+        if (adapter instanceof BGAHeaderAndFooterAdapter) {
+            return (BGAHeaderAndFooterAdapter) adapter;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean isNeedSkip(View view, RecyclerView parent) {
+        int position = parent.getChildAdapterPosition(view);
         int itemCount = parent.getAdapter().getItemCount();
 
-        if (adapter instanceof BGAHeaderAndFooterAdapter) {
-            BGAHeaderAndFooterAdapter headerAndFooterAdapter = (BGAHeaderAndFooterAdapter) adapter;
+        BGAHeaderAndFooterAdapter headerAndFooterAdapter = getHeaderAndFooterAdapter(parent);
+        if (headerAndFooterAdapter != null) {
             if (headerAndFooterAdapter.isHeaderViewOrFooterView(position)) {
                 // 是 header 和 footer 时跳过
                 return true;
@@ -257,12 +278,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
         int lastPosition = itemCount - 1;
         // 跳过最后 mEndSkipCount 个
-        if (position >= lastPosition - mEndSkipCount) {
+        if (position > lastPosition - mEndSkipCount) {
             return true;
         }
+
         // 跳过前 mStartSkipCount 个
-        if (position < mStartSkipCount) {
+        if (position <= mStartSkipCount) {
             return true;
+        }
+
+        if (mDelegate != null) {
+            return mDelegate.isNeedSkip(position);
         }
 
         // 默认不跳过
@@ -275,19 +301,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             return;
         }
 
-        int position = parent.getChildAdapterPosition(view);
-
         if (mOrientation == LinearLayout.VERTICAL) {
-            if (isNeedSkip(position, parent)) {
+            if (isNeedSkip(view, parent)) {
                 outRect.set(0, 0, 0, 0);
             } else {
-                outRect.set(0, 0, 0, mDividerDrawable.getIntrinsicHeight());
+                outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
             }
         } else {
-            if (isNeedSkip(position, parent)) {
+            if (isNeedSkip(view, parent)) {
                 outRect.set(0, 0, 0, 0);
             } else {
-                outRect.set(0, 0, mDividerDrawable.getIntrinsicWidth(), 0);
+                outRect.set(mDividerDrawable.getIntrinsicWidth(), 0, 0, 0);
             }
         }
     }
@@ -319,15 +343,15 @@ public class BGADivider extends RecyclerView.ItemDecoration {
                 continue;
             }
 
-            int childAdapterPosition = parent.getChildAdapterPosition(child);
-            if (isNeedSkip(childAdapterPosition, parent)) {
+            if (isNeedSkip(child, parent)) {
                 debug("是 header 和 footer 时跳过");
                 continue;
             }
 
             layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
-            top = child.getBottom() + layoutParams.bottomMargin;
-            bottom = top + mDividerDrawable.getIntrinsicHeight();
+
+            bottom = child.getTop() - layoutParams.topMargin;
+            top = bottom - mDividerDrawable.getIntrinsicHeight();
             mDividerDrawable.setBounds(left, top, right, bottom);
             mDividerDrawable.draw(canvas);
         }
@@ -335,6 +359,10 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
 
+    }
+
+    public interface Delegate {
+        boolean isNeedSkip(int position);
     }
 
     private static int dp2px(float dpValue) {

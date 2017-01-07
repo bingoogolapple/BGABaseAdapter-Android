@@ -25,18 +25,13 @@ public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
-        int section = getSectionForPosition(position);
-        if (position == getPositionForSection(section)) {
+        if (isSection(position)) {
             helper.setVisibility(R.id.tv_item_indexview_catalog, View.VISIBLE);
             helper.setText(R.id.tv_item_indexview_catalog, model.topc);
         } else {
             helper.setVisibility(R.id.tv_item_indexview_catalog, View.GONE);
         }
         helper.setText(R.id.tv_item_indexview_name, model.name);
-    }
-
-    public int getSectionForPosition(int position) {
-        return mData.get(position).topc.charAt(0);
     }
 
     public int getPositionForSection(int section) {
@@ -48,5 +43,10 @@ public class RecyclerIndexAdapter extends BGARecyclerViewAdapter<IndexModel> {
             }
         }
         return -1;
+    }
+
+    public boolean isSection(int position) {
+        int section = mData.get(position).topc.charAt(0);
+        return position == getPositionForSection(section);
     }
 }
