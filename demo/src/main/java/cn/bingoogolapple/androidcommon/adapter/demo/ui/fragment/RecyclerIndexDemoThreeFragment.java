@@ -3,6 +3,7 @@ package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -132,10 +133,10 @@ public class RecyclerIndexDemoThreeFragment extends BaseFragment implements BGAO
             mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
 
             mPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.textSize_16));
-            mPaint.setFakeBoldText(true);
+            mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             mPaint.setStyle(Paint.Style.FILL);
 
-            mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level12);
+            mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level8);
 
             Rect rect = new Rect();
             mPaint.getTextBounds("王浩", 0, 2, rect);

@@ -477,11 +477,10 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             mCategoryTextColor = Color.parseColor("#848484");
             mCategoryPaddingLeft = BGAAdapterUtil.dp2px(16);
             mCategoryTextSize = BGAAdapterUtil.sp2px(14);
-            mCategoryHeight = BGAAdapterUtil.dp2px(40);
+            mCategoryHeight = BGAAdapterUtil.dp2px(32);
 
             initCategoryAttr();
 
-            mPaint.setFakeBoldText(true);
             mPaint.setStyle(Paint.Style.FILL);
 
             calculateCategoryTextOffset();
