@@ -77,12 +77,15 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mAdapter.setItemEventHandler(this);
 
         // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newShapeDivider().setStartSkipCount(1).setEndSkipCount(1).setDelegate(new BGADivider.SimpleDelegate() {
-            @Override
-            public boolean isNeedSkip(int position, int itemCount) {
-                return position == 3;
-            }
-        }));
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider()
+                .setStartSkipCount(1)
+                .setEndSkipCount(1)
+                .setDelegate(new BGADivider.SimpleDelegate() {
+                    @Override
+                    public boolean isNeedSkip(int position, int itemCount) {
+                        return position == 3;
+                    }
+                }));
 
 
         // 初始化拖拽排序和滑动删除

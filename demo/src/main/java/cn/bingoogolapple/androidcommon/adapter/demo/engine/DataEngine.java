@@ -25,6 +25,7 @@ public class DataEngine {
         data.add(new IndexModel("北京"));
         data.add(new IndexModel("河北"));
         data.add(new IndexModel("北海"));
+        data.add(new IndexModel("安庆"));
         data.add(new IndexModel("伊春"));
         data.add(new IndexModel("宝鸡"));
         data.add(new IndexModel("本兮"));
@@ -32,12 +33,17 @@ public class DataEngine {
         data.add(new IndexModel("常州"));
         data.add(new IndexModel("常德"));
         data.add(new IndexModel("常熟"));
+        data.add(new IndexModel("枣庄"));
+        data.add(new IndexModel("内江"));
+        data.add(new IndexModel("阿坝州"));
+        data.add(new IndexModel("丽水"));
         data.add(new IndexModel("成都"));
         data.add(new IndexModel("承德"));
         data.add(new IndexModel("沧州"));
         data.add(new IndexModel("重庆"));
         data.add(new IndexModel("东莞"));
         data.add(new IndexModel("扬州"));
+        data.add(new IndexModel("甘南州"));
         data.add(new IndexModel("大庆"));
         data.add(new IndexModel("佛山"));
         data.add(new IndexModel("广州"));
@@ -59,15 +65,15 @@ public class DataEngine {
         data.add(new IndexModel("自贡"));
 
 
-        PinyinComparator mPinyinComparator = new PinyinComparator();
-        CharacterParser mCharacterParser = CharacterParser.getInstance();
+        PinyinComparator pinyinComparator = new PinyinComparator();
+        CharacterParser characterParser = CharacterParser.getInstance();
         for (IndexModel indexModel : data) {
-            indexModel.topc = mCharacterParser.getSelling(indexModel.name).substring(0, 1).toUpperCase();
+            indexModel.topc = characterParser.getSelling(indexModel.name).substring(0, 1).toUpperCase();
             if (indexModel.name.equals("重庆")) {
                 indexModel.topc = "C";
             }
         }
-        Collections.sort(data, mPinyinComparator);
+        Collections.sort(data, pinyinComparator);
         return data;
     }
 

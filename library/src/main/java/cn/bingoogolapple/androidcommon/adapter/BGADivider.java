@@ -45,10 +45,12 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     private int mOrientation = LinearLayout.VERTICAL;
     private int mStartSkipCount = 1;
     private int mEndSkipCount = 0;
+    private int mSize = 1;
     private Delegate mDelegate;
 
     private BGADivider(@DrawableRes int drawableResId) {
         mDividerDrawable = ContextCompat.getDrawable(BGAAdapterUtil.getApp(), drawableResId);
+        mSize = Math.min(mDividerDrawable.getIntrinsicHeight(), mDividerDrawable.getIntrinsicWidth());
     }
 
     /**
@@ -105,11 +107,11 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     /**
      * 设置左边距和右边距
      *
-     * @param dpValue 单位为 dp
+     * @param bothMarginDp 单位为 dp
      * @return
      */
-    public BGADivider setBothMargin(int dpValue) {
-        mMarginLeft = BGAAdapterUtil.dp2px(dpValue);
+    public BGADivider setBothMarginDp(int bothMarginDp) {
+        mMarginLeft = BGAAdapterUtil.dp2px(bothMarginDp);
         mMarginRight = mMarginLeft;
         return this;
     }
@@ -128,11 +130,11 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     /**
      * 设置左边距
      *
-     * @param dpValue 单位为 dp
+     * @param marginLeftDp 单位为 dp
      * @return
      */
-    public BGADivider setMarginLeft(int dpValue) {
-        mMarginLeft = BGAAdapterUtil.dp2px(dpValue);
+    public BGADivider setMarginLeftDp(int marginLeftDp) {
+        mMarginLeft = BGAAdapterUtil.dp2px(marginLeftDp);
         return this;
     }
 
@@ -150,11 +152,11 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     /**
      * 设置右边距
      *
-     * @param dpValue 单位为 dp
+     * @param marginRightDp 单位为 dp
      * @return
      */
-    public BGADivider setMarginRight(int dpValue) {
-        mMarginRight = BGAAdapterUtil.dp2px(dpValue);
+    public BGADivider setMarginRightDp(int marginRightDp) {
+        mMarginRight = BGAAdapterUtil.dp2px(marginRightDp);
         return this;
     }
 
@@ -228,6 +230,28 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         if (mEndSkipCount < 0) {
             mEndSkipCount = 0;
         }
+        return this;
+    }
+
+    /**
+     * 设置分割线尺寸资源 id
+     *
+     * @param resId
+     * @return
+     */
+    public BGADivider setSizeResource(@DimenRes int resId) {
+        mSize = BGAAdapterUtil.getDimensionPixelOffset(resId);
+        return this;
+    }
+
+    /**
+     * 设置分割线尺寸
+     *
+     * @param sizeDp 单位为 dp
+     * @return
+     */
+    public BGADivider setSizeDp(int sizeDp) {
+        mSize = BGAAdapterUtil.dp2px(sizeDp);
         return this;
     }
 
@@ -313,14 +337,14 @@ public class BGADivider extends RecyclerView.ItemDecoration {
                 if (mOrientation == LinearLayout.VERTICAL) {
                     getVerticalItemOffsets(outRect);
                 } else {
-                    outRect.set(mDividerDrawable.getIntrinsicWidth(), 0, 0, 0);
+                    outRect.set(mSize, 0, 0, 0);
                 }
             }
         }
     }
 
     public void getVerticalItemOffsets(Rect outRect) {
-        outRect.set(0, mDividerDrawable.getIntrinsicHeight(), 0, 0);
+        outRect.set(0, mSize, 0, 0);
     }
 
     @Override
@@ -378,7 +402,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
     public void drawVertical(Canvas canvas, int dividerLeft, int dividerRight, int itemTop) {
         int dividerBottom = itemTop;
-        int dividerTop = dividerBottom - mDividerDrawable.getIntrinsicHeight();
+        int dividerTop = dividerBottom - mSize;
         mDividerDrawable.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
         mDividerDrawable.draw(canvas);
     }

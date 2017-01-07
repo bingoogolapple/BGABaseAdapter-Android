@@ -1,5 +1,6 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,6 +58,7 @@ public class RecyclerIndexDemoTwoFragment extends BaseFragment implements BGAOnR
         mIndexView.setTipTv(mTipTv);
 
         mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
+                .setColor(Color.TRANSPARENT, false)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.size_level3)
                 .setMarginRightResource(R.dimen.size_level9)

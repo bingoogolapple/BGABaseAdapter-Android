@@ -72,7 +72,7 @@ public class RecyclerIndexDemoThreeFragment extends BaseFragment implements BGAO
 
     private void initSuspensionCategory() {
         // 添加普通分类
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
+        mDataRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.size_level3)
                 .setMarginRightResource(R.dimen.size_level9)

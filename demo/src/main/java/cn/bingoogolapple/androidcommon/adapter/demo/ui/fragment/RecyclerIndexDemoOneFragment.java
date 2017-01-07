@@ -70,7 +70,7 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider()
                 .setMarginLeftResource(R.dimen.size_level3)
                 .setMarginRightResource(R.dimen.size_level9)
                 .setDelegate(new BGADivider.SimpleDelegate() {
