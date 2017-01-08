@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             style="@style/MatchMatch">
 
-    <ListView
-        android:id="@+id/lv_listindexview_data"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@mipmap/bga_adapter_divider_bitmap"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_recyclerindexview_data"
+        style="@style/MatchMatch"
         android:overScrollMode="never"
         android:scrollbars="none"/>
 
     <TextView
-        android:id="@+id/tv_listindexview_category"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_level8"
-        android:background="@color/category_backgroundColor"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/size_level4"
-        android:paddingRight="@dimen/size_level4"
-        android:text="A"
-        android:textColor="@color/category_textColor"
-        android:textSize="@dimen/textSize_14"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/tv_listindexview_tip"
+        android:id="@+id/tv_recyclerindexview_tip"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/selector_item"
+                android:layout_height="68dp"
+                android:layout_margin="@dimen/size_level2"
+                android:background="@drawable/bga_adapter_white_gray"
                 android:descendantFocusability="blocksDescendants"
-                android:padding="5dp">
+                android:padding="@dimen/size_level2">
 
     <!--<CheckBox
         android:id="@+id/cb_item_normal_status"

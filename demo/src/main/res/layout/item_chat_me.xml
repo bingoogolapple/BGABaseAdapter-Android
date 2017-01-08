@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchWrap"
+    android:descendantFocusability="blocksDescendants"
     android:padding="8dp">
 
     <ImageView
@@ -10,28 +11,28 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/chat_me"/>
+        android:src="@drawable/chat_me"/>
 
     <TextView
         android:id="@+id/tv_item_chat_me_msg"
         style="@style/WrapWrap"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/size_level2"
         android:layout_toLeftOf="@id/iv_item_chat_me_avatar"
-        android:background="@drawable/selector_item_chat_to"
+        android:background="@drawable/chat_to_normal"
         android:gravity="right|center"
         android:text="测试消息"
         android:textColor="@android:color/black"
-        android:textSize="15sp"/>
+        android:textSize="@dimen/textSize_14"/>
 
     <ImageView
         android:id="@+id/iv_item_chat_me_status"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/size_level2"
         android:layout_toLeftOf="@id/tv_item_chat_me_msg"
-        android:src="@mipmap/exclamation_mark_red"
+        android:src="@drawable/exclamation_mark_red"
         android:visibility="gone"
         tools:visibility="visible"/>
 </RelativeLayout>

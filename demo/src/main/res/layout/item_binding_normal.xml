@@ -17,13 +17,13 @@
 
         <variable
             name="itemEventHandler"
-            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment"/>
+            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/selector_item"
+        android:background="@drawable/bga_adapter_white_gray"
         android:descendantFocusability="blocksDescendants"
         android:onLongClick="@{() -> itemEventHandler.onLongClickItem(viewHolder, model)}"
         android:padding="5dp"

@@ -1,58 +1,79 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import java.util.Arrays;
+import java.util.List;
+
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GridViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListChatDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListIndexViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerChatDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.util.SnackbarUtil;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GvFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvSuspensionFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.MvcFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvChatFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionDividerOneFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionDividerTwoFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionFragment;
+
+import static cn.bingoogolapple.androidcommon.adapter.demo.R.id.tabLayout;
+import static cn.bingoogolapple.androidcommon.adapter.demo.R.id.viewPager;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/28 10:23
  * 描述:
  */
-public class MainActivity extends AppCompatActivity {
-    private Class[] mFragmentClasses = new Class[]{GridViewDemoFragment.class, ListViewDemoFragment.class, RecyclerViewDemoFragment.class, RecyclerViewBindingDemoFragment.class, ListChatDemoFragment.class, RecyclerChatDemoFragment.class, ListIndexViewDemoFragment.class, RecyclerIndexDemoFragment.class};
-    private CoordinatorLayout mCoordinatorLayout;
+public class MainActivity extends MvcActivity {
+    private Toolbar mToolbar;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setIcon(R.mipmap.logo);
+    protected int getRootLayoutResID() {
+        return R.layout.activity_main;
+    }
 
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        mToolbar = getViewById(R.id.toolbar);
+        mTabLayout = getViewById(tabLayout);
+        mViewPager = getViewById(viewPager);
+    }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+    @Override
+    protected void setListener() {
+    }
+
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        setSupportActionBar(mToolbar);
+
         ContentPagerAdapter contentPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(contentPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setTabsFromPagerAdapter(contentPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mViewPager.setAdapter(contentPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    public void showSnackbar(String msg) {
-        SnackbarUtil.show(mCoordinatorLayout, msg);
-    }
+    private class ContentPagerAdapter extends FragmentPagerAdapter {
 
-    private class ContentPagerAdapter extends FragmentStatePagerAdapter {
+        private List<MvcFragment> mFragmentList = Arrays.asList(
+                new GvFragment(),
+                new LvFragment(),
+                new RvFragment(),
+                new RvBindingFragment(),
+                new RvChatFragment(),
+                new LvSuspensionFragment(),
+                new RvSuspensionFragment(),
+                new RvSuspensionDividerOneFragment(),
+                new RvSuspensionDividerTwoFragment()
+        );
 
         public ContentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -60,17 +81,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return Fragment.instantiate(MainActivity.this, mFragmentClasses[position].getName());
+            return mFragmentList.get(position);
         }
 
         @Override
         public int getCount() {
-            return mFragmentClasses.length;
+            return mFragmentList.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentClasses[position].getSimpleName().replace("Fragment", "");
+            return mFragmentList.get(position).getClass().getSimpleName().replace("Fragment", "");
         }
     }
 

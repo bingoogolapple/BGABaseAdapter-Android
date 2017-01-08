@@ -17,13 +17,17 @@ import cn.bingoogolapple.androidcommon.adapter.demo.model.ChatModel;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RecyclerChatDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class RvChatFragment extends MvcFragment implements BGAOnItemChildClickListener {
     private RecyclerChatAdapter mAdapter;
     private RecyclerView mDataRv;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_recyclerview;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_recyclerview);
         mDataRv = getViewById(R.id.rv_recyclerview_data);
     }
 
@@ -41,10 +45,6 @@ public class RecyclerChatDemoFragment extends BaseFragment implements BGAOnItemC
 
         mAdapter.setData(DataEngine.loadChatModelData());
         mDataRv.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected void onUserVisible() {
     }
 
     @Override

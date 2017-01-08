@@ -38,6 +38,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.adapter.NormalRecyclerViewAd
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.BannerModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.util.ToastUtil;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,16 +49,20 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
-    private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
+public class RvFragment extends MvcFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
+    private static final String TAG = RvFragment.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
     private BGABanner mBanner;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_recyclerview;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_recyclerview);
         mDataRv = getViewById(R.id.rv_recyclerview_data);
     }
 
@@ -70,6 +75,30 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mAdapter.setOnItemChildLongClickListener(this);
         mAdapter.setOnItemChildCheckedChangeListener(this);
         mAdapter.setOnRVItemChildTouchListener(this);
+    }
+
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        // 设置分割线
+        mDataRv.addItemDecoration(BGADivider.newBitmapDivider().setStartSkipCount(1).setEndSkipCount(1));
+
+
+        // 初始化拖拽排序和滑动删除
+        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
+        mItemTouchHelper.attachToRecyclerView(mDataRv);
+
+
+        // 测试 GridLayoutManager
+//        mDataRv.setLayoutManager(getGridLayoutManager());
+        // 测试 LinearLayoutManager
+        mDataRv.setLayoutManager(getLinearLayoutManager());
+
+
+        // 测试没有 Header 和 Footer 的情况
+        mDataRv.setAdapter(mAdapter);
+
+        // 测试有 Header 或 Footer 的情况
+//        testHaveHeaderAndFooterAdapter();
     }
 
     private RecyclerView.LayoutManager getGridLayoutManager() {
@@ -88,30 +117,6 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         return new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
-        // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
-
-
-        // 初始化拖拽排序和滑动删除
-        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
-        mItemTouchHelper.attachToRecyclerView(mDataRv);
-
-
-        // 测试 GridLayoutManager
-        mDataRv.setLayoutManager(getGridLayoutManager());
-        // 测试 LinearLayoutManager
-//        mDataRv.setLayoutManager(getLinearLayoutManager());
-
-
-        // 测试没有 Header 和 Footer 的情况
-//        mDataRv.setAdapter(mAdapter);
-
-        // 测试有 Header 或 Footer 的情况
-        testHaveHeaderAndFooterAdapter();
-    }
-
     private void testHaveHeaderAndFooterAdapter() {
         addBannerHeader();
 
@@ -124,7 +129,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         header1Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了头部1");
+                ToastUtil.show("点击了头部1");
             }
         });
         // 当时 LinearLayoutManager 时，需要设置一下布局参数的宽度为填充父窗体，否则 header 和 footer 的宽度会是包裹内容
@@ -140,7 +145,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         footer1Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了底部1");
+                ToastUtil.show("点击了底部1");
             }
         });
         footer1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -155,7 +160,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         footer2Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了底部2");
+                ToastUtil.show("点击了底部2");
             }
         });
         footer2Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -178,7 +183,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
         mBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
-                showSnackbar("点击了第" + (position + 1) + "页");
+                ToastUtil.show("点击了第" + (position + 1) + "页");
             }
         });
         mAdapter.addHeaderView(headerView);
@@ -210,21 +215,24 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
      * 加载列表数据
      */
     private void loadNormalModels() {
+        showLoadingDialog();
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
+                dismissLoadingDialog();
                 mAdapter.setData(response.body());
             }
 
             @Override
             public void onFailure(Call<List<NormalModel>> call, Throwable t) {
-                showSnackbar("数据加载失败");
+                dismissLoadingDialog();
+                ToastUtil.show("数据加载失败");
             }
         });
     }
 
     @Override
-    protected void onUserVisible() {
+    protected void onLazyLoadOnce() {
         loadBannerModels();
         loadNormalModels();
     }
@@ -239,7 +247,7 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
     @Override
     public boolean onItemChildLongClick(ViewGroup parent, View childView, int position) {
         if (childView.getId() == R.id.tv_item_normal_delete) {
-            showSnackbar("长按了删除 " + mAdapter.getItem(position).title);
+            ToastUtil.show("长按了删除 " + mAdapter.getItem(position).title);
             return true;
         }
         return false;
@@ -247,19 +255,19 @@ public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVIte
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        showSnackbar("点击了条目 " + mAdapter.getItem(position).title);
+        ToastUtil.show("点击了条目 " + mAdapter.getItem(position).title);
     }
 
     @Override
     public boolean onRVItemLongClick(ViewGroup parent, View itemView, int position) {
-        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
+        ToastUtil.show("长按了条目 " + mAdapter.getItem(position).title);
         return true;
     }
 
     @Override
     public void onItemChildCheckedChanged(ViewGroup parent, CompoundButton childView, int position, boolean isChecked) {
         mAdapter.getItem(position).selected = isChecked;
-        showSnackbar((isChecked ? "选中 " : "取消选中") + mAdapter.getItem(position).title);
+        ToastUtil.show((isChecked ? "选中 " : "取消选中") + mAdapter.getItem(position).title);
     }
 
     @Override

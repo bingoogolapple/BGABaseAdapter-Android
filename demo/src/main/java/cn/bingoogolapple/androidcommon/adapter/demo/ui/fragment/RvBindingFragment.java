@@ -31,6 +31,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.databinding.ItemBindingNorma
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.BannerModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel;
+import cn.bingoogolapple.androidcommon.adapter.demo.util.ToastUtil;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,17 +42,61 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewBindingDemoFragment extends BaseFragment {
-    private static final String TAG = RecyclerViewBindingDemoFragment.class.getSimpleName();
+public class RvBindingFragment extends MvcFragment {
+    private static final String TAG = RvBindingFragment.class.getSimpleName();
     private BGABindingRecyclerViewAdapter<NormalModel, ItemBindingNormalBinding> mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
     private BGABanner mBanner;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_recyclerview;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_recyclerview);
         mDataRv = getViewById(R.id.rv_recyclerview_data);
+    }
+
+    @Override
+    protected void setListener() {
+    }
+
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        // 初始化 Adapter
+        mAdapter = new BGABindingRecyclerViewAdapter<>(R.layout.item_binding_normal);
+        mAdapter.setItemEventHandler(this);
+
+        // 设置分割线
+        mDataRv.addItemDecoration(BGADivider.newShapeDivider()
+                .setStartSkipCount(1)
+                .setEndSkipCount(1)
+                .setDelegate(new BGADivider.SimpleDelegate() {
+                    @Override
+                    public boolean isNeedSkip(int position, int itemCount) {
+                        return position == 3;
+                    }
+                }));
+
+
+        // 初始化拖拽排序和滑动删除
+        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
+        mItemTouchHelper.attachToRecyclerView(mDataRv);
+
+
+        // 测试 GridLayoutManager
+//        mDataRv.setLayoutManager(getGridLayoutManager());
+        // 测试 LinearLayoutManager
+        mDataRv.setLayoutManager(getLinearLayoutManager());
+
+
+        // 测试没有 Header 和 Footer 的情况
+//        mDataRv.setAdapter(mAdapter);
+
+        // 测试有 Header 或 Footer 的情况
+        testHaveHeaderAndFooterAdapter();
     }
 
     private RecyclerView.LayoutManager getGridLayoutManager() {
@@ -70,34 +115,6 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         return new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
-        // 初始化 Adapter
-        mAdapter = new BGABindingRecyclerViewAdapter<>(R.layout.item_binding_normal);
-        mAdapter.setItemEventHandler(this);
-
-        // 设置分割线
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider());
-
-
-        // 初始化拖拽排序和滑动删除
-        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
-        mItemTouchHelper.attachToRecyclerView(mDataRv);
-
-
-        // 测试 GridLayoutManager
-        mDataRv.setLayoutManager(getGridLayoutManager());
-        // 测试 LinearLayoutManager
-//        mDataRv.setLayoutManager(getLinearLayoutManager());
-
-
-        // 测试没有 Header 和 Footer 的情况
-//        mDataRv.setAdapter(mAdapter);
-
-        // 测试有 Header 或 Footer 的情况
-        testHaveHeaderAndFooterAdapter();
-    }
-
     private void testHaveHeaderAndFooterAdapter() {
         addBannerHeader();
 
@@ -110,7 +127,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         header1Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了头部1");
+                ToastUtil.show("点击了头部1");
             }
         });
         // 当时 LinearLayoutManager 时，需要设置一下布局参数的宽度为填充父窗体，否则 header 和 footer 的宽度会是包裹内容
@@ -126,7 +143,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         footer1Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了底部1");
+                ToastUtil.show("点击了底部1");
             }
         });
         footer1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -141,7 +158,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         footer2Tv.setOnClickListener(new BGAOnNoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                showSnackbar("点击了底部2");
+                ToastUtil.show("点击了底部2");
             }
         });
         footer2Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -164,7 +181,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         mBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
             @Override
             public void onBannerItemClick(BGABanner banner, ImageView itemView, String model, int position) {
-                showSnackbar("点击了第" + (position + 1) + "页");
+                ToastUtil.show("点击了第" + (position + 1) + "页");
             }
         });
         mAdapter.addHeaderView(headerView);
@@ -196,41 +213,44 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
      * 加载列表数据
      */
     private void loadNormalModels() {
+        showLoadingDialog();
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
+                dismissLoadingDialog();
                 mAdapter.setData(response.body());
             }
 
             @Override
             public void onFailure(Call<List<NormalModel>> call, Throwable t) {
-                showSnackbar("数据加载失败");
+                dismissLoadingDialog();
+                ToastUtil.show("数据加载失败");
             }
         });
     }
 
     @Override
-    protected void onUserVisible() {
+    protected void onLazyLoadOnce() {
         loadBannerModels();
         loadNormalModels();
     }
 
     public void onClickDelete(BGABindingViewHolder holder, NormalModel model) {
-        showSnackbar("删除了 " + model.title);
+        ToastUtil.show("删除了 " + model.title);
         mAdapter.removeItem(holder.getAdapterPositionWrapper());
     }
 
     public boolean onLongClickDelete(BGABindingViewHolder holder, NormalModel model) {
-        showSnackbar("长按了删除 " + model.title);
+        ToastUtil.show("长按了删除 " + model.title);
         return true;
     }
 
     public void onClickItem(BGABindingViewHolder holder, NormalModel model) {
-        showSnackbar("点击了条目 " + model.title);
+        ToastUtil.show("点击了条目 " + model.title);
     }
 
     public boolean onLongClickItem(BGABindingViewHolder holder, NormalModel model) {
-        showSnackbar("长按了条目 " + model.title);
+        ToastUtil.show("长按了条目 " + model.title);
         return true;
     }
 
@@ -246,7 +266,7 @@ public class RecyclerViewBindingDemoFragment extends BaseFragment {
         if (!mAdapter.isIgnoreCheckedChanged()) {
             model.selected = isChecked;
 
-            showSnackbar((isChecked ? "选中 " : "取消选中") + model.title);
+            ToastUtil.show((isChecked ? "选中 " : "取消选中") + model.title);
         }
     }
 

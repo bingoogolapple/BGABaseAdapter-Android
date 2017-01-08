@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:id="@+id/coordinatorLayout"
                                                  style="@style/MatchMatch.Vertical"
                                                  android:background="@android:color/white">
 
@@ -14,13 +13,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             style="@style/MatchWrap"
-            app:tabIndicatorColor="?attr/colorPrimaryDark"
+            app:tabIndicatorColor="#69BF1C"
             app:tabIndicatorHeight="3dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="10dp"
@@ -28,7 +26,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!-- 加上app:layout_behavior="@string/appbar_scrolling_view_behavior"，使ViewPager不被AppBarLayout遮盖 -->
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         style="@style/MatchMatch"
