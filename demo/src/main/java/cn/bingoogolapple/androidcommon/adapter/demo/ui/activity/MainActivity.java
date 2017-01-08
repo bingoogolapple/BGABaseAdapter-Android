@@ -4,14 +4,18 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+
+import java.util.Arrays;
+import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GvFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvSuspensionFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.MvcFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvChatFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvFragment;
@@ -28,7 +32,6 @@ import static cn.bingoogolapple.androidcommon.adapter.demo.R.id.viewPager;
  * 描述:
  */
 public class MainActivity extends MvcActivity {
-    private Class[] mFragmentClasses = new Class[]{GvFragment.class, LvFragment.class, RvFragment.class, RvBindingFragment.class, RvChatFragment.class, LvSuspensionFragment.class, RvSuspensionFragment.class, RvSuspensionDividerOneFragment.class, RvSuspensionDividerTwoFragment.class};
     private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -58,7 +61,19 @@ public class MainActivity extends MvcActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private class ContentPagerAdapter extends FragmentStatePagerAdapter {
+    private class ContentPagerAdapter extends FragmentPagerAdapter {
+
+        private List<MvcFragment> mFragmentList = Arrays.asList(
+                new GvFragment(),
+                new LvFragment(),
+                new RvFragment(),
+                new RvBindingFragment(),
+                new RvChatFragment(),
+                new LvSuspensionFragment(),
+                new RvSuspensionFragment(),
+                new RvSuspensionDividerOneFragment(),
+                new RvSuspensionDividerTwoFragment()
+        );
 
         public ContentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -66,17 +81,17 @@ public class MainActivity extends MvcActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return Fragment.instantiate(MainActivity.this, mFragmentClasses[position].getName());
+            return mFragmentList.get(position);
         }
 
         @Override
         public int getCount() {
-            return mFragmentClasses.length;
+            return mFragmentList.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentClasses[position].getSimpleName().replace("Fragment", "");
+            return mFragmentList.get(position).getClass().getSimpleName().replace("Fragment", "");
         }
     }
 

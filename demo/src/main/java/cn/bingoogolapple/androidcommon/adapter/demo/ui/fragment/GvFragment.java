@@ -59,14 +59,17 @@ public class GvFragment extends MvcFragment implements AdapterView.OnItemClickLi
 
     @Override
     protected void onLazyLoadOnce() {
+        showLoadingDialog();
         App.getInstance().getRetrofit().create(ApiEngine.class).getNormalModels().enqueue(new Callback<List<NormalModel>>() {
             @Override
             public void onResponse(Call<List<NormalModel>> call, Response<List<NormalModel>> response) {
+                dismissLoadingDialog();
                 mAdapter.setData(response.body());
             }
 
             @Override
             public void onFailure(Call<List<NormalModel>> call, Throwable t) {
+                dismissLoadingDialog();
                 ToastUtil.show("数据加载失败");
             }
         });

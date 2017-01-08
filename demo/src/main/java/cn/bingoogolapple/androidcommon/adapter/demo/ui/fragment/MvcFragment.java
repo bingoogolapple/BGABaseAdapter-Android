@@ -1,6 +1,7 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 public abstract class MvcFragment extends Fragment {
     protected View mContentView;
     protected Activity mActivity;
+    protected ProgressDialog mLoadingDialog;
 
     protected boolean mIsLoadedData = false;
 
@@ -140,5 +142,26 @@ public abstract class MvcFragment extends Fragment {
      */
     protected <VT extends View> VT getViewById(@IdRes int id) {
         return (VT) mContentView.findViewById(id);
+    }
+
+    /**
+     * 显示加载对话框
+     */
+    public void showLoadingDialog() {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new ProgressDialog(mActivity);
+            mLoadingDialog.setCancelable(false);
+            mLoadingDialog.setMessage("数据加载中...");
+        }
+        mLoadingDialog.show();
+    }
+
+    /**
+     * 隐藏加载对话框
+     */
+    public void dismissLoadingDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
+        }
     }
 }
