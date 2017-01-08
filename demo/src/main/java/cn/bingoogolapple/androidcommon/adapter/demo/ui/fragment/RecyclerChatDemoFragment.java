@@ -44,10 +44,6 @@ public class RecyclerChatDemoFragment extends BaseFragment implements BGAOnItemC
     }
 
     @Override
-    protected void onUserVisible() {
-    }
-
-    @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
         mAdapter.getItem(position).mSendStatus = ChatModel.SendStatus.Success;
 

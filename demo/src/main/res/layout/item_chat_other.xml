@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/MatchWrap.Vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchWrap"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="8dp">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/MatchWrap"
-        android:padding="8dp">
+    <ImageView
+        android:id="@+id/iv_item_chat_other_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/chat_her"/>
 
-        <ImageView
-            android:id="@+id/iv_item_chat_other_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@mipmap/chat_her"/>
-
-        <TextView
-            android:id="@+id/tv_item_chat_other_msg"
-            style="@style/WrapWrap"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/iv_item_chat_other_avatar"
-            android:background="@drawable/selector_item_chat_from"
-            android:gravity="left|center"
-            android:text="测试消息"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"/>
-    </RelativeLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_item_chat_other_msg"
+        style="@style/WrapWrap"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/size_level2"
+        android:layout_toRightOf="@id/iv_item_chat_other_avatar"
+        android:background="@drawable/chat_from_normal"
+        android:gravity="left|center"
+        android:text="测试消息"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/textSize_14"/>
+</RelativeLayout>

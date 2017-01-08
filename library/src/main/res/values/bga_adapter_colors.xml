@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bga_adapter_divider">#dedede</color>
-    <color name="bga_adapter_line">#dedede</color>
+    <color name="bga_adapter_divider">#DEDEDE</color>
+    <color name="bga_adapter_line">#DEDEDE</color>
+    <color name="bga_adapter_item_pressed">#EFEFEF</color>
 </resources>

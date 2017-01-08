@@ -27,7 +27,6 @@ import retrofit2.Response;
  * 描述:
  */
 public class GridViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
-    private static final String TAG = GridViewDemoFragment.class.getSimpleName();
     private GridView mDataGv;
     private NormalAdapterViewAdapter mAdapter;
 

@@ -28,7 +28,6 @@ import retrofit2.Response;
  * 描述:
  */
 public class ListViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
-    private static final String TAG = ListViewDemoFragment.class.getSimpleName();
     private ListView mDataLv;
     private NormalAdapterViewAdapter mAdapter;
 
