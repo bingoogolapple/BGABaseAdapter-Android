@@ -1,6 +1,5 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 创建时间:15/5/22 10:06
  * 描述:通过 BGADivider 加一个 SuspensionDelegate 来实现悬浮分类列表
  */
-public class RecyclerIndexDemoTwoFragment extends BaseFragment implements BGAOnRVItemClickListener {
+public class RvSuspensionDividerOneFragment extends BaseFragment implements BGAOnRVItemClickListener {
     private RecyclerIndexDemoTwoAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
@@ -58,7 +57,6 @@ public class RecyclerIndexDemoTwoFragment extends BaseFragment implements BGAOnR
         mIndexView.setTipTv(mTipTv);
 
         mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
-                .setColor(Color.TRANSPARENT, false)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.size_level3)
                 .setMarginRightResource(R.dimen.size_level9)

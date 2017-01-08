@@ -11,15 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GridViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListIndexViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.ListViewDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerChatDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoOneFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoThreeFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerIndexDemoTwoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment;
-import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewDemoFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.GvFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvSuspensionFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.LvFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvChatFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionDividerTwoFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvSuspensionDividerOneFragment;
+import cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvFragment;
 import cn.bingoogolapple.androidcommon.adapter.demo.util.SnackbarUtil;
 
 /**
@@ -28,7 +28,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.util.SnackbarUtil;
  * 描述:
  */
 public class MainActivity extends AppCompatActivity {
-    private Class[] mFragmentClasses = new Class[]{GridViewDemoFragment.class, ListViewDemoFragment.class, RecyclerViewDemoFragment.class, RecyclerViewBindingDemoFragment.class, RecyclerChatDemoFragment.class, ListIndexViewDemoFragment.class, RecyclerIndexDemoOneFragment.class, RecyclerIndexDemoTwoFragment.class, RecyclerIndexDemoThreeFragment.class};
+    private Class[] mFragmentClasses = new Class[]{GvFragment.class, LvFragment.class, RvFragment.class, RvBindingFragment.class, RvChatFragment.class, LvSuspensionFragment.class, RvSuspensionFragment.class, RvSuspensionDividerOneFragment.class, RvSuspensionDividerTwoFragment.class};
     private CoordinatorLayout mCoordinatorLayout;
 
     @Override

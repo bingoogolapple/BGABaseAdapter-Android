@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -21,25 +21,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/6/28 下午12:34
  * 描述:
  */
-public class GridViewDemoFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
-    private GridView mDataGv;
+public class LvFragment extends BaseFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
+    private ListView mDataLv;
     private NormalAdapterViewAdapter mAdapter;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_gridview);
-        mDataGv = getViewById(R.id.lv_gridview_data);
+        setContentView(R.layout.fragment_listview);
+        mDataLv = getViewById(R.id.lv_listview_data);
     }
 
     @Override
     protected void setListener() {
-        mDataGv.setOnItemClickListener(this);
-        mDataGv.setOnItemLongClickListener(this);
+        mDataLv.setOnItemClickListener(this);
+        mDataLv.setOnItemLongClickListener(this);
 
         mAdapter = new NormalAdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
@@ -49,7 +50,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-        mDataGv.setAdapter(mAdapter);
+        mDataLv.setAdapter(mAdapter);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class GridViewDemoFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        showSnackbar("长按了条目 " + mAdapter.getItem(position).title);
+        showSnackbar("长按了" + mAdapter.getItem(position).title);
         return true;
     }
 

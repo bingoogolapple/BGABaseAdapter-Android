@@ -17,7 +17,7 @@
 
         <variable
             name="itemEventHandler"
-            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RecyclerViewBindingDemoFragment"/>
+            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment"/>
     </data>
 
     <RelativeLayout

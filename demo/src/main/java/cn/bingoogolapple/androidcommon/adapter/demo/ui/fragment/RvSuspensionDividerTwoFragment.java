@@ -23,7 +23,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 创建时间:15/5/22 10:06
  * 描述:通过 BGADivider 加两个 SimpleDelegate 来实现悬浮分类列表
  */
-public class RecyclerIndexDemoThreeFragment extends BaseFragment implements BGAOnRVItemClickListener {
+public class RvSuspensionDividerTwoFragment extends BaseFragment implements BGAOnRVItemClickListener {
     private RecyclerIndexDemoTwoAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;

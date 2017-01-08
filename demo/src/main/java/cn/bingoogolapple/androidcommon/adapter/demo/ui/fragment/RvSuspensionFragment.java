@@ -19,7 +19,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class RvSuspensionFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private RecyclerIndexDemoOneAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;

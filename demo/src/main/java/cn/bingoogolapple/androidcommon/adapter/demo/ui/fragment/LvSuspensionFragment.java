@@ -21,7 +21,7 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class LvSuspensionFragment extends BaseFragment implements BGAOnItemChildClickListener {
     private List<IndexModel> mData;
     private ListView mDataLv;
     private IndexView mIndexView;

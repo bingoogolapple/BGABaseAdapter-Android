@@ -41,8 +41,8 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewBindingDemoFragment extends BaseFragment {
-    private static final String TAG = RecyclerViewBindingDemoFragment.class.getSimpleName();
+public class RvBindingFragment extends BaseFragment {
+    private static final String TAG = RvBindingFragment.class.getSimpleName();
     private BGABindingRecyclerViewAdapter<NormalModel, ItemBindingNormalBinding> mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;

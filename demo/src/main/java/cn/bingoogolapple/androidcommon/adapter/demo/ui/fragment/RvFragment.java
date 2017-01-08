@@ -48,8 +48,8 @@ import retrofit2.Response;
  * 创建时间:15/6/28 下午1:30
  * 描述:
  */
-public class RecyclerViewDemoFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
-    private static final String TAG = RecyclerViewDemoFragment.class.getSimpleName();
+public class RvFragment extends BaseFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
+    private static final String TAG = RvFragment.class.getSimpleName();
     private NormalRecyclerViewAdapter mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
