@@ -13,13 +13,14 @@ import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoOneAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
+import cn.bingoogolapple.androidcommon.adapter.demo.util.ToastUtil;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class RvSuspensionFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class RvSuspensionFragment extends MvcFragment implements BGAOnItemChildClickListener {
     private RecyclerIndexDemoOneAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
@@ -28,8 +29,12 @@ public class RvSuspensionFragment extends BaseFragment implements BGAOnItemChild
     private TextView mCategoryTv;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_recyclerindexview;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_recyclerindexview);
         mDataRv = getViewById(R.id.rv_recyclerindexview_data);
         mCategoryTv = getViewById(R.id.tv_recyclerindexview_category);
 
@@ -95,9 +100,9 @@ public class RvSuspensionFragment extends BaseFragment implements BGAOnItemChild
     @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
         if (childView.getId() == R.id.tv_item_index_catalog) {
-            showSnackbar("点击了分类 " + mAdapter.getItem(position).topc);
+            ToastUtil.show("点击了分类 " + mAdapter.getItem(position).topc);
         } else if (childView.getId() == R.id.tv_item_index_city) {
-            showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
+            ToastUtil.show("选择了城市 " + mAdapter.getItem(position).name);
         }
     }
 }

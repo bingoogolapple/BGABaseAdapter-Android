@@ -15,13 +15,14 @@ import cn.bingoogolapple.androidcommon.adapter.demo.adapter.ListIndexAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
+import cn.bingoogolapple.androidcommon.adapter.demo.util.ToastUtil;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 10:06
  * 描述:
  */
-public class LvSuspensionFragment extends BaseFragment implements BGAOnItemChildClickListener {
+public class LvSuspensionFragment extends MvcFragment implements BGAOnItemChildClickListener {
     private List<IndexModel> mData;
     private ListView mDataLv;
     private IndexView mIndexView;
@@ -31,8 +32,12 @@ public class LvSuspensionFragment extends BaseFragment implements BGAOnItemChild
     private ListIndexAdapter mAdapter;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_listindexview;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_listindexview);
         mDataLv = getViewById(R.id.lv_listindexview_data);
         mTopcTv = getViewById(R.id.tv_listindexview_category);
 
@@ -84,9 +89,9 @@ public class LvSuspensionFragment extends BaseFragment implements BGAOnItemChild
     @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
         if (childView.getId() == R.id.tv_item_index_catalog) {
-            showSnackbar("点击了分类 " + mAdapter.getItem(position).topc);
+            ToastUtil.show("点击了分类 " + mAdapter.getItem(position).topc);
         } else if (childView.getId() == R.id.tv_item_index_city) {
-            showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
+            ToastUtil.show("选择了城市 " + mAdapter.getItem(position).name);
         }
     }
 }

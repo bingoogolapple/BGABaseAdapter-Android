@@ -13,13 +13,14 @@ import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoTwoAdapter;
 import cn.bingoogolapple.androidcommon.adapter.demo.engine.DataEngine;
 import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
+import cn.bingoogolapple.androidcommon.adapter.demo.util.ToastUtil;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 10:06
  * 描述:通过 BGADivider 加一个 SuspensionDelegate 来实现悬浮分类列表
  */
-public class RvSuspensionDividerOneFragment extends BaseFragment implements BGAOnRVItemClickListener {
+public class RvSuspensionDividerOneFragment extends MvcFragment implements BGAOnRVItemClickListener {
     private RecyclerIndexDemoTwoAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
@@ -27,8 +28,12 @@ public class RvSuspensionDividerOneFragment extends BaseFragment implements BGAO
     private TextView mTipTv;
 
     @Override
+    protected int getRootLayoutResID() {
+        return R.layout.fragment_recyclerindexview_divider;
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_recyclerindexview_divider);
         mDataRv = getViewById(R.id.rv_recyclerindexview_data);
 
         mIndexView = getViewById(R.id.indexview);
@@ -96,6 +101,6 @@ public class RvSuspensionDividerOneFragment extends BaseFragment implements BGAO
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
+        ToastUtil.show("选择了城市 " + mAdapter.getItem(position).name);
     }
 }
