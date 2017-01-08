@@ -10,7 +10,7 @@
         android:scrollbars="none"/>
 
     <TextView
-        android:id="@+id/tv_recyclerindexview_topc"
+        android:id="@+id/tv_recyclerindexview_category"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_level8"
         android:background="@color/category_backgroundColor"

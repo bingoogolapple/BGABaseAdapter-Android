@@ -13,25 +13,26 @@ import cn.bingoogolapple.androidcommon.adapter.demo.model.IndexModel;
  * 描述:
  */
 public class RecyclerIndexDemoTwoAdapter extends BGARecyclerViewAdapter<IndexModel> {
+
     public RecyclerIndexDemoTwoAdapter(RecyclerView recyclerView) {
-        super(recyclerView, R.layout.item_index_content);
+        super(recyclerView, R.layout.item_index_city);
     }
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
-        helper.setText(R.id.tv_item_index_content_name, model.name);
+        helper.setText(R.id.tv_item_index_city, model.name);
     }
 
     public boolean isCategory(int position) {
-        int section = mData.get(position).topc.charAt(0);
-        return position == getPositionForSection(section);
+        int category = getItem(position).topc.charAt(0);
+        return position == getPositionForCategory(category);
     }
 
-    public int getPositionForSection(int section) {
+    public int getPositionForCategory(int category) {
         for (int i = 0; i < getItemCount(); i++) {
-            String sortStr = mData.get(i).topc;
+            String sortStr = getItem(i).topc;
             char firstChar = sortStr.toUpperCase().charAt(0);
-            if (firstChar == section) {
+            if (firstChar == category) {
                 return i;
             }
         }

@@ -22,7 +22,6 @@ import cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView;
  * 描述:
  */
 public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItemChildClickListener {
-    private static final String TAG = ListIndexViewDemoFragment.class.getSimpleName();
     private List<IndexModel> mData;
     private ListView mDataLv;
     private IndexView mIndexView;
@@ -35,7 +34,7 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_listindexview);
         mDataLv = getViewById(R.id.lv_listindexview_data);
-        mTopcTv = getViewById(R.id.tv_listindexview_topc);
+        mTopcTv = getViewById(R.id.tv_listindexview_category);
 
         mIndexView = getViewById(R.id.indexview);
         mTipTv = getViewById(R.id.tv_listindexview_tip);
@@ -49,7 +48,7 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
             @Override
             public void onChanged(String text) {
-                int position = mAdapter.getPositionForSection(text.charAt(0));
+                int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到ListView的第一个可见条目
                     mDataLv.setSelection(position);
@@ -60,7 +59,6 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
         mDataLv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
             }
 
             @Override
@@ -84,12 +82,10 @@ public class ListIndexViewDemoFragment extends BaseFragment implements BGAOnItem
     }
 
     @Override
-    protected void onUserVisible() {
-    }
-
-    @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_item_indexview_name) {
+        if (childView.getId() == R.id.tv_item_index_catalog) {
+            showSnackbar("点击了分类 " + mAdapter.getItem(position).topc);
+        } else if (childView.getId() == R.id.tv_item_index_city) {
             showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
         }
     }

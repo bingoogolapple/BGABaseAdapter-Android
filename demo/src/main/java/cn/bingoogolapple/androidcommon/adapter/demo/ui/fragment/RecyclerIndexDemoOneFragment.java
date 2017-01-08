@@ -25,13 +25,13 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
     private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
     private TextView mTipTv;
-    private TextView mTopcTv;
+    private TextView mCategoryTv;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_recyclerindexview);
         mDataRv = getViewById(R.id.rv_recyclerindexview_data);
-        mTopcTv = getViewById(R.id.tv_recyclerindexview_topc);
+        mCategoryTv = getViewById(R.id.tv_recyclerindexview_category);
 
         mIndexView = getViewById(R.id.indexview);
         mTipTv = getViewById(R.id.tv_recyclerindexview_tip);
@@ -45,7 +45,7 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
             @Override
             public void onChanged(String text) {
-                int position = mAdapter.getPositionForSection(text.charAt(0));
+                int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到RecyclerView的可见区域，如果已经可见则不会滑动
                     mLayoutManager.scrollToPosition(position);
@@ -60,7 +60,7 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (mAdapter.getItemCount() > 0) {
-                    mTopcTv.setText(mAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition()).topc);
+                    mCategoryTv.setText(mAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition()).topc);
                 }
             }
         });
@@ -76,7 +76,7 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
                 .setDelegate(new BGADivider.SimpleDelegate() {
                     @Override
                     public boolean isNeedSkip(int position, int itemCount) {
-                        // 如果分类的话就跳过，顶部不绘制
+                        // 如果是分类的话就跳过，顶部不绘制分隔线
                         return mAdapter.isCategory(position);
                     }
                 }));
@@ -89,16 +89,14 @@ public class RecyclerIndexDemoOneFragment extends BaseFragment implements BGAOnI
         mAdapter.setData(DataEngine.loadIndexModelData());
         mDataRv.setAdapter(mAdapter);
 
-        mTopcTv.setText(mAdapter.getItem(0).topc);
-    }
-
-    @Override
-    protected void onUserVisible() {
+        mCategoryTv.setText(mAdapter.getItem(0).topc);
     }
 
     @Override
     public void onItemChildClick(ViewGroup parent, View childView, int position) {
-        if (childView.getId() == R.id.tv_item_indexview_name) {
+        if (childView.getId() == R.id.tv_item_index_catalog) {
+            showSnackbar("点击了分类 " + mAdapter.getItem(position).topc);
+        } else if (childView.getId() == R.id.tv_item_index_city) {
             showSnackbar("选择了城市 " + mAdapter.getItem(position).name);
         }
     }

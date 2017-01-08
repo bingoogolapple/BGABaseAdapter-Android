@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_item_index_content_name"
+    android:id="@+id/tv_item_index_city"
     style="@style/MatchWrap"
     android:background="@drawable/selector_item"
     android:paddingBottom="@dimen/size_level2"

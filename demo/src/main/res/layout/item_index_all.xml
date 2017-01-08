@@ -3,8 +3,7 @@
               style="@style/MatchWrap.Vertical">
 
     <TextView
-        android:id="@+id/tv_item_indexview_catalog"
-        style="@style/MatchWrap"
+        android:id="@+id/tv_item_index_catalog"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_level8"
         android:background="@color/category_backgroundColor"
@@ -16,16 +15,5 @@
         android:textSize="@dimen/textSize_14"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/tv_item_indexview_name"
-        style="@style/MatchWrap"
-        android:background="@drawable/selector_item"
-        android:paddingBottom="@dimen/size_level2"
-        android:paddingLeft="@dimen/size_level3"
-        android:paddingRight="@dimen/size_level3"
-        android:paddingTop="@dimen/size_level2"
-        android:text="成都"
-        android:textColor="#949494"
-        android:textSize="@dimen/textSize_14"/>
-
+    <include layout="@layout/item_index_city"/>
 </LinearLayout>

@@ -47,7 +47,7 @@ public class RecyclerIndexDemoThreeFragment extends BaseFragment implements BGAO
         mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
             @Override
             public void onChanged(String text) {
-                int position = mAdapter.getPositionForSection(text.charAt(0));
+                int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到RecyclerView的可见区域，如果已经可见则不会滑动
                     mLayoutManager.scrollToPosition(position);
