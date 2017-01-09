@@ -50,9 +50,9 @@ public class LvSuspensionFragment extends MvcFragment implements BGAOnItemChildC
         mAdapter = new ListIndexAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
 
-        mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
+        mIndexView.setDelegate(new IndexView.Delegate() {
             @Override
-            public void onChanged(String text) {
+            public void onIndexViewSelectedChanged(IndexView indexView, String text) {
                 int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到ListView的第一个可见条目

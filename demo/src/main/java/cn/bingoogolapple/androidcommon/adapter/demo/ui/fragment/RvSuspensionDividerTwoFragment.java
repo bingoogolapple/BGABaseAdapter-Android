@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cn.bingoogolapple.androidcommon.adapter.BGADivider;
+import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewScrollHelper;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoTwoAdapter;
@@ -30,6 +31,7 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
     private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
     private TextView mTipTv;
+    private BGARecyclerViewScrollHelper mRecyclerViewScrollHelper;
 
     @Override
     protected int getRootLayoutResID() {
@@ -49,16 +51,20 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
         mAdapter = new RecyclerIndexDemoTwoAdapter(mDataRv);
         mAdapter.setOnRVItemClickListener(this);
 
-        mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
+        mIndexView.setDelegate(new IndexView.Delegate() {
             @Override
-            public void onChanged(String text) {
+            public void onIndexViewSelectedChanged(IndexView indexView, String text) {
                 int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到RecyclerView的可见区域，如果已经可见则不会滑动
-                    mLayoutManager.scrollToPosition(position);
+//                    mLayoutManager.scrollToPosition(position);
+
+                    mRecyclerViewScrollHelper.smoothScrollToPosition(position);
                 }
             }
         });
+
+        mRecyclerViewScrollHelper = BGARecyclerViewScrollHelper.newInstance(mDataRv);
     }
 
     @Override

@@ -16,9 +16,10 @@ public class IndexView extends View {
     public static final String[] mData = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z"};
+
     private int mSelected = -1;
-    private Paint mPaint = new Paint();
-    private OnChangedListener mOnChangedListener;
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Delegate mDelegate;
     private TextView mTipTv;
     private int mNormalTextColor;
     private int mPressedTextColor;
@@ -36,6 +37,11 @@ public class IndexView extends View {
 
         mNormalTextColor = context.getResources().getColor(R.color.colorPrimary);
         mPressedTextColor = context.getResources().getColor(R.color.colorPrimaryDark);
+
+        mPaint.setTypeface(Typeface.DEFAULT);
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setTextSize(sp2px(14));
     }
 
     protected void onDraw(Canvas canvas) {
@@ -45,17 +51,14 @@ public class IndexView extends View {
 
         for (int i = 0; i < mData.length; i++) {
             mPaint.setColor(mNormalTextColor);
-            mPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            mPaint.setAntiAlias(true);
-            mPaint.setTextSize(sp2px(15));
+            mPaint.setTypeface(Typeface.DEFAULT);
             if (i == mSelected) {
                 mPaint.setColor(mPressedTextColor);
-                mPaint.setFakeBoldText(true);
+                mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             }
             float xPos = width / 2 - mPaint.measureText(mData[i]) / 2;
             float yPos = singleHeight * i + singleHeight;
             canvas.drawText(mData[i], xPos, yPos, mPaint);
-            mPaint.reset();
         }
     }
 
@@ -75,8 +78,8 @@ public class IndexView extends View {
             default:
                 if (mSelected != newSelected) {
                     if (newSelected >= 0 && newSelected < mData.length) {
-                        if (mOnChangedListener != null) {
-                            mOnChangedListener.onChanged(mData[newSelected]);
+                        if (mDelegate != null) {
+                            mDelegate.onIndexViewSelectedChanged(this, mData[newSelected]);
                         }
                         if (mTipTv != null) {
                             mTipTv.setText(mData[newSelected]);
@@ -95,16 +98,16 @@ public class IndexView extends View {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, getResources().getDisplayMetrics());
     }
 
-    public void setOnChangedListener(OnChangedListener onChangedListener) {
-        mOnChangedListener = onChangedListener;
+    public void setDelegate(Delegate delegate) {
+        mDelegate = delegate;
     }
 
     public void setTipTv(TextView tipTv) {
         mTipTv = tipTv;
     }
 
-    public interface OnChangedListener {
-        public void onChanged(String text);
+    public interface Delegate {
+        void onIndexViewSelectedChanged(IndexView indexView, String text);
     }
 
 }
