@@ -135,19 +135,20 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
         protected int mCategoryPaddingLeft;
         protected int mTextHeight;
         protected int mCategoryHeight;
+        protected int mCategoryTextSize;
         protected float mCategoryTextOffset;
 
         @Override
         protected void initAttr() {
             mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
             mCategoryTextColor = getResources().getColor(R.color.category_textColor);
+            mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.textSize_16);
             mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
+            mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level8);
 
-            mPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.textSize_16));
+            mPaint.setTextSize(mCategoryTextSize);
             mPaint.setTypeface(Typeface.DEFAULT_BOLD);
             mPaint.setStyle(Paint.Style.FILL);
-
-            mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level8);
 
             Rect rect = new Rect();
             mPaint.getTextBounds("王浩", 0, 2, rect);

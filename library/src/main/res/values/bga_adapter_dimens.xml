@@ -4,6 +4,9 @@
     <dimen name="bga_adapter_line_size">1px</dimen>
     <dimen name="bga_adapter_horizontal_margin">16dp</dimen>
     <dimen name="bga_adapter_vertical_margin">8dp</dimen>
+    <dimen name="bga_adapter_empty_view_msg_textSize">16sp</dimen>
+    <dimen name="bga_adapter_empty_view_space">16sp</dimen>
+    <dimen name="bga_adapter_empty_view_icon_size">100dp</dimen>
 
     <dimen name="size_level1">4dp</dimen>
     <dimen name="size_level2">8dp</dimen>

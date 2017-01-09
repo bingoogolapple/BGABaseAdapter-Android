@@ -3,4 +3,5 @@
     <color name="bga_adapter_divider">#DEDEDE</color>
     <color name="bga_adapter_line">#DEDEDE</color>
     <color name="bga_adapter_item_pressed">#EFEFEF</color>
+    <color name="bga_adapter_empty_view_msg_textColor">#333333</color>
 </resources>

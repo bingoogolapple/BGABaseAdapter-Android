@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/ll_bga_adapter_empty_view_root"
+              style="@style/MatchMatch.Vertical"
+              android:clickable="true"
+              android:gravity="center"
+              android:padding="@dimen/size_level4">
+
+    <ImageView
+        android:id="@+id/iv_bga_adapter_empty_view_icon"
+        android:layout_width="@dimen/bga_adapter_empty_view_icon_size"
+        android:layout_height="@dimen/bga_adapter_empty_view_icon_size"
+        android:layout_marginBottom="@dimen/bga_adapter_empty_view_space"
+        android:clickable="true"
+        android:visibility="gone"
+        tools:background="#ff0000"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_bga_adapter_empty_view_msg"
+        style="@style/WrapWrap"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="@dimen/size_level2"
+        android:textColor="@color/bga_adapter_empty_view_msg_textColor"
+        android:textSize="@dimen/bga_adapter_empty_view_msg_textSize"
+        android:visibility="gone"
+        tools:text="暂无数据"
+        tools:visibility="visible"/>
+</LinearLayout>

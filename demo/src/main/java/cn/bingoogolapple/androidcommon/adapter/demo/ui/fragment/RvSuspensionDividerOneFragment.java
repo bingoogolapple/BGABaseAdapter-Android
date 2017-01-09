@@ -75,8 +75,8 @@ public class RvSuspensionDividerOneFragment extends MvcFragment implements BGAOn
                     public void initCategoryAttr() {
 //                        mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
 //                        mCategoryTextColor = getResources().getColor(R.color.category_textColor);
-//                        mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
 //                        mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.textSize_16);
+//                        mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
 //                        mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level10);
                     }
 

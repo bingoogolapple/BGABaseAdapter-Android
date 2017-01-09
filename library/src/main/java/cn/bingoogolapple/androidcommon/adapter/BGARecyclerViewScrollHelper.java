@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 majiajie
+ * Copyright 2015 tyzlmjj
  * Copyright 2016 bingoogolapple
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ import android.support.v7.widget.RecyclerView;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:17/1/9 下午9:27
- * 描述:RecyclerView 滚动到指定位置帮助类
+ * 描述:RecyclerView 滚动到指定位置帮助类。参考的 http://blog.csdn.net/tyzlmjj/article/details/49227601
  */
 public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
     private RecyclerView mDataRv;
