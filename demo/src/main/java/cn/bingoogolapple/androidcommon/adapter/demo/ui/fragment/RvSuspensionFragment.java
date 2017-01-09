@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cn.bingoogolapple.androidcommon.adapter.BGADivider;
+import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewScrollHelper;
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.androidcommon.adapter.demo.R;
 import cn.bingoogolapple.androidcommon.adapter.demo.adapter.RecyclerIndexDemoOneAdapter;
@@ -27,6 +28,7 @@ public class RvSuspensionFragment extends MvcFragment implements BGAOnItemChildC
     private IndexView mIndexView;
     private TextView mTipTv;
     private TextView mCategoryTv;
+    private BGARecyclerViewScrollHelper mRecyclerViewScrollHelper;
 
     @Override
     protected int getRootLayoutResID() {
@@ -47,21 +49,19 @@ public class RvSuspensionFragment extends MvcFragment implements BGAOnItemChildC
         mAdapter = new RecyclerIndexDemoOneAdapter(mDataRv);
         mAdapter.setOnItemChildClickListener(this);
 
-        mIndexView.setOnChangedListener(new IndexView.OnChangedListener() {
+        mIndexView.setDelegate(new IndexView.Delegate() {
             @Override
-            public void onChanged(String text) {
+            public void onIndexViewSelectedChanged(IndexView indexView, String text) {
                 int position = mAdapter.getPositionForCategory(text.charAt(0));
                 if (position != -1) {
                     // position的item滑动到RecyclerView的可见区域，如果已经可见则不会滑动
-                    mLayoutManager.scrollToPosition(position);
+//                    mLayoutManager.scrollToPosition(position);
+
+                    mRecyclerViewScrollHelper.scrollToPosition(position);
                 }
             }
         });
         mDataRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (mAdapter.getItemCount() > 0) {
@@ -69,6 +69,7 @@ public class RvSuspensionFragment extends MvcFragment implements BGAOnItemChildC
                 }
             }
         });
+        mRecyclerViewScrollHelper = BGARecyclerViewScrollHelper.newInstance(mDataRv);
     }
 
     @Override
