@@ -28,6 +28,8 @@ import android.support.annotation.DimenRes;
 import android.util.Log;
 import android.util.TypedValue;
 
+import java.util.List;
+
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:17/1/6 上午4:04
@@ -94,5 +96,9 @@ public class BGAAdapterUtil {
         Canvas canvas = new Canvas(outputBitmap);
         canvas.drawBitmap(inputBitmap, matrix, paint);
         return new BitmapDrawable(null, outputBitmap);
+    }
+
+    public static boolean isListNotEmpty(List list) {
+        return list != null && !list.isEmpty();
     }
 }

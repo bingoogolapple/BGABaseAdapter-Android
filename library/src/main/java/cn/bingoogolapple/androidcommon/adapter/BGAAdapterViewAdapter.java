@@ -145,7 +145,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param data
      */
     public void addNewData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
             mData.addAll(0, data);
             notifyDataSetChanged();
         }
@@ -157,7 +157,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param data
      */
     public void addMoreData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
             mData.addAll(mData.size(), data);
             notifyDataSetChanged();
         }
@@ -169,7 +169,7 @@ public abstract class BGAAdapterViewAdapter<M> extends BaseAdapter {
      * @param data
      */
     public void setData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
             mData = data;
         } else {
             mData.clear();

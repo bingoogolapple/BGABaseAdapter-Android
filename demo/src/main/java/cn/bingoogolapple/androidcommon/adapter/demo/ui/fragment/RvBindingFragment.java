@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGABindingRecyclerViewAdapter;
@@ -73,6 +74,7 @@ public class RvBindingFragment extends MvcFragment {
         mDataRv.addItemDecoration(BGADivider.newShapeDivider()
                 .setStartSkipCount(1)
                 .setEndSkipCount(1)
+                .setSizeDp(5)
                 .setDelegate(new BGADivider.SimpleDelegate() {
                     @Override
                     public boolean isNeedSkip(int position, int itemCount) {
@@ -128,6 +130,11 @@ public class RvBindingFragment extends MvcFragment {
             @Override
             public void onNoDoubleClick(View v) {
                 ToastUtil.show("点击了头部1");
+                List<NormalModel> newData = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    newData.add(new NormalModel("NewTitle" + i, "NewDetail" + i, "https://avatars2.githubusercontent.com/u/8949716?v=3&s=460"));
+                }
+                mAdapter.addNewData(newData);
             }
         });
         // 当时 LinearLayoutManager 时，需要设置一下布局参数的宽度为填充父窗体，否则 header 和 footer 的宽度会是包裹内容
@@ -144,6 +151,11 @@ public class RvBindingFragment extends MvcFragment {
             @Override
             public void onNoDoubleClick(View v) {
                 ToastUtil.show("点击了底部1");
+                List<NormalModel> moreData = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    moreData.add(new NormalModel("MoreTitle" + i, "MoreDetail" + i, "https://avatars2.githubusercontent.com/u/8949716?v=3&s=460"));
+                }
+                mAdapter.addMoreData(moreData);
             }
         });
         footer1Tv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
