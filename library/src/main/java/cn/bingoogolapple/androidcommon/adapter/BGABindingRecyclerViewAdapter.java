@@ -154,7 +154,7 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
      * @param data
      */
     public void addNewData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
             mData.addAll(0, data);
             notifyItemRangeInsertedWrapper(0, data.size());
         }
@@ -166,9 +166,10 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
      * @param data
      */
     public void addMoreData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
+            int positionStart = mData.size();
             mData.addAll(mData.size(), data);
-            notifyItemRangeInsertedWrapper(mData.size(), data.size());
+            notifyItemRangeInsertedWrapper(positionStart, data.size());
         }
     }
 
@@ -186,7 +187,7 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
      * @param data
      */
     public void setData(List<M> data) {
-        if (data != null) {
+        if (BGAAdapterUtil.isListNotEmpty(data)) {
             mData = data;
         } else {
             mData.clear();
