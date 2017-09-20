@@ -49,7 +49,7 @@ public class BGAGridDivider extends RecyclerView.ItemDecoration {
      * @param spaceDp 单位为 dp
      * @return
      */
-    public BGAGridDivider newInstanceWithSpaceDp(int spaceDp) {
+    public static BGAGridDivider newInstanceWithSpaceDp(int spaceDp) {
         return new BGAGridDivider(BGAAdapterUtil.dp2px(spaceDp));
     }
 
