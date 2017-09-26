@@ -34,6 +34,8 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
 
     private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
+    private int mCurrentMaxHeaderKey = BASE_ITEM_TYPE_HEADER;
+    private int mCurrentMaxFooterKey = BASE_ITEM_TYPE_FOOTER;
 
     private RecyclerView.Adapter mInnerAdapter;
 
@@ -112,17 +114,6 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
                         }
                         return 1;
                     }
-
-//                    int viewType = getItemViewType(position);
-//                    if (mHeaderViews.get(viewType) != null) {
-//                        return gridLayoutManager.getSpanCount();
-//                    } else if (mFootViews.get(viewType) != null) {
-//                        return gridLayoutManager.getSpanCount();
-//                    }
-//                    if (spanSizeLookup != null) {
-//                        return spanSizeLookup.getSpanSize(position - getHeadersCount());
-//                    }
-//                    return 1;
                 }
             });
         }
@@ -196,7 +187,21 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
      * @param view
      */
     public void addHeaderView(View view) {
-        mHeaderViews.put(mHeaderViews.size() + BASE_ITEM_TYPE_HEADER, view);
+        mHeaderViews.put(++mCurrentMaxHeaderKey, view);
+        notifyItemInserted(getHeadersCount() - 1);
+    }
+
+    /**
+     * 移除 header
+     *
+     * @param view
+     */
+    public void removeHeaderView(View view) {
+        int index = mHeaderViews.indexOfValue(view);
+        if (index != -1) {
+            mHeaderViews.removeAt(index);
+            notifyItemRemoved(index);
+        }
     }
 
     /**
@@ -205,7 +210,21 @@ public class BGAHeaderAndFooterAdapter extends RecyclerView.Adapter<RecyclerView
      * @param view
      */
     public void addFooterView(View view) {
-        mFootViews.put(mFootViews.size() + BASE_ITEM_TYPE_FOOTER, view);
+        mFootViews.put(++mCurrentMaxFooterKey, view);
+        notifyItemInserted(getHeadersCount() + getRealItemCount() + getFootersCount() - 1);
+    }
+
+    /**
+     * 移除 footer
+     *
+     * @param view
+     */
+    public void removeFooterView(View view) {
+        int index = mFootViews.indexOfValue(view);
+        if (index != -1) {
+            mFootViews.removeAt(index);
+            notifyItemRemoved(getHeadersCount() + getRealItemCount() + index);
+        }
     }
 
     /**

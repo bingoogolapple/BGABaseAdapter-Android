@@ -384,6 +384,14 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
         getHeaderAndFooterAdapter().addFooterView(footerView);
     }
 
+    public void removeHeaderView(View view) {
+        getHeaderAndFooterAdapter().removeHeaderView(view);
+    }
+
+    public void removeFooterView(View view) {
+        getHeaderAndFooterAdapter().removeFooterView(view);
+    }
+
     public int getHeadersCount() {
         return mHeaderAndFooterAdapter == null ? 0 : mHeaderAndFooterAdapter.getHeadersCount();
     }
