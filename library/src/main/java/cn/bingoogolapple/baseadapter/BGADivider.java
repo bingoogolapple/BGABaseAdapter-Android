@@ -349,6 +349,15 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+        handleDraw(canvas, parent, true);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+        handleDraw(canvas, parent, false);
+    }
+
+    private void handleDraw(Canvas canvas, RecyclerView parent, boolean isDrawOver) {
         if (parent.getLayoutManager() == null || parent.getAdapter() == null) {
             return;
         }
@@ -363,13 +372,14 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         }
 
         if (mOrientation == LinearLayout.VERTICAL) {
-            drawVertical(canvas, parent, headerAndFooterAdapter, itemCount, realItemCount);
+            drawVertical(canvas, parent, headerAndFooterAdapter, itemCount, realItemCount, isDrawOver);
         } else {
             drawHorizontal(canvas, parent);
         }
     }
 
-    private void drawVertical(Canvas canvas, RecyclerView parent, BGAHeaderAndFooterAdapter headerAndFooterAdapter, int itemCount, int realItemCount) {
+    private void drawVertical(Canvas canvas, RecyclerView parent, BGAHeaderAndFooterAdapter headerAndFooterAdapter, int itemCount, int realItemCount, boolean
+            isDrawOver) {
         int dividerLeft = parent.getPaddingLeft() + mMarginLeft;
         int dividerRight = parent.getWidth() - parent.getPaddingRight() - mMarginRight;
         View itemView;
@@ -393,14 +403,27 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             int dividerBottom = itemView.getTop() - itemLayoutParams.topMargin;
 
             if (mDelegate != null && mDelegate.isNeedCustom(realChildAdapterPosition, realItemCount)) {
-                mDelegate.drawVertical(this, canvas, dividerLeft, dividerRight, dividerBottom, realChildAdapterPosition, realItemCount);
-            } else {
-                drawVertical(canvas, dividerLeft, dividerRight, dividerBottom);
+                if (isDrawOver) {
+                    mDelegate.drawOverVertical(this, canvas, dividerLeft, dividerRight, dividerBottom, realChildAdapterPosition, realItemCount);
+                } else {
+                    mDelegate.drawVertical(this, canvas, dividerLeft, dividerRight, dividerBottom, realChildAdapterPosition, realItemCount);
+                }
+            } else if (!isDrawOver) {
+                // 不自定义，并且不是 drawOver 时，绘制分割线
+                drawVerticalDivider(canvas, dividerLeft, dividerRight, dividerBottom);
             }
         }
     }
 
-    public void drawVertical(Canvas canvas, int dividerLeft, int dividerRight, int itemTop) {
+    /**
+     * 绘制分割线
+     *
+     * @param canvas
+     * @param dividerLeft
+     * @param dividerRight
+     * @param itemTop
+     */
+    public void drawVerticalDivider(Canvas canvas, int dividerLeft, int dividerRight, int itemTop) {
         int dividerBottom = itemTop;
         int dividerTop = dividerBottom - mSize;
         mDividerDrawable.setBounds(dividerLeft, dividerTop, dividerRight, dividerBottom);
@@ -416,7 +439,6 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
-
     }
 
     public interface Delegate {
@@ -427,6 +449,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         void getItemOffsets(BGADivider divider, int position, int itemCount, Rect outRect);
 
         void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount);
+
+        void drawOverVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount);
     }
 
     public static class SimpleDelegate implements Delegate {
@@ -457,6 +481,10 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
         @Override
         public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
+        }
+
+        @Override
+        public void drawOverVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
         }
     }
 
@@ -524,13 +552,20 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         @Override
         public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
             if (isCategoryFistItem(position)) {
+                if (position == getFirstVisibleItemPosition()) {
+                    // 避免悬浮分类透明时重影
+                    return;
+                }
                 // 是分类下的第一个条目，绘制分类
                 drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, getCategoryName(position));
             } else {
                 // 不是分类下的第一个条目，绘制分割线
-                divider.drawVertical(canvas, dividerLeft, dividerRight, dividerBottom);
+                divider.drawVerticalDivider(canvas, dividerLeft, dividerRight, dividerBottom);
             }
+        }
 
+        @Override
+        public void drawOverVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
             if (position == getFirstVisibleItemPosition() + 1) {
                 // 绘制悬浮分类
                 int suspensionBottom = mCategoryHeight;
@@ -538,7 +573,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
                 if (offset > 0 && isCategoryFistItem(position)) {
                     suspensionBottom -= offset;
                 }
-                drawCategory(divider, canvas, dividerLeft, dividerRight, suspensionBottom, getCategoryName(getFirstVisibleItemPosition()));
+                drawOverCategory(divider, canvas, dividerLeft, dividerRight, suspensionBottom, getCategoryName(getFirstVisibleItemPosition()));
             }
         }
 
@@ -565,6 +600,16 @@ public class BGADivider extends RecyclerView.ItemDecoration {
          */
         protected abstract int getFirstVisibleItemPosition();
 
+        /**
+         * 绘制悬浮分类
+         */
+        protected void drawOverCategory(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, String category) {
+            drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, category);
+        }
+
+        /**
+         * 绘制普通分类
+         */
         protected void drawCategory(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, String category) {
             // 绘制背景
             mPaint.setColor(mCategoryBackgroundColor);

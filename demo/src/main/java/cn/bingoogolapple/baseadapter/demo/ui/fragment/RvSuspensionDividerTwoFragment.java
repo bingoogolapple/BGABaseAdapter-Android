@@ -83,7 +83,7 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
     }
 
     private void initSuspensionCategory() {
-        // 添加普通分类
+        // 添加普通分类和分割线
         mDataRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.size_level3)
@@ -102,6 +102,10 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                     @Override
                     public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
                             itemCount) {
+                        if (position == mLayoutManager.findFirstVisibleItemPosition()) {
+                            // 避免悬浮分类透明时重影
+                            return;
+                        }
                         drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, mAdapter.getItem(position).topc);
                     }
                 }));
@@ -116,7 +120,7 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                     }
 
                     @Override
-                    public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
+                    public void drawOverVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
                             itemCount) {
                         if (position == mLayoutManager.findFirstVisibleItemPosition() + 1) {
                             // 绘制悬浮分类
