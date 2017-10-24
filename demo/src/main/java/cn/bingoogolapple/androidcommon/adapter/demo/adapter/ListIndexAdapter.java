@@ -1,6 +1,7 @@
 package cn.bingoogolapple.androidcommon.adapter.demo.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAAdapterViewAdapter;
@@ -27,7 +28,7 @@ public class ListIndexAdapter extends BGAAdapterViewAdapter<IndexModel> {
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, IndexModel model) {
-        if (isCategory(position)) {
+        if (isCategoryFistItem(position)) {
             helper.setVisibility(R.id.tv_item_index_catalog, View.VISIBLE);
             helper.setText(R.id.tv_item_index_catalog, model.topc);
         } else {
@@ -36,9 +37,26 @@ public class ListIndexAdapter extends BGAAdapterViewAdapter<IndexModel> {
         helper.setText(R.id.tv_item_index_city, model.name);
     }
 
-    public boolean isCategory(int position) {
-        int category = getItem(position).topc.charAt(0);
-        return position == getPositionForCategory(category);
+    /**
+     * 是否为该分类下的第一个条目
+     *
+     * @param position
+     * @return
+     */
+    public boolean isCategoryFistItem(int position) {
+        // 第一条数据是该分类下的第一个条目
+        if (position == 0) {
+            return true;
+        }
+
+        String currentTopc = getItem(position).topc;
+        String preTopc = getItem(position - 1).topc;
+        // 当前条目的分类和上一个条目的分类不相等时，当前条目为该分类下的第一个条目
+        if (!TextUtils.equals(currentTopc, preTopc)) {
+            return true;
+        }
+
+        return false;
     }
 
     public int getPositionForCategory(int category) {

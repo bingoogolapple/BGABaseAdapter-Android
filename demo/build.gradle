@@ -30,7 +30,7 @@ dependencies {
 //    compile project(':library')
     
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-    compile 'cn.bingoogolapple:bga-adapter:1.2.0@aar'
+    compile 'cn.bingoogolapple:bga-baseadapter:1.2.1@aar'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 

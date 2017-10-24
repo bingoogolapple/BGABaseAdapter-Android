@@ -83,7 +83,7 @@ public class RvSuspensionFragment extends MvcFragment implements BGAOnItemChildC
                     @Override
                     public boolean isNeedSkip(int position, int itemCount) {
                         // 如果是分类的话就跳过，顶部不绘制分隔线
-                        return mAdapter.isCategory(position);
+                        return mAdapter.isCategoryFistItem(position);
                     }
                 }));
 

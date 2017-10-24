@@ -12,11 +12,15 @@ android {
     dataBinding {
         enabled = true
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     provided 'com.android.support:recyclerview-v7:25.3.1'
 }
 
-// gradle uploadArchives
-//apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/central-publish.gradle'
+// gradle clean build bintrayUpload
+//apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/jcenter-release.gradle'

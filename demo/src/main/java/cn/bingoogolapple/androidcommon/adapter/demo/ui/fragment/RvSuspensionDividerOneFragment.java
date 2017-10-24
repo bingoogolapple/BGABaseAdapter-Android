@@ -81,8 +81,8 @@ public class RvSuspensionDividerOneFragment extends MvcFragment implements BGAOn
                     }
 
                     @Override
-                    protected boolean isCategory(int position) {
-                        return mAdapter.isCategory(position);
+                    protected boolean isCategoryFistItem(int position) {
+                        return mAdapter.isCategoryFistItem(position);
                     }
 
                     @Override
