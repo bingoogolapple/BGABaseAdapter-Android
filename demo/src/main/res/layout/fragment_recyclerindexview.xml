@@ -35,7 +35,7 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView
+    <cn.bingoogolapple.baseadapter.demo.ui.widget.IndexView
         android:id="@+id/indexview"
         android:layout_width="40dp"
         android:layout_height="match_parent"

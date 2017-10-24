@@ -26,7 +26,7 @@
 
 [点击下载 BGABaseAdapterDemo.apk](http://fir.im/BGABaseAdapterDemo) 或扫描下面的二维码安装
 
-![BGABaseAdapterDemo apk文件二维码](https://cloud.githubusercontent.com/assets/8949716/20648602/bd14c31e-b4e6-11e6-9f0d-c6b909f46e2d.png)
+![BGABaseAdapterDemo apk文件二维码](https://user-images.githubusercontent.com/8949716/31925781-946d8cfc-b850-11e7-9a75-2edda1033a3d.png)
 
 ## 使用
 
@@ -43,15 +43,19 @@ dependencies {
 
 ### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
 
-TODO
+[NormalAdapterViewAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/NormalAdapterViewAdapter.java)
 
 ### 简化 RecyclerView 的适配器的编写
 
-TODO
+[NormalRecyclerViewAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/NormalRecyclerViewAdapter.java)
 
 ### RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写
 
-TODO
+[RvBindingFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvBindingFragment.java)
+
+### BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
+
+[RvSuspensionDividerOneFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvSuspensionDividerOneFragment.java)
 
 ### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo):feet:
 

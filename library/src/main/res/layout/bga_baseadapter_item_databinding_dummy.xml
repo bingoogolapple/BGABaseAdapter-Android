@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewHolder"
+            type="cn.bingoogolapple.baseadapter.BGABindingViewHolder"/>
+
+        <variable
+            name="model"
+            type="java.lang.Object"/>
+
+        <variable
+            name="itemEventHandler"
+            type="java.lang.Object"/>
+    </data>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</layout>
