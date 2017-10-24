@@ -91,7 +91,7 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                 .setDelegate(new BaseSuspensionCategoryDelegate() {
                     @Override
                     public boolean isNeedCustom(int position, int itemCount) {
-                        return mAdapter.isCategory(position);
+                        return mAdapter.isCategoryFistItem(position);
                     }
 
                     @Override
@@ -100,7 +100,8 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                     }
 
                     @Override
-                    public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
+                    public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
+                            itemCount) {
                         drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, mAdapter.getItem(position).topc);
                     }
                 }));
@@ -115,11 +116,18 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                     }
 
                     @Override
-                    public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
-                        // 将 bottom 设置成分类的高度
-                        dividerBottom = mCategoryHeight;
-
-                        drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, mAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition()).topc);
+                    public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
+                            itemCount) {
+                        if (position == mLayoutManager.findFirstVisibleItemPosition() + 1) {
+                            // 绘制悬浮分类
+                            int suspensionBottom = mCategoryHeight;
+                            int offset = mCategoryHeight * 2 - dividerBottom;
+                            if (offset > 0 && mAdapter.isCategoryFistItem(position)) {
+                                suspensionBottom -= offset;
+                            }
+                            drawCategory(divider, canvas, dividerLeft, dividerRight, suspensionBottom, mAdapter.getItem(mLayoutManager
+                                    .findFirstVisibleItemPosition()).topc);
+                        }
                     }
                 }));
     }
@@ -159,7 +167,8 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
         protected void drawCategory(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, String category) {
             // 绘制背景
             mPaint.setColor(mCategoryBackgroundColor);
-            canvas.drawRect(dividerLeft - divider.getMarginLeft(), dividerBottom - mCategoryHeight, dividerRight + divider.getMarginRight(), dividerBottom, mPaint);
+            canvas.drawRect(dividerLeft - divider.getMarginLeft(), dividerBottom - mCategoryHeight, dividerRight + divider.getMarginRight(), dividerBottom,
+                    mPaint);
 
             // 绘制文字
             mPaint.setColor(mCategoryTextColor);

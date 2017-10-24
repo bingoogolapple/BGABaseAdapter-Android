@@ -512,7 +512,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
         @Override
         public void getItemOffsets(BGADivider divider, int position, int itemCount, Rect outRect) {
-            if (isCategory(position)) {
+            if (isCategoryFistItem(position)) {
                 // 如果是分类则设置高度为分类高度
                 outRect.set(0, mCategoryHeight, 0, 0);
             } else {
@@ -523,23 +523,32 @@ public class BGADivider extends RecyclerView.ItemDecoration {
 
         @Override
         public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
-            if (isCategory(position)) {
+            if (isCategoryFistItem(position)) {
+                // 是分类下的第一个条目，绘制分类
                 drawCategory(divider, canvas, dividerLeft, dividerRight, dividerBottom, getCategoryName(position));
             } else {
+                // 不是分类下的第一个条目，绘制分割线
                 divider.drawVertical(canvas, dividerLeft, dividerRight, dividerBottom);
             }
 
-            // 悬浮分类每次都要绘制，mCategoryHeight 赋值给 dividerBottom，保证始终绘制在最顶部
-            drawCategory(divider, canvas, dividerLeft, dividerRight, mCategoryHeight, getCategoryName(getFirstVisibleItemPosition()));
+            if (position == getFirstVisibleItemPosition() + 1) {
+                // 绘制悬浮分类
+                int suspensionBottom = mCategoryHeight;
+                int offset = mCategoryHeight * 2 - dividerBottom;
+                if (offset > 0 && isCategoryFistItem(position)) {
+                    suspensionBottom -= offset;
+                }
+                drawCategory(divider, canvas, dividerLeft, dividerRight, suspensionBottom, getCategoryName(getFirstVisibleItemPosition()));
+            }
         }
 
         /**
-         * 指定索引位置是否是分类
+         * 指定索引位置是否是其对应分类下的第一个条目
          *
          * @param position
          * @return
          */
-        protected abstract boolean isCategory(int position);
+        protected abstract boolean isCategoryFistItem(int position);
 
         /**
          * 获取指定索引位置的分类名称
@@ -559,7 +568,8 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         protected void drawCategory(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, String category) {
             // 绘制背景
             mPaint.setColor(mCategoryBackgroundColor);
-            canvas.drawRect(dividerLeft - divider.getMarginLeft(), dividerBottom - mCategoryHeight, dividerRight + divider.getMarginRight(), dividerBottom, mPaint);
+            canvas.drawRect(dividerLeft - divider.getMarginLeft(), dividerBottom - mCategoryHeight, dividerRight + divider.getMarginRight(), dividerBottom,
+                    mPaint);
 
             // 绘制文字
             mPaint.setColor(mCategoryTextColor);

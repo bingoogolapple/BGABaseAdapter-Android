@@ -1,4 +1,4 @@
-:running:BGAAdapter-Android:running:
+:running:BGABaseAdapter-Android:running:
 ============
 
 ## 目录
@@ -14,6 +14,7 @@
 
 - [x] BGAAdapterViewAdapter 和 BGAViewHolderHelper 用于简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
 - [x] BGARecyclerViewAdapter 和 BGAViewHolderHelper 用于简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
+- [x] BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
 - [x] BGABindingRecyclerViewAdapter 和 BGABindingViewHolder 用于 RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
 
 ## 效果图与示例 apk
@@ -23,20 +24,20 @@
 ![bgaadapter-recyclerviewbinding](https://cloud.githubusercontent.com/assets/8949716/20648734/0b816fd6-b4ea-11e6-9716-e869f7af0564.gif)
 ![bga_adapter4](https://cloud.githubusercontent.com/assets/8949716/17476076/bfef7082-5d90-11e6-9403-ba526a10d58f.gif)
 
-[点击下载 BGAAdapterDemo.apk](http://fir.im/BGAAdapterDemo) 或扫描下面的二维码安装
+[点击下载 BGABaseAdapterDemo.apk](http://fir.im/BGABaseAdapterDemo) 或扫描下面的二维码安装
 
-![BGAAdapterDemo apk文件二维码](https://cloud.githubusercontent.com/assets/8949716/20648602/bd14c31e-b4e6-11e6-9f0d-c6b909f46e2d.png)
+![BGABaseAdapterDemo apk文件二维码](https://cloud.githubusercontent.com/assets/8949716/20648602/bd14c31e-b4e6-11e6-9f0d-c6b909f46e2d.png)
 
 ## 使用
 
 ### Gradle 依赖
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.bingoogolapple/bga-adapter) bga-adapter 后面的「latestVersion」指的是左边这个 maven-central 徽章后面的「数字」，请自行替换。
+[![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-baseadapter/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-baseadapter/_latestVersion) bga-baseadapter 后面的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
 
 ```groovy
 dependencies {
     compile 'com.android.support:recyclerview-v7:latestVersion'
-    compile 'cn.bingoogolapple:bga-adapter:latestVersion@aar'
+    compile 'cn.bingoogolapple:bga-baseadapter:latestVersion@aar'
 }
 ```
 
@@ -52,7 +53,7 @@ TODO
 
 TODO
 
-### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGAAdapter-Android/tree/master/demo):feet:
+### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo):feet:
 
 ## 感谢
 
