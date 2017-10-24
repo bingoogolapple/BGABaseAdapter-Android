@@ -2,6 +2,6 @@
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lv_gridview_data"
     style="@style/MatchMatch"
-    android:divider="@mipmap/bga_adapter_divider_bitmap"
+    android:divider="@mipmap/bga_baseadapter_divider_bitmap"
     android:numColumns="2"
     android:scrollbars="none" />

@@ -9,21 +9,21 @@
 
         <variable
             name="viewHolder"
-            type="cn.bingoogolapple.androidcommon.adapter.BGABindingViewHolder"/>
+            type="cn.bingoogolapple.baseadapter.BGABindingViewHolder"/>
 
         <variable
             name="model"
-            type="cn.bingoogolapple.androidcommon.adapter.demo.model.NormalModel"/>
+            type="cn.bingoogolapple.baseadapter.demo.model.NormalModel"/>
 
         <variable
             name="itemEventHandler"
-            type="cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.RvBindingFragment"/>
+            type="cn.bingoogolapple.baseadapter.demo.ui.fragment.RvBindingFragment"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/bga_adapter_white_gray"
+        android:background="@drawable/bga_baseadapter_white_gray"
         android:descendantFocusability="blocksDescendants"
         android:onLongClick="@{() -> itemEventHandler.onLongClickItem(viewHolder, model)}"
         android:padding="5dp"

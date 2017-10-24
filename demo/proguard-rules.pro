@@ -29,5 +29,5 @@
 }
 
 # demo
--keep class cn.bingoogolapple.androidcommon.adapter.demo.ui.fragment.** { *; }
--keep class cn.bingoogolapple.androidcommon.adapter.demo.model.** { *; }
+-keep class cn.bingoogolapple.baseadapter.demo.ui.fragment.** { *; }
+-keep class cn.bingoogolapple.baseadapter.demo.model.** { *; }

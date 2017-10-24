@@ -8,7 +8,7 @@
         android:id="@+id/lv_listindexview_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@mipmap/bga_adapter_divider_bitmap"
+        android:divider="@mipmap/bga_baseadapter_divider_bitmap"
         android:overScrollMode="never"
         android:scrollbars="none"/>
 
@@ -38,7 +38,7 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <cn.bingoogolapple.androidcommon.adapter.demo.ui.widget.IndexView
+    <cn.bingoogolapple.baseadapter.demo.ui.widget.IndexView
         android:id="@+id/indexview"
         android:layout_width="40dp"
         android:layout_height="match_parent"
