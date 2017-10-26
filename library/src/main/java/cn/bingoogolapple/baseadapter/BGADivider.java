@@ -552,7 +552,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
         @Override
         public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int itemCount) {
             if (isCategoryFistItem(position)) {
-                if (position == getFirstVisibleItemPosition()) {
+                if (position == getFirstVisibleItemPosition() && itemCount > 1) {
                     // 避免悬浮分类透明时重影
                     return;
                 }

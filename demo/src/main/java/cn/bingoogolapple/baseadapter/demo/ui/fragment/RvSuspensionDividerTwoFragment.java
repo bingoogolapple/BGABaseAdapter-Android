@@ -102,7 +102,7 @@ public class RvSuspensionDividerTwoFragment extends MvcFragment implements BGAOn
                     @Override
                     public void drawVertical(BGADivider divider, Canvas canvas, int dividerLeft, int dividerRight, int dividerBottom, int position, int
                             itemCount) {
-                        if (position == mLayoutManager.findFirstVisibleItemPosition()) {
+                        if (position == mLayoutManager.findFirstVisibleItemPosition() && itemCount > 1) {
                             // 避免悬浮分类透明时重影
                             return;
                         }
