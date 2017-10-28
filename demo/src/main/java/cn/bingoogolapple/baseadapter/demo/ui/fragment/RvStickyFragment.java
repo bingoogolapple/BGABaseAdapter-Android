@@ -11,7 +11,7 @@ import cn.bingoogolapple.baseadapter.BGADivider;
 import cn.bingoogolapple.baseadapter.BGARecyclerViewScrollHelper;
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.baseadapter.demo.R;
-import cn.bingoogolapple.baseadapter.demo.adapter.RecyclerIndexDemoTwoAdapter;
+import cn.bingoogolapple.baseadapter.demo.adapter.RvStickyAdapter;
 import cn.bingoogolapple.baseadapter.demo.engine.DataEngine;
 import cn.bingoogolapple.baseadapter.demo.ui.widget.IndexView;
 import cn.bingoogolapple.baseadapter.demo.util.ToastUtil;
@@ -19,10 +19,10 @@ import cn.bingoogolapple.baseadapter.demo.util.ToastUtil;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 10:06
- * 描述:通过 BGADivider 加一个 SuspensionDelegate 来实现悬浮分类列表
+ * 描述:BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
  */
-public class RvSuspensionDividerOneFragment extends MvcFragment implements BGAOnRVItemClickListener {
-    private RecyclerIndexDemoTwoAdapter mAdapter;
+public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickListener {
+    private RvStickyAdapter mAdapter;
     private RecyclerView mDataRv;
     private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
@@ -31,20 +31,20 @@ public class RvSuspensionDividerOneFragment extends MvcFragment implements BGAOn
 
     @Override
     protected int getRootLayoutResID() {
-        return R.layout.fragment_recyclerindexview_divider;
+        return R.layout.fragment_rv_sticky;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mDataRv = getViewById(R.id.rv_recyclerindexview_data);
+        mDataRv = getViewById(R.id.rv_sticky_data);
 
-        mIndexView = getViewById(R.id.indexview);
-        mTipTv = getViewById(R.id.tv_recyclerindexview_tip);
+        mIndexView = getViewById(R.id.iv_sticky_index);
+        mTipTv = getViewById(R.id.tv_sticky_tip);
     }
 
     @Override
     protected void setListener() {
-        mAdapter = new RecyclerIndexDemoTwoAdapter(mDataRv);
+        mAdapter = new RvStickyAdapter(mDataRv);
         mAdapter.setOnRVItemClickListener(this);
 
         mIndexView.setDelegate(new IndexView.Delegate() {

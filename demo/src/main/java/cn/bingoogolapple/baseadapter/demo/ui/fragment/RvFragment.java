@@ -34,7 +34,7 @@ import cn.bingoogolapple.baseadapter.BGAOnRVItemLongClickListener;
 import cn.bingoogolapple.baseadapter.BGARecyclerViewHolder;
 import cn.bingoogolapple.baseadapter.demo.App;
 import cn.bingoogolapple.baseadapter.demo.R;
-import cn.bingoogolapple.baseadapter.demo.adapter.NormalRecyclerViewAdapter;
+import cn.bingoogolapple.baseadapter.demo.adapter.RvAdapter;
 import cn.bingoogolapple.baseadapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.baseadapter.demo.model.BannerModel;
 import cn.bingoogolapple.baseadapter.demo.model.NormalModel;
@@ -51,24 +51,24 @@ import retrofit2.Response;
  */
 public class RvFragment extends MvcFragment implements BGAOnRVItemClickListener, BGAOnRVItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener, BGAOnRVItemChildTouchListener {
     private static final String TAG = RvFragment.class.getSimpleName();
-    private NormalRecyclerViewAdapter mAdapter;
+    private RvAdapter mAdapter;
     private RecyclerView mDataRv;
     private ItemTouchHelper mItemTouchHelper;
     private BGABanner mBanner;
 
     @Override
     protected int getRootLayoutResID() {
-        return R.layout.fragment_recyclerview;
+        return R.layout.fragment_rv;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mDataRv = getViewById(R.id.rv_recyclerview_data);
+        mDataRv = getViewById(R.id.rv_data);
     }
 
     @Override
     protected void setListener() {
-        mAdapter = new NormalRecyclerViewAdapter(mDataRv);
+        mAdapter = new RvAdapter(mDataRv);
         mAdapter.setOnRVItemClickListener(this);
         mAdapter.setOnRVItemLongClickListener(this);
         mAdapter.setOnItemChildClickListener(this);

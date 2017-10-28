@@ -41,7 +41,7 @@ import retrofit2.Response;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/6/28 下午1:30
- * 描述:
+ * 描述:RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写
  */
 public class RvBindingFragment extends MvcFragment {
     private static final String TAG = RvBindingFragment.class.getSimpleName();
@@ -52,12 +52,12 @@ public class RvBindingFragment extends MvcFragment {
 
     @Override
     protected int getRootLayoutResID() {
-        return R.layout.fragment_recyclerview;
+        return R.layout.fragment_rv;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mDataRv = getViewById(R.id.rv_recyclerview_data);
+        mDataRv = getViewById(R.id.rv_data);
     }
 
     @Override

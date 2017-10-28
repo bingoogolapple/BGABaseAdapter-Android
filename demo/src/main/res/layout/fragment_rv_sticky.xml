@@ -4,13 +4,13 @@
              style="@style/MatchMatch">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recyclerindexview_data"
+        android:id="@+id/rv_sticky_data"
         style="@style/MatchMatch"
         android:overScrollMode="never"
         android:scrollbars="none"/>
 
     <TextView
-        android:id="@+id/tv_recyclerindexview_tip"
+        android:id="@+id/tv_sticky_tip"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
@@ -23,7 +23,7 @@
         tools:visibility="visible"/>
 
     <cn.bingoogolapple.baseadapter.demo.ui.widget.IndexView
-        android:id="@+id/indexview"
+        android:id="@+id/iv_sticky_index"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_gravity="right|center"

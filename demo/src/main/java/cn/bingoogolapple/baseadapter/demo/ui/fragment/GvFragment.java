@@ -14,7 +14,7 @@ import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener;
 import cn.bingoogolapple.baseadapter.BGAOnItemChildLongClickListener;
 import cn.bingoogolapple.baseadapter.demo.App;
 import cn.bingoogolapple.baseadapter.demo.R;
-import cn.bingoogolapple.baseadapter.demo.adapter.NormalAdapterViewAdapter;
+import cn.bingoogolapple.baseadapter.demo.adapter.AdapterViewAdapter;
 import cn.bingoogolapple.baseadapter.demo.engine.ApiEngine;
 import cn.bingoogolapple.baseadapter.demo.model.NormalModel;
 import cn.bingoogolapple.baseadapter.demo.util.ToastUtil;
@@ -29,7 +29,7 @@ import retrofit2.Response;
  */
 public class GvFragment extends MvcFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BGAOnItemChildClickListener, BGAOnItemChildLongClickListener, BGAOnItemChildCheckedChangeListener {
     private GridView mDataGv;
-    private NormalAdapterViewAdapter mAdapter;
+    private AdapterViewAdapter mAdapter;
 
     @Override
     protected int getRootLayoutResID() {
@@ -46,7 +46,7 @@ public class GvFragment extends MvcFragment implements AdapterView.OnItemClickLi
         mDataGv.setOnItemClickListener(this);
         mDataGv.setOnItemLongClickListener(this);
 
-        mAdapter = new NormalAdapterViewAdapter(mActivity);
+        mAdapter = new AdapterViewAdapter(mActivity);
         mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemChildLongClickListener(this);
         mAdapter.setOnItemChildCheckedChangeListener(this);
