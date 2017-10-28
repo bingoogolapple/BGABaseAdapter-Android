@@ -12,11 +12,11 @@ import cn.bingoogolapple.baseadapter.demo.model.NormalModel;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 16:31
- * 描述:
+ * 描述:简化 RecyclerView 的适配器的编写
  */
-public class NormalRecyclerViewAdapter extends BGARecyclerViewAdapter<NormalModel> {
+public class RvAdapter extends BGARecyclerViewAdapter<NormalModel> {
 
-    public NormalRecyclerViewAdapter(RecyclerView recyclerView) {
+    public RvAdapter(RecyclerView recyclerView) {
         super(recyclerView, R.layout.item_normal);
     }
 

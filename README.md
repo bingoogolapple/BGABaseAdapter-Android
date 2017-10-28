@@ -18,11 +18,10 @@
 - [x] BGABindingRecyclerViewAdapter 和 BGABindingViewHolder 用于 RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
 
 ## 效果图与示例 apk
-![bga_adapter1](https://cloud.githubusercontent.com/assets/8949716/17476073/bf819e04-5d90-11e6-9c21-193ba3c426ed.gif)
-![bga_adapter2](https://cloud.githubusercontent.com/assets/8949716/17476074/bfb571ca-5d90-11e6-95b3-c5c345377a8d.gif)
-![bgaadapter-recyclerview](https://cloud.githubusercontent.com/assets/8949716/20648733/0b405938-b4ea-11e6-9a37-9fad31f72ec8.gif)
-![bgaadapter-recyclerviewbinding](https://cloud.githubusercontent.com/assets/8949716/20648734/0b816fd6-b4ea-11e6-9716-e869f7af0564.gif)
-![bga_adapter4](https://cloud.githubusercontent.com/assets/8949716/17476076/bfef7082-5d90-11e6-9403-ba526a10d58f.gif)
+![adapterview](https://user-images.githubusercontent.com/8949716/32135569-f0beeb58-bbc6-11e7-94a0-7b1503d3df1a.gif)
+![rv_and_rvbinding](https://user-images.githubusercontent.com/8949716/32135654-3844e17a-bbc8-11e7-92d7-589686ea8b8f.gif)
+![rv_multi_item](https://user-images.githubusercontent.com/8949716/32135664-55b3f494-bbc8-11e7-9e13-c33abdce281c.gif)
+![sticky](https://user-images.githubusercontent.com/8949716/32135691-e6edf14e-bbc8-11e7-8664-8e20445ceeef.gif)
 
 [点击下载 BGABaseAdapterDemo.apk](http://fir.im/BGABaseAdapterDemo) 或扫描下面的二维码安装
 
@@ -43,11 +42,11 @@ dependencies {
 
 ### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
 
-[NormalAdapterViewAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/NormalAdapterViewAdapter.java)
+[AdapterViewAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/AdapterViewAdapter.java)
 
 ### 简化 RecyclerView 的适配器的编写
 
-[NormalRecyclerViewAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/NormalRecyclerViewAdapter.java)
+[RvAdapter.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/adapter/RvAdapter.java)
 
 ### RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写
 
@@ -55,7 +54,7 @@ dependencies {
 
 ### BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
 
-[RvSuspensionDividerOneFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvSuspensionDividerOneFragment.java)
+[RvStickyFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvStickyFragment.java)
 
 ### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo):feet:
 

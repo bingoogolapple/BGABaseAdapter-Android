@@ -14,14 +14,11 @@ import java.util.List;
 import cn.bingoogolapple.baseadapter.demo.R;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.GvFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.LvFragment;
-import cn.bingoogolapple.baseadapter.demo.ui.fragment.LvSuspensionFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.MvcFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvBindingFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvChatFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvFragment;
-import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvSuspensionDividerOneFragment;
-import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvSuspensionDividerTwoFragment;
-import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvSuspensionFragment;
+import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvStickyFragment;
 
 import static cn.bingoogolapple.baseadapter.demo.R.id.tabLayout;
 import static cn.bingoogolapple.baseadapter.demo.R.id.viewPager;
@@ -69,10 +66,7 @@ public class MainActivity extends MvcActivity {
                 new RvFragment(),
                 new RvBindingFragment(),
                 new RvChatFragment(),
-                new LvSuspensionFragment(),
-                new RvSuspensionFragment(),
-                new RvSuspensionDividerOneFragment(),
-                new RvSuspensionDividerTwoFragment()
+                new RvStickyFragment()
         );
 
         public ContentPagerAdapter(FragmentManager fm) {

@@ -12,10 +12,10 @@ import cn.bingoogolapple.baseadapter.demo.model.NormalModel;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/21 上午12:39
- * 描述:
+ * 描述:简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
  */
-public class NormalAdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel> {
-    public NormalAdapterViewAdapter(Context context) {
+public class AdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel> {
+    public AdapterViewAdapter(Context context) {
         super(context, R.layout.item_normal);
     }
 

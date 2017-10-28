@@ -11,11 +11,11 @@ import cn.bingoogolapple.baseadapter.demo.model.ChatModel;
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/5/22 16:31
- * 描述:
+ * 描述:RecyclerView 多 item 类型适配器
  */
-public class RecyclerChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
+public class RvChatAdapter extends BGARecyclerViewAdapter<ChatModel> {
 
-    public RecyclerChatAdapter(RecyclerView recyclerView) {
+    public RvChatAdapter(RecyclerView recyclerView) {
         super(recyclerView);
     }
 
