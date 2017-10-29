@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_item_cascade_category_name"
+    style="@style/MatchWrap"
+    android:background="@color/bga_adapter_item_pressed"
+    android:padding="@dimen/size_level4"
+    android:textColor="@android:color/black"
+    android:textSize="@dimen/textSize_14"
+    tools:text="分类1"/>

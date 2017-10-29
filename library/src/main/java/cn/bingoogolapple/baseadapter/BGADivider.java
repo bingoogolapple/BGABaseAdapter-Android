@@ -491,7 +491,7 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     /**
      * 继承该类实现自定义悬浮分类样式
      */
-    public static abstract class SuspensionCategoryDelegate extends SimpleDelegate {
+    public static abstract class StickyDelegate extends SimpleDelegate {
         protected int mCategoryBackgroundColor;
         protected int mCategoryTextColor;
         protected int mCategoryPaddingLeft;
@@ -619,6 +619,15 @@ public class BGADivider extends RecyclerView.ItemDecoration {
             // 绘制文字
             mPaint.setColor(mCategoryTextColor);
             canvas.drawText(category, 0, category.length(), mCategoryPaddingLeft, dividerBottom - mCategoryTextOffset, mPaint);
+        }
+
+        /**
+         * 获取分类高度
+         *
+         * @return
+         */
+        public int getCategoryHeight() {
+            return mCategoryHeight;
         }
     }
 }
