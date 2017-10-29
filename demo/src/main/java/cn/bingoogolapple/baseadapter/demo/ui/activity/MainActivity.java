@@ -18,6 +18,7 @@ import cn.bingoogolapple.baseadapter.demo.ui.fragment.MvcFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvBindingFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvChatFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvFragment;
+import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvCascadeFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvStickyFragment;
 
 import static cn.bingoogolapple.baseadapter.demo.R.id.tabLayout;
@@ -61,6 +62,7 @@ public class MainActivity extends MvcActivity {
     private class ContentPagerAdapter extends FragmentPagerAdapter {
 
         private List<MvcFragment> mFragmentList = Arrays.asList(
+                new RvCascadeFragment(),
                 new GvFragment(),
                 new LvFragment(),
                 new RvFragment(),

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.bingoogolapple.baseadapter.demo.model.CategoryModel;
 import cn.bingoogolapple.baseadapter.demo.model.ChatModel;
+import cn.bingoogolapple.baseadapter.demo.model.GoodsModel;
 import cn.bingoogolapple.baseadapter.demo.model.IndexModel;
 import cn.bingoogolapple.baseadapter.demo.ui.widget.CharacterParser;
 import cn.bingoogolapple.baseadapter.demo.ui.widget.PinyinComparator;
@@ -89,4 +91,22 @@ public class DataEngine {
         return data;
     }
 
+    public static List<CategoryModel> loadCategoryData() {
+        List<CategoryModel> categoryModelList = new ArrayList<>();
+        CategoryModel categoryModel;
+        int categoryCount = 20;
+        for (int i = 0; i < categoryCount; i++) {
+            categoryModel = new CategoryModel(i, "分类" + i);
+            categoryModel.goodsModelList = new ArrayList<>();
+
+            int goodsCount = categoryCount % (i + 1) + 1;
+
+            for (int j = 0; j < goodsCount; j++) {
+                categoryModel.goodsModelList.add(new GoodsModel(j, "商品" + i + j, i));
+            }
+
+            categoryModelList.add(categoryModel);
+        }
+        return categoryModelList;
+    }
 }

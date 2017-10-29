@@ -19,7 +19,6 @@ package cn.bingoogolapple.baseadapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -33,6 +32,7 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
     private int mNewPosition = 0;
     private boolean mIsScrolling = false;
     private boolean mIsSmoothScroll = false;
+    private int mState = RecyclerView.SCROLL_STATE_IDLE;
 
     public static BGARVVerticalScrollHelper newInstance(RecyclerView recyclerView) {
         return new BGARVVerticalScrollHelper(recyclerView, null);
@@ -51,13 +51,23 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         try {
-            if (mIsScrolling && newState == RecyclerView.SCROLL_STATE_IDLE && mIsSmoothScroll) {
-                mIsScrolling = false;
-                int diffItemCount = mNewPosition - findFirstVisibleItemPosition();
-                if (0 <= diffItemCount && diffItemCount < recyclerView.getChildCount()) {
-                    int top = recyclerView.getChildAt(diffItemCount).getTop() - getCategoryHeight();
-                    recyclerView.smoothScrollBy(0, top);
+            mState = newState;
+
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (mIsScrolling && mIsSmoothScroll) {
+                    mIsScrolling = false;
+                    mIsSmoothScroll = false;
+
+                    int diffItemCount = mNewPosition - findFirstVisibleItemPosition();
+                    if (0 <= diffItemCount && diffItemCount < recyclerView.getChildCount()) {
+                        int top = recyclerView.getChildAt(diffItemCount).getTop() - getCategoryHeight();
+                        recyclerView.scrollBy(0, top);
+                    }
                 }
+
+//                else if (mDelegate != null) {
+//                    mDelegate.cascade(findFirstVisibleItemPosition());
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +77,19 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         try {
+            if (mState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                mIsScrolling = false;
+                mIsSmoothScroll = false;
+
+                if (mDelegate != null) {
+                    mDelegate.cascade(findFirstVisibleItemPosition());
+                }
+            }
+
+            if (!mIsScrolling && !mIsSmoothScroll && mState == RecyclerView.SCROLL_STATE_SETTLING && mDelegate != null) {
+                mDelegate.cascade(findFirstVisibleItemPosition());
+            }
+
             if (mIsScrolling && !mIsSmoothScroll) {
                 mIsScrolling = false;
                 int diffItemCount = mNewPosition - findFirstVisibleItemPosition();
@@ -101,12 +124,12 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
             } else if (mNewPosition <= lastItem) {
                 int top = mDataRv.getChildAt(mNewPosition - firstItem).getTop() - getCategoryHeight();
                 if (top <= 0) {
-                    Log.d("BGA", "top 小于 0, top=" + top + ", firstItem=" + firstItem + ", lastItem=" + lastItem + ", newPosition=" + mNewPosition);
                     // top 小于等于0时先往上滚动1再滚动「item 复用导致的」
-                    mDataRv.scrollBy(0, 1);
+                    mDataRv.scrollBy(0, 2);
                     smoothScrollToPosition(mNewPosition);
                 } else {
                     mDataRv.smoothScrollBy(0, top);
+                    mIsScrolling = true;
                 }
             } else {
                 mDataRv.smoothScrollToPosition(mNewPosition);
@@ -180,5 +203,23 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
          * @return
          */
         int getCategoryHeight();
+
+        /**
+         * 用户手指拖拽、惯性运动、停止滚动时被调用
+         *
+         * @param position
+         */
+        void cascade(int position);
+    }
+
+    public static class SimpleDelegate implements Delegate {
+        @Override
+        public int getCategoryHeight() {
+            return 0;
+        }
+
+        @Override
+        public void cascade(int position) {
+        }
     }
 }

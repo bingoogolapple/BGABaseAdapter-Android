@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/MatchMatch.Horizontal">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cascade_category"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@color/bga_adapter_item_pressed"
+        android:overScrollMode="never"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_cascade_category"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cascade_goods"
+        style="@style/MatchMatch"
+        android:background="@android:color/white"
+        android:overScrollMode="never"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_cascade_goods"/>
+</LinearLayout>

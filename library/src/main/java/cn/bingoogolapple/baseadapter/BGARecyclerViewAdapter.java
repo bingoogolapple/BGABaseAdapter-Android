@@ -43,6 +43,10 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
 
     protected RecyclerView mRecyclerView;
     /**
+     * 当前选中的索引
+     */
+    protected int mCheckedPosition = 0;
+    /**
      * 在填充数据列表时，忽略选中状态变化
      */
     private boolean mIsIgnoreCheckedChanged = true;
@@ -465,5 +469,35 @@ public abstract class BGARecyclerViewAdapter<M> extends RecyclerView.Adapter<BGA
      */
     public boolean isHeaderOrFooter(RecyclerView.ViewHolder viewHolder) {
         return viewHolder.getAdapterPosition() < getHeadersCount() || viewHolder.getAdapterPosition() >= getHeadersCount() + getItemCount();
+    }
+
+    /**
+     * 设置当前选中索引
+     *
+     * @param position
+     */
+    public void setCheckedPosition(int position) {
+        if (position == mCheckedPosition) {
+            return;
+        }
+
+        int lastCheckedPosition = mCheckedPosition;
+        mCheckedPosition = position;
+
+        if (mCheckedPosition < getData().size()) {
+            notifyItemChangedWrapper(mCheckedPosition);
+        }
+        if (lastCheckedPosition < getData().size()) {
+            notifyItemChangedWrapper(lastCheckedPosition);
+        }
+    }
+
+    /**
+     * 获取当前选中的索引
+     *
+     * @return
+     */
+    public int getCheckedPosition() {
+        return mCheckedPosition;
     }
 }

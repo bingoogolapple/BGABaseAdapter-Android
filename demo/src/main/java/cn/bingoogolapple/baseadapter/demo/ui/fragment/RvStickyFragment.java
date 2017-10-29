@@ -62,14 +62,6 @@ public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickLis
         });
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
-        mIndexView.setTipTv(mTipTv);
-
-        mAdapter.setData(DataEngine.loadIndexModelData());
-        mDataRv.setAdapter(mAdapter);
-    }
-
     private void initStickyDivider() {
         final BGADivider.StickyDelegate stickyDelegate = new BGADivider.StickyDelegate() {
             @Override
@@ -103,12 +95,20 @@ public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickLis
                 .setMarginRightResource(R.dimen.size_level9)
                 .setDelegate(stickyDelegate));
 
-        mRecyclerViewScrollHelper = BGARVVerticalScrollHelper.newInstance(mDataRv, new BGARVVerticalScrollHelper.Delegate() {
+        mRecyclerViewScrollHelper = BGARVVerticalScrollHelper.newInstance(mDataRv, new BGARVVerticalScrollHelper.SimpleDelegate() {
             @Override
             public int getCategoryHeight() {
                 return stickyDelegate.getCategoryHeight();
             }
         });
+    }
+
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
+        mIndexView.setTipTv(mTipTv);
+
+        mAdapter.setData(DataEngine.loadIndexModelData());
+        mDataRv.setAdapter(mAdapter);
     }
 
     @Override
