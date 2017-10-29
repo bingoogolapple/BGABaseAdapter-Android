@@ -19,37 +19,43 @@ package cn.bingoogolapple.baseadapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:17/1/9 下午9:27
  * 描述:RecyclerView 滚动到指定位置帮助类。参考的 http://blog.csdn.net/tyzlmjj/article/details/49227601
  */
-public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
+public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
     private RecyclerView mDataRv;
+    private Delegate mDelegate;
     private LinearLayoutManager mLinearLayoutManager;
     private int mNewPosition = 0;
     private boolean mIsScrolling = false;
     private boolean mIsSmoothScroll = false;
 
-    public static BGARecyclerViewScrollHelper newInstance(RecyclerView recyclerView) {
-        return new BGARecyclerViewScrollHelper(recyclerView);
+    public static BGARVVerticalScrollHelper newInstance(RecyclerView recyclerView) {
+        return new BGARVVerticalScrollHelper(recyclerView, null);
     }
 
-    private BGARecyclerViewScrollHelper(RecyclerView recyclerView) {
+    public static BGARVVerticalScrollHelper newInstance(RecyclerView recyclerView, Delegate delegate) {
+        return new BGARVVerticalScrollHelper(recyclerView, delegate);
+    }
+
+    private BGARVVerticalScrollHelper(RecyclerView recyclerView, Delegate delegate) {
         mDataRv = recyclerView;
         mDataRv.addOnScrollListener(this);
+        mDelegate = delegate;
     }
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
         try {
             if (mIsScrolling && newState == RecyclerView.SCROLL_STATE_IDLE && mIsSmoothScroll) {
                 mIsScrolling = false;
-                int diffItemCount = mNewPosition - getLinearLayoutManager().findFirstVisibleItemPosition();
+                int diffItemCount = mNewPosition - findFirstVisibleItemPosition();
                 if (0 <= diffItemCount && diffItemCount < recyclerView.getChildCount()) {
-                    int top = recyclerView.getChildAt(diffItemCount).getTop();
+                    int top = recyclerView.getChildAt(diffItemCount).getTop() - getCategoryHeight();
                     recyclerView.smoothScrollBy(0, top);
                 }
             }
@@ -60,19 +66,22 @@ public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
         try {
             if (mIsScrolling && !mIsSmoothScroll) {
                 mIsScrolling = false;
-                int diffItemCount = mNewPosition - getLinearLayoutManager().findFirstVisibleItemPosition();
+                int diffItemCount = mNewPosition - findFirstVisibleItemPosition();
                 if (0 <= diffItemCount && diffItemCount < mDataRv.getChildCount()) {
-                    int top = mDataRv.getChildAt(diffItemCount).getTop();
+                    int top = mDataRv.getChildAt(diffItemCount).getTop() - getCategoryHeight();
                     mDataRv.scrollBy(0, top);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private int getCategoryHeight() {
+        return mDelegate == null ? 0 : mDelegate.getCategoryHeight();
     }
 
     public void smoothScrollToPosition(int newPosition) {
@@ -85,15 +94,22 @@ public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
             mDataRv.stopScroll();
             mIsSmoothScroll = true;
 
-            int firstItem = getLinearLayoutManager().findFirstVisibleItemPosition();
-            int lastItem = getLinearLayoutManager().findLastVisibleItemPosition();
-            if (newPosition <= firstItem) {
-                mDataRv.smoothScrollToPosition(newPosition);
-            } else if (newPosition <= lastItem) {
-                int top = mDataRv.getChildAt(newPosition - firstItem).getTop();
-                mDataRv.smoothScrollBy(0, top);
+            int firstItem = findFirstVisibleItemPosition();
+            int lastItem = findLastVisibleItemPosition();
+            if (mNewPosition <= firstItem) {
+                mDataRv.smoothScrollToPosition(mNewPosition);
+            } else if (mNewPosition <= lastItem) {
+                int top = mDataRv.getChildAt(mNewPosition - firstItem).getTop() - getCategoryHeight();
+                if (top <= 0) {
+                    Log.d("BGA", "top 小于 0, top=" + top + ", firstItem=" + firstItem + ", lastItem=" + lastItem + ", newPosition=" + mNewPosition);
+                    // top 小于等于0时先往上滚动1再滚动「item 复用导致的」
+                    mDataRv.scrollBy(0, 1);
+                    smoothScrollToPosition(mNewPosition);
+                } else {
+                    mDataRv.smoothScrollBy(0, top);
+                }
             } else {
-                mDataRv.smoothScrollToPosition(newPosition);
+                mDataRv.smoothScrollToPosition(mNewPosition);
                 mIsScrolling = true;
             }
         } catch (Exception e) {
@@ -111,12 +127,12 @@ public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
             mDataRv.stopScroll();
             mIsSmoothScroll = false;
 
-            int firstItem = getLinearLayoutManager().findFirstVisibleItemPosition();
-            int lastItem = getLinearLayoutManager().findLastVisibleItemPosition();
+            int firstItem = findFirstVisibleItemPosition();
+            int lastItem = findLastVisibleItemPosition();
             if (newPosition <= firstItem) {
                 mDataRv.scrollToPosition(newPosition);
             } else if (newPosition <= lastItem) {
-                int top = mDataRv.getChildAt(newPosition - firstItem).getTop();
+                int top = mDataRv.getChildAt(newPosition - firstItem).getTop() - getCategoryHeight();
                 mDataRv.scrollBy(0, top);
             } else {
                 mDataRv.scrollToPosition(newPosition);
@@ -127,10 +143,42 @@ public class BGARecyclerViewScrollHelper extends RecyclerView.OnScrollListener {
         }
     }
 
-    private LinearLayoutManager getLinearLayoutManager() {
+    /**
+     * 获取第一个可见条目索引
+     *
+     * @return
+     */
+    public int findFirstVisibleItemPosition() {
+        return getLinearLayoutManager().findFirstVisibleItemPosition();
+    }
+
+    /**
+     * 获取最后一个可见条目索引
+     *
+     * @return
+     */
+    public int findLastVisibleItemPosition() {
+        return getLinearLayoutManager().findLastVisibleItemPosition();
+    }
+
+    /**
+     * 获取布局管理器
+     *
+     * @return
+     */
+    public LinearLayoutManager getLinearLayoutManager() {
         if (mLinearLayoutManager == null) {
             mLinearLayoutManager = (LinearLayoutManager) mDataRv.getLayoutManager();
         }
         return mLinearLayoutManager;
+    }
+
+    public interface Delegate {
+        /**
+         * 获取分类高度
+         *
+         * @return
+         */
+        int getCategoryHeight();
     }
 }

@@ -1,15 +1,14 @@
 package cn.bingoogolapple.baseadapter.demo.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cn.bingoogolapple.baseadapter.BGADivider;
-import cn.bingoogolapple.baseadapter.BGARecyclerViewScrollHelper;
 import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
+import cn.bingoogolapple.baseadapter.BGARVVerticalScrollHelper;
 import cn.bingoogolapple.baseadapter.demo.R;
 import cn.bingoogolapple.baseadapter.demo.adapter.RvStickyAdapter;
 import cn.bingoogolapple.baseadapter.demo.engine.DataEngine;
@@ -24,10 +23,9 @@ import cn.bingoogolapple.baseadapter.demo.util.ToastUtil;
 public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickListener {
     private RvStickyAdapter mAdapter;
     private RecyclerView mDataRv;
-    private LinearLayoutManager mLayoutManager;
     private IndexView mIndexView;
     private TextView mTipTv;
-    private BGARecyclerViewScrollHelper mRecyclerViewScrollHelper;
+    private BGARVVerticalScrollHelper mRecyclerViewScrollHelper;
 
     @Override
     protected int getRootLayoutResID() {
@@ -47,6 +45,8 @@ public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickLis
         mAdapter = new RvStickyAdapter(mDataRv);
         mAdapter.setOnRVItemClickListener(this);
 
+        initStickyDivider();
+
         mIndexView.setDelegate(new IndexView.Delegate() {
             @Override
             public void onIndexViewSelectedChanged(IndexView indexView, String text) {
@@ -56,52 +56,59 @@ public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickLis
 //                    mLayoutManager.scrollToPosition(position);
 
                     mRecyclerViewScrollHelper.smoothScrollToPosition(position);
+//                    mRecyclerViewScrollHelper.scrollToPosition(position);
                 }
             }
         });
-        mRecyclerViewScrollHelper = BGARecyclerViewScrollHelper.newInstance(mDataRv);
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         mIndexView.setTipTv(mTipTv);
 
-        mDataRv.addItemDecoration(BGADivider.newBitmapDivider()
+        mAdapter.setData(DataEngine.loadIndexModelData());
+        mDataRv.setAdapter(mAdapter);
+    }
+
+    private void initStickyDivider() {
+        final BGADivider.StickyDelegate stickyDelegate = new BGADivider.StickyDelegate() {
+            @Override
+            public void initCategoryAttr() {
+//                mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
+//                mCategoryTextColor = getResources().getColor(R.color.category_textColor);
+//                mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.textSize_16);
+//                mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
+//                mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level10);
+            }
+
+            @Override
+            protected boolean isCategoryFistItem(int position) {
+                return mAdapter.isCategoryFistItem(position);
+            }
+
+            @Override
+            protected String getCategoryName(int position) {
+                return mAdapter.getItem(position).topc;
+            }
+
+            @Override
+            protected int getFirstVisibleItemPosition() {
+                return mRecyclerViewScrollHelper.findFirstVisibleItemPosition();
+            }
+        };
+
+        mDataRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
                 .setStartSkipCount(0)
                 .setMarginLeftResource(R.dimen.size_level3)
                 .setMarginRightResource(R.dimen.size_level9)
-                .setDelegate(new BGADivider.SuspensionCategoryDelegate() {
-                    @Override
-                    public void initCategoryAttr() {
-//                        mCategoryBackgroundColor = getResources().getColor(R.color.category_backgroundColor);
-//                        mCategoryTextColor = getResources().getColor(R.color.category_textColor);
-//                        mCategoryTextSize = getResources().getDimensionPixelOffset(R.dimen.textSize_16);
-//                        mCategoryPaddingLeft = getResources().getDimensionPixelOffset(R.dimen.size_level4);
-//                        mCategoryHeight = getResources().getDimensionPixelOffset(R.dimen.size_level10);
-                    }
+                .setDelegate(stickyDelegate));
 
-                    @Override
-                    protected boolean isCategoryFistItem(int position) {
-                        return mAdapter.isCategoryFistItem(position);
-                    }
-
-                    @Override
-                    protected String getCategoryName(int position) {
-                        return mAdapter.getItem(position).topc;
-                    }
-
-                    @Override
-                    protected int getFirstVisibleItemPosition() {
-                        return mLayoutManager.findFirstVisibleItemPosition();
-                    }
-                }));
-
-        mLayoutManager = new LinearLayoutManager(mActivity);
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mDataRv.setLayoutManager(mLayoutManager);
-
-        mAdapter.setData(DataEngine.loadIndexModelData());
-        mDataRv.setAdapter(mAdapter);
+        mRecyclerViewScrollHelper = BGARVVerticalScrollHelper.newInstance(mDataRv, new BGARVVerticalScrollHelper.Delegate() {
+            @Override
+            public int getCategoryHeight() {
+                return stickyDelegate.getCategoryHeight();
+            }
+        });
     }
 
     @Override
