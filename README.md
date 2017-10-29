@@ -14,14 +14,24 @@
 
 - [x] BGAAdapterViewAdapter 和 BGAViewHolderHelper 用于简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
 - [x] BGARecyclerViewAdapter 和 BGAViewHolderHelper 用于简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
-- [x] BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
+- [x] BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的吸顶悬浮分类索引
 - [x] BGABindingRecyclerViewAdapter 和 BGABindingViewHolder 用于 RecyclerView 结合 DataBinding 使用时简化 RecyclerView 的适配器的编写，支持多 Item 类型，支持添加多个 Header 和 Footer，回调接口里的索引位置已经在库里处理了，不需要开发者自己减去 Header 个数
+- [x] BGARVVerticalScrollHelper 用于将 RecyclerView 滚动到指定位置
 
 ## 效果图与示例 apk
-![adapterview](https://user-images.githubusercontent.com/8949716/32135569-f0beeb58-bbc6-11e7-94a0-7b1503d3df1a.gif)
-![rv_and_rvbinding](https://user-images.githubusercontent.com/8949716/32135654-3844e17a-bbc8-11e7-92d7-589686ea8b8f.gif)
-![rv_multi_item](https://user-images.githubusercontent.com/8949716/32135664-55b3f494-bbc8-11e7-9e13-c33abdce281c.gif)
-![sticky](https://user-images.githubusercontent.com/8949716/32135691-e6edf14e-bbc8-11e7-8664-8e20445ceeef.gif)
+
+| 简化 GridView/ListView 适配器 | RecyclerView/Header/Footer/拖拽排序 |
+| ------------ | ------------- |
+| ![adapterview](https://user-images.githubusercontent.com/8949716/32135569-f0beeb58-bbc6-11e7-94a0-7b1503d3df1a.gif) | ![rv_and_rvbinding](https://user-images.githubusercontent.com/8949716/32135654-3844e17a-bbc8-11e7-92d7-589686ea8b8f.gif)  |
+
+| RecyclerView 多 ItemType | 吸顶分类索引 |
+| ------------ | ------------- |
+| ![rv_multi_item](https://user-images.githubusercontent.com/8949716/32135664-55b3f494-bbc8-11e7-9e13-c33abdce281c.gif) | ![sticky](https://user-images.githubusercontent.com/8949716/32145544-892817a8-bc98-11e7-838d-a16841b1b2f6.gif)  |
+
+| 仿美团外卖点餐界面左右联动 |
+| ------------ |
+| ![cascade](https://user-images.githubusercontent.com/8949716/32145548-94e29532-bc98-11e7-8d5f-c11119f45717.gif) |
+
 
 [点击下载 BGABaseAdapterDemo.apk](http://fir.im/BGABaseAdapterDemo) 或扫描下面的二维码安装
 
@@ -55,6 +65,10 @@ dependencies {
 ### BGADivider 用于简化 RecyclerView 分割线的编写，以及轻松实现基于 RecyclerView 的悬浮分类索引
 
 [RvStickyFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvStickyFragment.java)
+
+### 仿美团外卖点餐界面左右联动
+
+[RvCascadeFragment.java](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo/src/main/java/cn/bingoogolapple/baseadapter/demo/ui/fragment/RvCascadeFragment.java)
 
 ### 代码是最好的老师，详细用法请查看 [demo](https://github.com/bingoogolapple/BGABaseAdapter-Android/tree/master/demo):feet:
 

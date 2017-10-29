@@ -30,7 +30,6 @@ public class RvCascadeFragment extends MvcFragment {
     private RecyclerView mGoodsRv;
     private RvCategoryAdapter mCategoryAdapter;
     private RvGoodsAdapter mGoodsAdapter;
-    private BGARVVerticalScrollHelper mCategoryScrollHelper; // 商品分类列表滚动帮助类
     private BGARVVerticalScrollHelper mGoodsScrollHelper; // 商品列表滚动帮助类
 
     @Override
@@ -47,7 +46,6 @@ public class RvCascadeFragment extends MvcFragment {
     @Override
     protected void setListener() {
         // 分类
-        mCategoryScrollHelper = BGARVVerticalScrollHelper.newInstance(mCategoryRv);
         mCategoryAdapter = new RvCategoryAdapter(mCategoryRv);
         mCategoryAdapter.setOnRVItemClickListener(new BGAOnRVItemClickListener() {
             @Override
@@ -115,8 +113,7 @@ public class RvCascadeFragment extends MvcFragment {
                 int categoryPosition = mCategoryAdapter.getPositionByCategoryId(categoryId);
                 mCategoryAdapter.setCheckedPosition(categoryPosition);
 
-//                mCategoryRv.smoothScrollToPosition(mCategoryAdapter.getCheckedPosition());
-                mCategoryScrollHelper.smoothScrollToPosition(mCategoryAdapter.getCheckedPosition() - 4);
+                mCategoryRv.smoothScrollToPosition(mCategoryAdapter.getCheckedPosition());
             }
         });
         mGoodsAdapter = new RvGoodsAdapter(mGoodsRv);

@@ -63,12 +63,12 @@ public class MainActivity extends MvcActivity {
 
         private List<MvcFragment> mFragmentList = Arrays.asList(
                 new RvCascadeFragment(),
-                new GvFragment(),
-                new LvFragment(),
+                new RvStickyFragment(),
                 new RvFragment(),
-                new RvBindingFragment(),
                 new RvChatFragment(),
-                new RvStickyFragment()
+                new RvBindingFragment(),
+                new LvFragment(),
+                new GvFragment()
         );
 
         public ContentPagerAdapter(FragmentManager fm) {
