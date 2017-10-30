@@ -2,6 +2,7 @@ package cn.bingoogolapple.baseadapter.demo.ui.fragment;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,12 +109,17 @@ public class RvCascadeFragment extends MvcFragment {
             }
 
             @Override
-            public void cascade(int position) {
+            public void dragging(int position) {
                 int categoryId = mGoodsAdapter.getItem(position).categoryId;
                 int categoryPosition = mCategoryAdapter.getPositionByCategoryId(categoryId);
                 mCategoryAdapter.setCheckedPosition(categoryPosition);
 
-                mCategoryRv.smoothScrollToPosition(mCategoryAdapter.getCheckedPosition());
+                ((LinearLayoutManager) mCategoryRv.getLayoutManager()).scrollToPositionWithOffset(mCategoryAdapter.getCheckedPosition() - 4, 0);
+            }
+
+            @Override
+            public void settling(int position) {
+                this.dragging(position);
             }
         });
         mGoodsAdapter = new RvGoodsAdapter(mGoodsRv);
