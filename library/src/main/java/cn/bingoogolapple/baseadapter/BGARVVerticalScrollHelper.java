@@ -64,10 +64,6 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
                         recyclerView.scrollBy(0, top);
                     }
                 }
-
-//                else if (mDelegate != null) {
-//                    mDelegate.cascade(findFirstVisibleItemPosition());
-//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,12 +78,12 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
                 mIsSmoothScroll = false;
 
                 if (mDelegate != null) {
-                    mDelegate.cascade(findFirstVisibleItemPosition());
+                    mDelegate.dragging(findFirstVisibleItemPosition());
                 }
             }
 
             if (!mIsScrolling && !mIsSmoothScroll && mState == RecyclerView.SCROLL_STATE_SETTLING && mDelegate != null) {
-                mDelegate.cascade(findFirstVisibleItemPosition());
+                mDelegate.settling(findFirstVisibleItemPosition());
             }
 
             if (mIsScrolling && !mIsSmoothScroll) {
@@ -209,7 +205,14 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
          *
          * @param position
          */
-        void cascade(int position);
+        void dragging(int position);
+
+        /**
+         * 惯性运动时被调用
+         *
+         * @param position
+         */
+        void settling(int position);
     }
 
     public static class SimpleDelegate implements Delegate {
@@ -219,7 +222,11 @@ public class BGARVVerticalScrollHelper extends RecyclerView.OnScrollListener {
         }
 
         @Override
-        public void cascade(int position) {
+        public void dragging(int position) {
+        }
+
+        @Override
+        public void settling(int position) {
         }
     }
 }
