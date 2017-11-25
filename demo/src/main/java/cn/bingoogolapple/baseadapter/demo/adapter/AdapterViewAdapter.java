@@ -3,6 +3,7 @@ package cn.bingoogolapple.baseadapter.demo.adapter;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import cn.bingoogolapple.baseadapter.BGAAdapterViewAdapter;
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;
@@ -28,7 +29,7 @@ public class AdapterViewAdapter extends BGAAdapterViewAdapter<NormalModel> {
 
     @Override
     public void fillData(BGAViewHolderHelper helper, int position, NormalModel model) {
-        Glide.with(mContext).load(model.avatorPath).placeholder(R.drawable.holder_avatar).error(R.drawable.holder_avatar).into(helper.getImageView(R.id.iv_item_normal_avatar));
+        Glide.with(mContext).load(model.avatorPath).apply(new RequestOptions().placeholder(R.drawable.holder_avatar).error(R.drawable.holder_avatar)).into(helper.getImageView(R.id.iv_item_normal_avatar));
         helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
 
         helper.setChecked(R.id.cb_item_normal_status, model.selected);

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,11 +184,11 @@ public class RvBindingFragment extends MvcFragment {
     private void addBannerHeader() {
         // 初始化HeaderView
         View headerView = View.inflate(mActivity, R.layout.layout_header_banner, null);
-        mBanner = (BGABanner) headerView.findViewById(R.id.banner);
+        mBanner = headerView.findViewById(R.id.banner);
         mBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
             public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
-                Glide.with(banner.getContext()).load(model).placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate().thumbnail(0.1f).into((ImageView) itemView);
+                Glide.with(banner.getContext()).load(model).apply(new RequestOptions().placeholder(R.drawable.holder_banner).error(R.drawable.holder_banner).dontAnimate()).thumbnail(0.1f).into(itemView);
             }
         });
         mBanner.setDelegate(new BGABanner.Delegate<ImageView, String>() {
