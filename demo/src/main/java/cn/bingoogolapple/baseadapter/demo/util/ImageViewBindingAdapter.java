@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -26,7 +27,7 @@ public class ImageViewBindingAdapter {
 
     @BindingAdapter({"path", "placeholder"})
     public static void displayImage(ImageView imageView, String path, Drawable placeholder) {
-        Glide.with(imageView.getContext()).load(getPath(path)).dontAnimate().placeholder(placeholder).into(imageView);
+        Glide.with(imageView.getContext()).load(getPath(path)).apply(new RequestOptions().dontAnimate().placeholder(placeholder)).into(imageView);
     }
 
 }

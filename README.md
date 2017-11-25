@@ -45,8 +45,8 @@
 
 ```groovy
 dependencies {
-    compile 'com.android.support:recyclerview-v7:latestVersion'
-    compile 'cn.bingoogolapple:bga-baseadapter:latestVersion@aar'
+    implementation 'com.android.support:recyclerview-v7:latestVersion'
+    implementation 'cn.bingoogolapple:bga-baseadapter:latestVersion@aar'
 }
 ```
 

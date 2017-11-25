@@ -53,6 +53,16 @@ public class BGAGridDivider extends RecyclerView.ItemDecoration {
         return new BGAGridDivider(BGABaseAdapterUtil.dp2px(spaceDp));
     }
 
+    /**
+     * 设置间距
+     *
+     * @param spacePx 单位为 px
+     * @return
+     */
+    public static BGAGridDivider newInstanceWithSpacePx(int spacePx) {
+        return new BGAGridDivider(spacePx);
+    }
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         outRect.left = mSpace;

@@ -12,10 +12,15 @@ android {
     dataBinding {
         enabled = true
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    provided 'com.android.support:recyclerview-v7:25.3.1'
+    //noinspection GradleCompatible
+    compileOnly 'com.android.support:recyclerview-v7:27.0.1'
 }
 
 // gradle clean build bintrayUpload

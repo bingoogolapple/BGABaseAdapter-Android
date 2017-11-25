@@ -117,6 +117,18 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     /**
+     * 设置左边距和右边距
+     *
+     * @param bothMarginPx 单位为 px
+     * @return
+     */
+    public BGADivider setBothMarginPx(int bothMarginPx) {
+        mMarginLeft = bothMarginPx;
+        mMarginRight = mMarginLeft;
+        return this;
+    }
+
+    /**
      * 设置左边距资源 id
      *
      * @param resId
@@ -139,6 +151,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
     }
 
     /**
+     * 设置左边距
+     *
+     * @param marginLeftPx 单位为 px
+     * @return
+     */
+    public BGADivider setMarginLeftPx(int marginLeftPx) {
+        mMarginLeft = marginLeftPx;
+        return this;
+    }
+
+    /**
      * 设置右边距资源 id
      *
      * @param resId
@@ -157,6 +180,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      */
     public BGADivider setMarginRightDp(int marginRightDp) {
         mMarginRight = BGABaseAdapterUtil.dp2px(marginRightDp);
+        return this;
+    }
+
+    /**
+     * 设置右边距
+     *
+     * @param marginRightPx 单位为 px
+     * @return
+     */
+    public BGADivider setMarginRightPx(int marginRightPx) {
+        mMarginRight = marginRightPx;
         return this;
     }
 
@@ -252,6 +286,17 @@ public class BGADivider extends RecyclerView.ItemDecoration {
      */
     public BGADivider setSizeDp(int sizeDp) {
         mSize = BGABaseAdapterUtil.dp2px(sizeDp);
+        return this;
+    }
+
+    /**
+     * 设置分割线尺寸
+     *
+     * @param sizePx 单位为 px
+     * @return
+     */
+    public BGADivider setSizePx(int sizePx) {
+        mSize = sizePx;
         return this;
     }
 
