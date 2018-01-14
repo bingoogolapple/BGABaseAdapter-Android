@@ -5,6 +5,9 @@
     <methods>;
 }
 
+-dontwarn android.databinding.DataBindingUtil
+-dontwarn android.databinding.ViewDataBinding
+
 -dontwarn cn.bingoogolapple.baseadapter.BGABindingRecyclerViewAdapter
 -dontwarn cn.bingoogolapple.baseadapter.BGABindingViewHolder
 -dontwarn cn.bingoogolapple.baseadapter.BGAViewBindingAdapter

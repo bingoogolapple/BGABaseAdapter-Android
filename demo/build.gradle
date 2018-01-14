@@ -24,7 +24,7 @@ android {
 
 dependencies {
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-    implementation 'cn.bingoogolapple:bga-baseadapter:1.2.8@aar'
+    implementation 'cn.bingoogolapple:bga-baseadapter:1.2.9@aar'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 
