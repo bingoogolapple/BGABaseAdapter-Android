@@ -36,7 +36,8 @@ import java.util.List;
 public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends RecyclerView.Adapter<BGABindingViewHolder<B>> {
     private LayoutInflater mLayoutInflater;
     protected List<M> mData = new ArrayList<>();
-    protected Object mItemEventHandler;
+    protected Object mUiHandler;
+    protected Object mStatusModel;
     protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
     protected int mDefaultItemLayoutId;
     private boolean mIsIgnoreCheckedChanged = true;
@@ -89,11 +90,11 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
         M model = getItem(position);
         B binding = viewHolder.getBinding();
         binding.setVariable(cn.bingoogolapple.baseadapter.BR.viewHolder, viewHolder);
+        binding.setVariable(cn.bingoogolapple.baseadapter.BR.uiHandler, mUiHandler);
+        binding.setVariable(cn.bingoogolapple.baseadapter.BR.statusModel, mStatusModel);
         binding.setVariable(cn.bingoogolapple.baseadapter.BR.model, model);
-        binding.setVariable(cn.bingoogolapple.baseadapter.BR.itemEventHandler, mItemEventHandler);
-        binding.executePendingBindings();
-
         bindSpecialModel(binding, position, model);
+        binding.executePendingBindings();
 
         mIsIgnoreCheckedChanged = false;
     }
@@ -131,13 +132,17 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
         return mData;
     }
 
+    public void setStatusModel(Object statusModel) {
+        mStatusModel = statusModel;
+    }
+
     /**
      * 设置 item 事件处理器
      *
-     * @param itemEventHandler
+     * @param uiHandler
      */
-    public void setItemEventHandler(Object itemEventHandler) {
-        mItemEventHandler = itemEventHandler;
+    public void setUiHandler(Object uiHandler) {
+        mUiHandler = uiHandler;
     }
 
     public final void notifyItemRangeInsertedWrapper(int positionStart, int itemCount) {
@@ -183,16 +188,18 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 设置全新的数据集合，如果传入null，则清空数据列表（第一次从服务器加载数据，或者下拉刷新当前界面数据表）
-     *
-     * @param data
      */
     public void setData(List<M> data) {
-        if (BGABaseAdapterUtil.isListNotEmpty(data)) {
-            mData = data;
-        } else {
-            mData.clear();
+        if (mData == data) {
+            return;
         }
-        notifyDataSetChangedWrapper();
+        if (data == null) {
+            // DataBinding 和 RecyclerView 同时使用时不要用集合的 clear 方法，如果传入的集合为空，直接 new 一个新的
+            mData = new ArrayList<>();
+        } else {
+            mData = data;
+        }
+        notifyDataSetChanged();
     }
 
     /**

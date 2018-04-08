@@ -69,7 +69,7 @@ public class RvBindingFragment extends MvcFragment {
     protected void processLogic(Bundle savedInstanceState) {
         // 初始化 Adapter
         mAdapter = new BGABindingRecyclerViewAdapter<>(R.layout.item_binding_normal);
-        mAdapter.setItemEventHandler(this);
+        mAdapter.setUiHandler(this);
 
         // 设置分割线
         mDataRv.addItemDecoration(BGADivider.newShapeDivider()
@@ -259,7 +259,7 @@ public class RvBindingFragment extends MvcFragment {
     }
 
     public void onClickItem(BGABindingViewHolder holder, NormalModel model) {
-        ToastUtil.show("点击了条目 " + model.title);
+        ToastUtil.show(holder.getAdapterPositionWrapper() + " 点击了条目 " + model.title);
     }
 
     public boolean onLongClickItem(BGABindingViewHolder holder, NormalModel model) {
