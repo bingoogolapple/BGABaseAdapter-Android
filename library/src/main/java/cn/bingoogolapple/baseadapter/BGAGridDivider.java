@@ -17,9 +17,10 @@
 package cn.bingoogolapple.baseadapter;
 
 import android.graphics.Rect;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.DimenRes;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

@@ -4,12 +4,12 @@
              xmlns:tools="http://schemas.android.com/tools"
              style="@style/MatchMatch">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sticky_data"
         style="@style/MatchMatch"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <TextView
         android:id="@+id/tv_sticky_tip"

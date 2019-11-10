@@ -1,28 +1,29 @@
 package cn.bingoogolapple.baseadapter.demo.ui.activity;
 
+import static cn.bingoogolapple.baseadapter.demo.R.id.tabLayout;
+import static cn.bingoogolapple.baseadapter.demo.R.id.viewPager;
+
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import cn.bingoogolapple.baseadapter.demo.R;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.GvFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.LvFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.MvcFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvBindingFragment;
+import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvCascadeFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvChatFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvFragment;
-import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvCascadeFragment;
 import cn.bingoogolapple.baseadapter.demo.ui.fragment.RvStickyFragment;
-
-import static cn.bingoogolapple.baseadapter.demo.R.id.tabLayout;
-import static cn.bingoogolapple.baseadapter.demo.R.id.viewPager;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

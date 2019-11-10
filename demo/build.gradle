@@ -15,7 +15,7 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -24,16 +24,16 @@ android {
 
 dependencies {
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-    implementation 'cn.bingoogolapple:bga-baseadapter:1.2.9@aar'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation 'cn.bingoogolapple:bga-baseadapter:2.0.0@aar'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 
 //     implementation project(':library')
 
     // 以下几个库是演示案例所使用到的
-    implementation 'com.android.support:design:27.0.2'
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'cn.bingoogolapple:bga-banner:2.2.3@aar'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'cn.bingoogolapple:bga-banner:3.0.0@aar'
 }

@@ -16,7 +16,7 @@
             type="cn.bingoogolapple.baseadapter.demo.model.NormalModel"/>
 
         <variable
-            name="itemEventHandler"
+            name="uiHandler"
             type="cn.bingoogolapple.baseadapter.demo.ui.fragment.RvBindingFragment"/>
     </data>
 
@@ -25,16 +25,16 @@
         android:layout_height="60dp"
         android:background="@drawable/bga_baseadapter_white_gray"
         android:descendantFocusability="blocksDescendants"
-        android:onLongClick="@{() -> itemEventHandler.onLongClickItem(viewHolder, model)}"
+        android:onLongClick="@{() -> uiHandler.onLongClickItem(viewHolder, model)}"
         android:padding="5dp"
-        app:onNoDoubleClick="@{() -> itemEventHandler.onClickItem(viewHolder, model)}">
+        app:onNoDoubleClick="@{() -> uiHandler.onClickItem(viewHolder, model)}">
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/cb_item_normal_status"
             style="@style/WrapWrap"
             android:layout_centerVertical="true"
             android:checked="@{model.selected}"
-            android:onCheckedChanged="@{(v, isChecked) -> itemEventHandler.onItemCheckedChanged(model, isChecked)}"/>
+            android:onCheckedChanged="@{(v, isChecked) -> uiHandler.onItemCheckedChanged(model, isChecked)}"/>
 
         <ImageView
             android:id="@+id/iv_item_normal_avatar"
@@ -43,7 +43,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/cb_item_normal_status"
-            android:onTouch="@{(v, event) -> itemEventHandler.onTouchAvatar(viewHolder, event)}"
+            android:onTouch="@{(v, event) -> uiHandler.onTouchAvatar(viewHolder, event)}"
             android:scaleType="centerCrop"
             android:src="@drawable/holder_avatar"
             app:path="@{model.avatorPath}"
@@ -57,13 +57,13 @@
             android:background="@drawable/selector_btn_red"
             android:clickable="true"
             android:gravity="center"
-            android:onLongClick="@{() -> itemEventHandler.onLongClickDelete(viewHolder, model)}"
+            android:onLongClick="@{() -> uiHandler.onLongClickDelete(viewHolder, model)}"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="删除"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:onNoDoubleClick="@{() -> itemEventHandler.onClickDelete(viewHolder, model)}"/>
+            app:onNoDoubleClick="@{() -> uiHandler.onClickDelete(viewHolder, model)}"/>
 
         <TextView
             android:id="@+id/tv_item_normal_title"

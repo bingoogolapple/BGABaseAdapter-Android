@@ -12,8 +12,12 @@
             type="java.lang.Object"/>
 
         <variable
-            name="itemEventHandler"
+            name="uiHandler"
             type="java.lang.Object"/>
+
+        <variable
+            name="statusModel"
+            type="java.lang.Object" />
     </data>
 
     <View
