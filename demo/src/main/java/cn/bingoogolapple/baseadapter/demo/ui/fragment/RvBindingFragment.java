@@ -3,12 +3,6 @@ package cn.bingoogolapple.baseadapter.demo.ui.fragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -23,6 +17,12 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cn.bingoogolapple.baseadapter.BGABindingRecyclerViewAdapter;
 import cn.bingoogolapple.baseadapter.BGABindingViewHolder;
 import cn.bingoogolapple.baseadapter.BGADivider;
@@ -70,6 +70,7 @@ public class RvBindingFragment extends MvcFragment {
         // 初始化 Adapter
         mAdapter = new BGABindingRecyclerViewAdapter<>(R.layout.item_binding_normal);
         mAdapter.setUiHandler(this);
+        mAdapter.setLifecycleOwner(this);
 
         // 设置分割线
         mDataRv.addItemDecoration(BGADivider.newShapeDivider()
@@ -208,7 +209,7 @@ public class RvBindingFragment extends MvcFragment {
             return;
         }
 
-        App.getInstance().getRetrofit().create(ApiEngine.class).loadBannerData("http://7xk9dj.com1.z0.glb.clouddn.com/banner/api/4item.json").enqueue(new Callback<BannerModel>() {
+        App.getInstance().getRetrofit().create(ApiEngine.class).loadBannerData("http://bgashare.bingoogolapple.cn/banner/api/4item.json").enqueue(new Callback<BannerModel>() {
             @Override
             public void onResponse(Call<BannerModel> call, Response<BannerModel> response) {
                 BannerModel bannerModel = response.body();

@@ -29,7 +29,7 @@
         android:padding="5dp"
         app:onNoDoubleClick="@{() -> uiHandler.onClickItem(viewHolder, model)}">
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/cb_item_normal_status"
             style="@style/WrapWrap"
             android:layout_centerVertical="true"

@@ -21,7 +21,7 @@ public class App extends Application {
         sInstance = this;
 
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://7xk9dj.com1.z0.glb.clouddn.com/adapter/api/")
+                .baseUrl("http://bgashare.bingoogolapple.cn/adapter/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

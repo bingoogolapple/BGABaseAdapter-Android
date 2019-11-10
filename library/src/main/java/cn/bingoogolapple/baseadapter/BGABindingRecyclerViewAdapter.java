@@ -17,16 +17,19 @@
 package cn.bingoogolapple.baseadapter;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -40,6 +43,7 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
     protected Object mStatusModel;
     protected BGAHeaderAndFooterAdapter mHeaderAndFooterAdapter;
     protected int mDefaultItemLayoutId;
+    protected LifecycleOwner mLifecycleOwner;
     private boolean mIsIgnoreCheckedChanged = true;
 
     /**
@@ -50,10 +54,8 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 默认的布局文件资源 id
-     *
-     * @param defaultItemLayoutId
      */
-    public BGABindingRecyclerViewAdapter(int defaultItemLayoutId) {
+    public BGABindingRecyclerViewAdapter(@LayoutRes int defaultItemLayoutId) {
         mDefaultItemLayoutId = defaultItemLayoutId;
     }
 
@@ -72,7 +74,8 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
     @Override
     public int getItemViewType(int position) {
         if (mDefaultItemLayoutId == 0) {
-            throw new RuntimeException("请在 " + this.getClass().getSimpleName() + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGABindingRecyclerViewAdapter 一个参数的构造方法 BGABindingRecyclerViewAdapter(int defaultItemLayoutId)");
+            throw new RuntimeException("请在 " + this.getClass().getSimpleName()
+                    + " 中重写 getItemViewType 方法返回布局资源 id，或者使用 BGABindingRecyclerViewAdapter 一个参数的构造方法 BGABindingRecyclerViewAdapter(int defaultItemLayoutId)");
         }
         return mDefaultItemLayoutId;
     }
@@ -89,6 +92,7 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
         M model = getItem(position);
         B binding = viewHolder.getBinding();
+        binding.setLifecycleOwner(mLifecycleOwner);
         binding.setVariable(cn.bingoogolapple.baseadapter.BR.viewHolder, viewHolder);
         binding.setVariable(cn.bingoogolapple.baseadapter.BR.uiHandler, mUiHandler);
         binding.setVariable(cn.bingoogolapple.baseadapter.BR.statusModel, mStatusModel);
@@ -101,10 +105,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 绑定特殊的 item 数据模型，比如滑动删除之类的
-     *
-     * @param binding
-     * @param position
-     * @param model
      */
     protected void bindSpecialModel(B binding, int position, M model) {
     }
@@ -115,9 +115,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 获取指定索引位置的数据模型
-     *
-     * @param position
-     * @return
      */
     public M getItem(int position) {
         return mData.get(position);
@@ -125,8 +122,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 获取数据集合
-     *
-     * @return
      */
     public List<M> getData() {
         return mData;
@@ -138,11 +133,13 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 设置 item 事件处理器
-     *
-     * @param uiHandler
      */
     public void setUiHandler(Object uiHandler) {
         mUiHandler = uiHandler;
+    }
+
+    public void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
+        mLifecycleOwner = lifecycleOwner;
     }
 
     public final void notifyItemRangeInsertedWrapper(int positionStart, int itemCount) {
@@ -155,8 +152,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
-     *
-     * @param data
      */
     public void addNewData(List<M> data) {
         if (BGABaseAdapterUtil.isListNotEmpty(data)) {
@@ -167,8 +162,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 在集合尾部添加更多数据集合（上拉从服务器获取更多的数据集合，例如新浪微博列表上拉加载更晚时间发布的微博数据）
-     *
-     * @param data
      */
     public void addMoreData(List<M> data) {
         if (BGABaseAdapterUtil.isListNotEmpty(data)) {
@@ -220,8 +213,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 删除指定索引数据条目
-     *
-     * @param position
      */
     public void removeItem(int position) {
         mData.remove(position);
@@ -230,8 +221,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 删除指定数据条目。该方法在 ItemTouchHelper.Callback 的 onSwiped 方法中调用
-     *
-     * @param viewHolder
      */
     public void removeItem(RecyclerView.ViewHolder viewHolder) {
         int position = viewHolder.getAdapterPosition();
@@ -245,8 +234,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 删除指定数据条目
-     *
-     * @param model
      */
     public void removeItem(M model) {
         removeItem(mData.indexOf(model));
@@ -262,9 +249,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 在指定位置添加数据条目
-     *
-     * @param position
-     * @param model
      */
     public void addItem(int position, M model) {
         mData.add(position, model);
@@ -273,8 +257,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 在集合头部添加数据条目
-     *
-     * @param model
      */
     public void addFirstItem(M model) {
         addItem(0, model);
@@ -282,8 +264,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 在集合末尾添加数据条目
-     *
-     * @param model
      */
     public void addLastItem(M model) {
         addItem(mData.size(), model);
@@ -299,9 +279,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 替换指定索引的数据条目
-     *
-     * @param location
-     * @param newModel
      */
     public void setItem(int location, M newModel) {
         mData.set(location, newModel);
@@ -310,9 +287,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 替换指定数据条目
-     *
-     * @param oldModel
-     * @param newModel
      */
     public void setItem(M oldModel, M newModel) {
         setItem(mData.indexOf(oldModel), newModel);
@@ -322,15 +296,13 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
         if (mHeaderAndFooterAdapter == null) {
             notifyItemMoved(fromPosition, toPosition);
         } else {
-            mHeaderAndFooterAdapter.notifyItemMoved(mHeaderAndFooterAdapter.getHeadersCount() + fromPosition, mHeaderAndFooterAdapter.getHeadersCount() + toPosition);
+            mHeaderAndFooterAdapter.notifyItemMoved(mHeaderAndFooterAdapter.getHeadersCount() + fromPosition,
+                    mHeaderAndFooterAdapter.getHeadersCount() + toPosition);
         }
     }
 
     /**
      * 移动数据条目的位置
-     *
-     * @param fromPosition
-     * @param toPosition
      */
     public void moveItem(int fromPosition, int toPosition) {
         notifyItemChangedWrapper(fromPosition);
@@ -344,9 +316,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 移动数据条目的位置。该方法在 ItemTouchHelper.Callback 的 onMove 方法中调用
-     *
-     * @param from
-     * @param to
      */
     public void moveItem(RecyclerView.ViewHolder from, RecyclerView.ViewHolder to) {
         int fromPosition = from.getAdapterPosition();
@@ -420,9 +389,6 @@ public class BGABindingRecyclerViewAdapter<M, B extends ViewDataBinding> extends
 
     /**
      * 是否是头部或尾部
-     *
-     * @param viewHolder
-     * @return
      */
     public boolean isHeaderOrFooter(RecyclerView.ViewHolder viewHolder) {
         return viewHolder.getAdapterPosition() < getHeadersCount() || viewHolder.getAdapterPosition() >= getHeadersCount() + getItemCount();

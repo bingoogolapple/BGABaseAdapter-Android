@@ -41,11 +41,12 @@
 
 ### Gradle 依赖
 
-[![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-baseadapter/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-baseadapter/_latestVersion) bga-baseadapter 后面的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
+* androidx 项目用 [![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-baseadapter/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-baseadapter/_latestVersion) bga-baseadapter 后面的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
+* 非 androidx 项目用 1.2.9 版本
 
 ```groovy
 dependencies {
-    implementation 'com.android.support:recyclerview-v7:latestVersion'
+    implementation 'androidx.recyclerview:recyclerview:latestVersion'
     implementation 'cn.bingoogolapple:bga-baseadapter:latestVersion@aar'
 }
 ```
@@ -83,14 +84,16 @@ dependencies {
 
 | 个人主页 | 邮箱 | BGA系列开源库QQ群
 | ------------- | ------------ | ------------ |
-| <a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>  | <a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a> | ![BGA_CODE_CLUB](http://7xk9dj.com1.z0.glb.clouddn.com/BGA_CODE_CLUB.png?imageView2/2/w/200) |
+| <a  href="http://www.bingoogolapple.cn" target="_blank">bingoogolapple.cn</a>  | <a href="mailto:bingoogolapple@gmail.com" target="_blank">bingoogolapple@gmail.com</a> | ![BGA_CODE_CLUB](http://bgashare.bingoogolapple.cn/BGA_CODE_CLUB.png?imageView2/2/w/200) |
 
 ## 打赏支持
 
-如果觉得 BGA 系列开源库对您有用，请随意打赏。如果猿友有打算购买 [Lantern](https://github.com/getlantern/forum)，可以使用我的邀请码「YFQ9Q3B」购买，双方都赠送三个月的专业版使用时间。
+如果您觉得 BGA 系列开源库帮你节省了大量的开发时间，请扫描下方的二维码随意打赏，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
+
+如果您目前正打算购买通往墙外的梯子，可以使用我的邀请码「YFQ9Q3B」购买 [Lantern](https://github.com/getlantern/forum)，双方都赠送三个月的专业版使用时间:beers:
 
 <p align="center">
-  <img src="http://7xk9dj.com1.z0.glb.clouddn.com/bga_pay.png" width="450">
+  <img src="http://bgashare.bingoogolapple.cn/bga_pay.png?imageView2/2/w/450" width="450">
 </p>
 
 ## License

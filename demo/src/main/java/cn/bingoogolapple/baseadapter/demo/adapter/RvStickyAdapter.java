@@ -1,6 +1,6 @@
 package cn.bingoogolapple.baseadapter.demo.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter;
