@@ -24,11 +24,11 @@ android {
 
 dependencies {
     // -------------------- 以下两个库是必须依赖的 ----------------------------
-    implementation 'cn.bingoogolapple:bga-baseadapter:2.0.0@aar'
+//    implementation 'com.github.bingoogolapple:BGABaseAdapter-Android:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // -------------------- 以上两个库是必须依赖的 ----------------------------
 
-//     implementation project(':library')
+     implementation project(':library')
 
     // 以下几个库是演示案例所使用到的
     implementation 'com.google.android.material:material:1.0.0'

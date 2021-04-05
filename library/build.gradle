@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
@@ -22,14 +23,4 @@ dependencies {
     // noinspection GradleCompatible
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly 'androidx.lifecycle:lifecycle-common:2.0.0'
-}
-
-// ./gradlew clean build bintrayUpload -PpublishAar
-if (hasProperty("publishAar")) {
-    apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/jcenter-release.gradle'
-}
-
-// ./gradlew :library:clean :library:build :library:uploadArchives -PpublishAar
-if (hasProperty("publishAar")) {
-    apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/local-release.gradle'
 }
