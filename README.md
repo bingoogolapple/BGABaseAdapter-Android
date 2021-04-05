@@ -46,7 +46,7 @@
 
 ```groovy
 implementation 'androidx.recyclerview:recyclerview:latestVersion'
-implementation 'com.github.bingoogolapple:BGABaseAdapter-Android:library:latestVersion'
+implementation 'com.github.bingoogolapple:BGABaseAdapter-Android:latestVersion'
 ```
 
 ### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
