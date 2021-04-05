@@ -41,14 +41,12 @@
 
 ### Gradle 依赖
 
-* androidx 项目用 [![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-baseadapter/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-baseadapter/_latestVersion) bga-baseadapter 后面的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
-* 非 androidx 项目用 1.2.9 版本
+* 把 `maven { url 'https://jitpack.io' }` 添加到 root build.gradle 的 repositories 中
+* 在 app build.gradle 中添加如下依赖，末尾的「latestVersion」指的是徽章[![Download](https://jitpack.io/v/bingoogolapple/BGABadgeView-Android.svg)](https://jitpack.io/#bingoogolapple/BGABadgeView-Android)里的版本名称，请自行替换
 
 ```groovy
-dependencies {
-    implementation 'androidx.recyclerview:recyclerview:latestVersion'
-    implementation 'cn.bingoogolapple:bga-baseadapter:latestVersion@aar'
-}
+implementation 'androidx.recyclerview:recyclerview:latestVersion'
+implementation 'com.github.bingoogolapple:BGABaseAdapter-Android:library:latestVersion'
 ```
 
 ### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写
