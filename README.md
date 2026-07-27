@@ -1,6 +1,9 @@
 :running:BGABaseAdapter-Android:running:
 ============
 
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/cn.bingoogolapple/bga-baseadapter)](https://central.sonatype.com/artifact/cn.bingoogolapple/bga-baseadapter)
+
 ## 目录
 * [功能介绍](#功能介绍)
 * [效果图与示例 apk](#效果图与示例-apk)
@@ -22,31 +25,29 @@
 
 | 简化 GridView/ListView 适配器 | RecyclerView/Header/Footer/拖拽排序 |
 | ------------ | ------------- |
-| ![adapterview](https://user-images.githubusercontent.com/8949716/32135569-f0beeb58-bbc6-11e7-94a0-7b1503d3df1a.gif) | ![rv_and_rvbinding](https://user-images.githubusercontent.com/8949716/32135654-3844e17a-bbc8-11e7-92d7-589686ea8b8f.gif)  |
+| ![adapterview](images/adapterview.gif) | ![rv_and_rvbinding](images/rv_and_rvbinding.gif)  |
 
 | RecyclerView 多 ItemType | 吸顶分类索引 |
 | ------------ | ------------- |
-| ![rv_multi_item](https://user-images.githubusercontent.com/8949716/32135664-55b3f494-bbc8-11e7-9e13-c33abdce281c.gif) | ![sticky](https://user-images.githubusercontent.com/8949716/32145544-892817a8-bc98-11e7-838d-a16841b1b2f6.gif)  |
+| ![rv_multi_item](images/rv_multi_item.gif) | ![sticky](images/sticky.gif)  |
 
 | 仿美团外卖点餐界面左右联动 |
 | ------------ |
-| ![cascade](https://user-images.githubusercontent.com/8949716/32145548-94e29532-bc98-11e7-8d5f-c11119f45717.gif) |
+| ![cascade](images/cascade.gif) |
 
 
 [点击下载 BGABaseAdapterDemo.apk](http://fir.im/BGABaseAdapterDemo) 或扫描下面的二维码安装
 
-![BGABaseAdapterDemo apk文件二维码](https://user-images.githubusercontent.com/8949716/31925781-946d8cfc-b850-11e7-9a75-2edda1033a3d.png)
+![BGABaseAdapterDemo apk文件二维码](images/demo-apk-qrcode.png)
 
 ## 使用
 
 ### Gradle 依赖
 
-* 把 `maven { url 'https://jitpack.io' }` 添加到 root build.gradle 的 repositories 中
-* 在 app build.gradle 中添加如下依赖，末尾的「latestVersion」指的是徽章[![Download](https://jitpack.io/v/bingoogolapple/BGABadgeView-Android.svg)](https://jitpack.io/#bingoogolapple/BGABadgeView-Android)里的版本名称，请自行替换
+> 该库已迁移到 AndroidX（minSdk 21），使用方工程需开启 AndroidX（`android.useAndroidX=true`）
 
 ```groovy
-implementation 'androidx.recyclerview:recyclerview:latestVersion'
-implementation 'com.github.bingoogolapple:BGABaseAdapter-Android:latestVersion'
+implementation 'cn.bingoogolapple:bga-adapter:latestVersion'
 ```
 
 ### 简化 AdapterView 的子类（如 ListView、GridView）的适配器的编写

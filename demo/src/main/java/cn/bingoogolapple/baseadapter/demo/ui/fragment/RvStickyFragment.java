@@ -91,8 +91,8 @@ public class RvStickyFragment extends MvcFragment implements BGAOnRVItemClickLis
 
         mDataRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
                 .setStartSkipCount(0)
-                .setMarginLeftResource(R.dimen.size_level3)
-                .setMarginRightResource(R.dimen.size_level9)
+                .setMarginLeftResource(cn.bingoogolapple.baseadapter.R.dimen.size_level3)
+                .setMarginRightResource(cn.bingoogolapple.baseadapter.R.dimen.size_level9)
                 .setDelegate(stickyDelegate));
 
         mRecyclerViewScrollHelper = BGARVVerticalScrollHelper.newInstance(mDataRv, new BGARVVerticalScrollHelper.SimpleDelegate() {

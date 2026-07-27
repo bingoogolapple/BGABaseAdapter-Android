@@ -24,7 +24,7 @@ public class RvCategoryAdapter extends BGARecyclerViewAdapter<CategoryModel> {
         if (mCheckedPosition == position) {
             helper.setBackgroundColorRes(R.id.tv_item_cascade_category_name, android.R.color.white);
         } else {
-            helper.setBackgroundRes(R.id.tv_item_cascade_category_name, R.color.bga_adapter_item_pressed);
+            helper.setBackgroundRes(R.id.tv_item_cascade_category_name, cn.bingoogolapple.baseadapter.R.color.bga_adapter_item_pressed);
         }
 
         helper.setText(R.id.tv_item_cascade_category_name, model.name);

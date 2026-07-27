@@ -60,8 +60,8 @@ public class RvCascadeFragment extends MvcFragment {
             }
         });
         mCategoryRv.addItemDecoration(BGADivider.newShapeDivider()
-                .setMarginLeftResource(R.dimen.size_level3)
-                .setMarginRightResource(R.dimen.size_level3)
+                .setMarginLeftResource(cn.bingoogolapple.baseadapter.R.dimen.size_level3)
+                .setMarginRightResource(cn.bingoogolapple.baseadapter.R.dimen.size_level3)
                 .setDelegate(new BGADivider.SimpleDelegate() {
                     @Override
                     public boolean isNeedCustom(int position, int itemCount) {
@@ -99,8 +99,8 @@ public class RvCascadeFragment extends MvcFragment {
         };
         mGoodsRv.addItemDecoration(BGADivider.newDrawableDivider(R.drawable.shape_divider)
                 .setStartSkipCount(0)
-                .setMarginLeftResource(R.dimen.size_level3)
-                .setMarginRightResource(R.dimen.size_level3)
+                .setMarginLeftResource(cn.bingoogolapple.baseadapter.R.dimen.size_level3)
+                .setMarginRightResource(cn.bingoogolapple.baseadapter.R.dimen.size_level3)
                 .setDelegate(stickyDelegate));
         mGoodsScrollHelper = BGARVVerticalScrollHelper.newInstance(mGoodsRv, new BGARVVerticalScrollHelper.SimpleDelegate() {
             @Override
