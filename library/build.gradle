@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 android {
+    namespace = 'cn.bingoogolapple.baseadapter'
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
 
     defaultConfig {
@@ -10,17 +10,26 @@ android {
         consumerProguardFiles 'consumer-proguard-rules.pro'
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
 
-    lintOptions {
-        abortOnError false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
-    // noinspection GradleCompatible
-    compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
-    compileOnly 'androidx.lifecycle:lifecycle-common:2.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.lifecycle:lifecycle-common:2.9.4'
 }
+
+// 发布脚本（加 -PpublishAar 才启用；凭证 mavenCentralUsername/mavenCentralPassword、githubUsername/githubToken 见 ~/.gradle/gradle.properties）。
+// 简写发布命令（封装了 clean + build + 发布；完整任务名与参数分层见 publish-aar.gradle 头部注释）：
+//   Maven Central 正式版(手动 Release) : ./gradlew publishAar -PpublishAar
+//   Maven Central 正式版(自动 Release) : ./gradlew publishAarRelease -PpublishAar
+//   Maven Central 快照版              : ./gradlew publishAar -PpublishAar   (VERSION_NAME 以 -SNAPSHOT 结尾，上传即生效)
+//   GitHub Packages (正式/快照同命令)  : ./gradlew publishAarGpr -PpublishAar
+//   本地调试 Maven Local              : ./gradlew publishToMavenLocal -PpublishAar
+apply from: 'https://raw.githubusercontent.com/bingoogolapple/PublishAar/master/publish-aar.gradle'
